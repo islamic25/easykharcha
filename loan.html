@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loan Management - EasyKharcha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --secondary: #f8f9fa;
+      --accent: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+      --radius: 12px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8fafc;
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header styles */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 16px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-icon {
+      font-size: 28px;
+    }
+    
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: white;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: var(--transition);
+    }
+    
+    .user-profile:hover .user-avatar {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .user-menu {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      width: 200px;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: var(--transition);
+    }
+    
+    .user-profile:hover .user-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .user-menu-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      transition: var(--transition);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .user-menu-item:last-child {
+      border-bottom: none;
+    }
+    
+    .user-menu-item:hover {
+      background: #f1f5f9;
+      color: var(--primary);
+    }
+    
+    /* Page title and stats */
+    .page-header {
+      margin: 25px 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .page-title {
+      font-size: 26px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+    
+    .stats-container {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      min-width: 220px;
+      box-shadow: var(--card-shadow);
+      border-left: 4px solid var(--success);
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .stat-card.warning {
+      border-left-color: var(--warning);
+    }
+    
+    .stat-card.danger {
+      border-left-color: var(--accent);
+    }
+    
+    .stat-title {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .stat-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    
+    .stat-trend {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .trend-positive {
+      color: var(--success);
+    }
+    
+    .trend-negative {
+      color: var(--accent);
+    }
+    
+    /* Main content layout */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 20px;
+    }
+    
+    @media (max-width: 900px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+    }
+    
+    .card:hover {
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      font-size: 19px;
+      color: var(--primary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    /* Form styles */
+    .loan-form .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .loan-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .loan-form input, 
+    .loan-form select, 
+    .loan-form textarea {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      transition: var(--transition);
+      background: #f8fafc;
+    }
+    
+    .loan-form input:focus, 
+    .loan-form select:focus, 
+    .loan-form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .loan-form button {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    
+    .loan-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    
+    /* Table styles */
+    .table-container {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      margin-top: 10px;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 800px;
+    }
+    
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    
+    th {
+      background-color: var(--primary);
+      color: white;
+      padding: 14px 18px;
+      text-align: left;
+      font-weight: 500;
+      position: sticky;
+      top: 0;
+    }
+    
+    th:first-child {
+      border-top-left-radius: var(--radius);
+    }
+    
+    th:last-child {
+      border-top-right-radius: var(--radius);
+    }
+    
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 14px;
+    }
+    
+    tbody tr {
+      transition: var(--transition);
+    }
+    
+    tbody tr:hover {
+      background-color: #f8fafc;
+    }
+    
+    .type-given {
+      color: var(--success);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .type-taken {
+      color: var(--accent);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .action-cell {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .action-btn {
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      font-size: 13px;
+    }
+    
+    .edit-btn {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .edit-btn:hover {
+      background: rgba(16, 185, 129, 0.2);
+    }
+    
+    .delete-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--accent);
+    }
+    
+    .delete-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+    
+    /* Filter section */
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      background: white;
+      padding: 18px 22px;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-label {
+      font-weight: 500;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-box input {
+      padding: 11px 15px 11px 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      min-width: 250px;
+      background: #f8fafc;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      color: var(--text-light);
+      font-size: 15px;
+    }
+    
+    .filter-select {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      background: #f8fafc;
+      min-width: 150px;
+    }
+    
+    .filter-btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .filter-btn:hover {
+      background: var(--primary-light);
+    }
+    
+    /* Status badge */
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .status-active {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+    }
+    
+    .status-closed {
+      background: rgba(100, 116, 139, 0.15);
+      color: var(--text-light);
+    }
+    
+    .status-overdue {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent);
+    }
+    
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      cursor: pointer;
+      z-index: 99;
+      transition: var(--transition);
+      display: none;
+    }
+    
+    .fab:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 50px;
+    }
+    
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+    
+    .footer-section h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 14px;
+    }
+    
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      
+      .nav-link {
+        padding: 6px 10px;
+        font-size: 14px;
+      }
+      
+      .user-profile {
+        margin-left: auto;
+      }
+      
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .stats-container {
+        width: 100%;
+      }
+      
+      .stat-card {
+        min-width: 100%;
+      }
+      
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-box input {
+        min-width: 100%;
+      }
+      
+      .fab {
+        display: flex;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-container {
+        padding: 0 15px;
+      }
+      
+      .logo-text {
+        font-size: 20px;
+      }
+      
+      .page-title {
+        font-size: 22px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .filters {
+        padding: 15px;
+      }
+    }
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      animation: modalOpen 0.3s ease;
+    }
+    
+    @keyframes modalOpen {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-title {
+      font-size: 20px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .close-modal:hover {
+      color: var(--accent);
+    }
+    
+    .modal-body {
+      padding: 20px;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--primary);
+      color: white;
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    .empty-state i {
+      font-size: 60px;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+    
+    .empty-state h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    
+    .empty-state p {
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    
+    /* Loading spinner */
+    .loading {
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(37, 99, 235, 0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+}
+
+.nav-link {
+  text-align: center;
+  color: #555;
+  font-size: 12px;
+  flex: 1;
+  padding: 5px 0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link i {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.nav-link.active {
+  color: #004225;
+}
+
+.nav-link:hover {
+  color: #004225;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-coins"></i>
+        </div>
+        <div class="logo-text">EasyKharcha</div>
+      </div>
+      
+      
+      
+  </header>
+  
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">
+        <i class="fas fa-hand-holding-usd"></i> Loan Management
+      </h1>
+      
+     <div class="stats-container">
+  <div class="stat-card">
+    <div class="stat-title"><i class="fas fa-arrow-up"></i> Total Given</div>
+    <div class="stat-value" id="totalGiven">₹ 0</div>
+    <div class="stat-trend trend-negative" id="givenTrend">
+      <i class="fas fa-arrow-up"></i> 0% from last month
+    </div>
+  </div>
+
+  <div class="stat-card warning">
+    <div class="stat-title"><i class="fas fa-arrow-down"></i> Total Taken</div>
+    <div class="stat-value" id="totalTaken">₹ 0</div>
+    <div class="stat-trend trend-positive" id="takenTrend">
+      <i class="fas fa-arrow-down"></i> 0% from last month
+    </div>
+  </div>
+
+  <div class="stat-card danger">
+    <div class="stat-title"><i class="fas fa-balance-scale"></i> Net Balance</div>
+    <div class="stat-value" id="netBalance">₹ 0</div>
+    <div class="stat-trend trend-positive" id="balanceTrend">
+      <i class="fas fa-arrow-up"></i> 0% from last month
+    </div>
+  </div>
+</div>
+
+    
+    <div class="filters">
+      <div class="filter-group">
+        <span class="filter-label">Filter by:</span>
+        <select class="filter-select" id="typeFilter">
+          <option value="all">All Loans</option>
+          <option value="given">Given Loans</option>
+          <option value="taken">Taken Loans</option>
+        </select>
+        
+        <select class="filter-select" id="statusFilter">
+          <option value="all">All Status</option>
+          <option value="active">Active Loans</option>
+          <option value="closed">Closed Loans</option>
+          <option value="overdue">Overdue Loans</option>
+        </select>
+        
+        <button class="filter-btn" id="applyFilters">
+          <i class="fas fa-filter"></i> Apply
+        </button>
+      </div>
+      
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search by name or note...">
+      </div>
+    </div>
+    
+    <div class="content-grid">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-plus-circle"></i> Add New Loan</h2>
+        </div>
+        
+        <form class="loan-form" id="loanForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="loanName"><i class="fas fa-user"></i> Person/Shop Name</label>
+              <input type="text" id="loanName" placeholder="Enter name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="loanAmount"><i class="fas fa-rupee-sign"></i> Amount</label>
+              <input type="number" id="loanAmount" placeholder="Enter amount" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="loanType"><i class="fas fa-exchange-alt"></i> Loan Type</label>
+              <select id="loanType">
+                <option value="given">Given (You lent money)</option>
+                <option value="taken">Taken (You borrowed money)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="loanDate"><i class="fas fa-calendar"></i> Date</label>
+              <input type="date" id="loanDate" value="2023-10-15">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dueDate"><i class="fas fa-calendar-check"></i> Due Date</label>
+              <input type="date" id="dueDate">
+            </div>
+            
+            <div class="form-group">
+              <label for="loanStatus"><i class="fas fa-info-circle"></i> Status</label>
+              <select id="loanStatus">
+                <option value="active">Active</option>
+                <option value="closed">Closed</option>
+                <option value="overdue">Overdue</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="loanNote"><i class="fas fa-sticky-note"></i> Note (Optional)</label>
+            <textarea id="loanNote" placeholder="Add any details about this loan..." rows="3"></textarea>
+          </div>
+          
+          <button type="button" id="addLoanBtn">
+            <i class="fas fa-plus"></i> Add Loan
+          </button>
+        </form>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><i class="fas fa-list"></i> Loan Records</h2>
+          <div class="table-actions">
+            <button class="filter-btn" id="exportPdfBtn">
+              <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table id="loansTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Note</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="loansTableBody">
+              <!-- Loans will be populated here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Floating Action Button -->
+  <div class="fab" id="fabButton">
+    <i class="fas fa-plus"></i>
+  </div>
+  
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Loan added successfully!</span>
+  </div>
+  
+  <!-- Modal for Mobile Form -->
+  <div class="modal" id="loanModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add New Loan</h3>
+        <button class="close-modal" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form class="loan-form" id="mobileLoanForm">
+          <!-- Same form fields as desktop version -->
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>About EasyKharcha</h3>
+        <p>EasyKharcha helps you manage your personal finances with ease. Track expenses, manage loans, and gain insights into your spending habits.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#"><i class="fas fa-feather"></i> Features</a></li>
+          <li><a href="#"><i class="fas fa-dollar-sign"></i> Pricing</a></li>
+          <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+          <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fas fa-cookie"></i> Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; 2023 EasyKharcha. All rights reserved.
+    </div>
+  </footer>
+  
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
+    authDomain: "easykharcha.firebaseapp.com",
+    projectId: "easykharcha",
+    storageBucket: "easykharcha.appspot.com",
+    messagingSenderId: "735642025618",
+    appId: "1:735642025618:web:eacc16213b61c48c93f04b",
+    measurementId: "G-JF3E4QMZQN"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  let loans = []; // ✅ Global array for real-time data
+
+  // DOM Elements
+  const loansTableBody = document.getElementById('loansTableBody');
+  const addLoanBtn = document.getElementById('addLoanBtn');
+  const searchInput = document.getElementById('searchInput');
+  const typeFilter = document.getElementById('typeFilter');
+  const statusFilter = document.getElementById('statusFilter');
+  const applyFilters = document.getElementById('applyFilters');
+  const fabButton = document.getElementById('fabButton');
+  const loanModal = document.getElementById('loanModal');
+  const closeModal = document.getElementById('closeModal');
+  const exportPdfBtn = document.getElementById('exportPdfBtn');
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+
+  function formatCurrency(amount) {
+    return '₹ ' + amount.toLocaleString('en-IN');
+  }
+
+  function formatDate(dateString) {
+    if (!dateString) return '-';
+    return new Date(dateString).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function getStatusBadge(status) {
+    switch (status) {
+      case 'active':
+        return '<span class="status-badge status-active"><i class="fas fa-circle-notch"></i> Active</span>';
+      case 'closed':
+        return '<span class="status-badge status-closed"><i class="fas fa-check-circle"></i> Closed</span>';
+      case 'overdue':
+        return '<span class="status-badge status-overdue"><i class="fas fa-exclamation-circle"></i> Overdue</span>';
+      default:
+        return '<span class="status-badge">-</span>';
+    }
+  }
+
+  function renderLoans(loansToRender) {
+  loansTableBody.innerHTML = '';
+
+  if (loansToRender.length === 0) {
+    loansTableBody.innerHTML = `
+      <tr><td colspan="8">
+        <div class="empty-state">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <h3>No Loans Found</h3>
+          <p>Try adjusting your search or add a new loan</p>
+        </div>
+      </td></tr>`;
+    return;
+  }
+
+  loansToRender.forEach(loan => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${loan.name}</td>
+      <td>${formatCurrency(loan.amount)}</td>
+      <td class="${loan.type === 'given' ? 'type-given' : 'type-taken'}">
+        <i class="fas fa-${loan.type === 'given' ? 'arrow-up' : 'arrow-down'}"></i>
+        ${loan.type === 'given' ? 'Given' : 'Taken'}
+      </td>
+      <td>${formatDate(loan.date)}</td>
+      <td>${formatDate(loan.dueDate)}</td>
+      <td>${getStatusBadge(loan.status)}</td>
+      <td>${loan.note}</td>
+      <td class="action-cell">
+        <button class="action-btn edit-btn" data-id="${loan.id}"><i class="fas fa-edit"></i></button>
+        <button class="action-btn delete-btn" data-id="${loan.id}"><i class="fas fa-trash"></i></button>
+      </td>`;
+
+    loansTableBody.appendChild(row);
+
+    row.querySelector('.edit-btn').addEventListener('click', () => editLoan(loan.id));
+    row.querySelector('.delete-btn').addEventListener('click', () => deleteLoan(loan.id));
+  });
+}
+function deleteLoan(loanId) {
+  const user = auth.currentUser;
+  if (!user) return alert("Login first");
+
+  const confirmDelete = confirm("Are you sure you want to delete this loan?");
+  if (!confirmDelete) return;
+
+  db.collection("users").doc(user.uid)
+    .collection("loans").doc(loanId)
+    .delete()
+    .then(() => showToast("Loan deleted successfully!"))
+    .catch(err => alert("Error deleting loan: " + err.message));
+}
+let editingLoanId = null;
+
+function editLoan(loanId) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const loan = loans.find(l => l.id === loanId);
+  if (!loan) return alert("Loan not found");
+
+  // Store which loan is being edited
+  editingLoanId = loanId;
+
+  // Pre-fill the form
+  document.getElementById('loanName').value = loan.name;
+  document.getElementById('loanAmount').value = loan.amount;
+  document.getElementById('loanType').value = loan.type;
+  document.getElementById('loanDate').value = loan.date;
+  document.getElementById('dueDate').value = loan.dueDate;
+  document.getElementById('loanStatus').value = loan.status;
+  document.getElementById('loanNote').value = loan.note;
+
+  addLoanBtn.innerHTML = '<i class="fas fa-save"></i> Update Loan';
+
+  // Show modal (if on mobile)
+  loanModal.style.display = 'flex';
+}
+
+
+  function filterLoans() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const typeValue = typeFilter.value;
+    const statusValue = statusFilter.value;
+
+    const filtered = loans.filter(loan => {
+      const matchesSearch = loan.name.toLowerCase().includes(searchTerm) || loan.note.toLowerCase().includes(searchTerm);
+      const matchesType = typeValue === 'all' || loan.type === typeValue;
+      const matchesStatus = statusValue === 'all' || loan.status === statusValue;
+      return matchesSearch && matchesType && matchesStatus;
+    });
+
+    renderLoans(filtered);
+  }
+
+  function showToast(message) {
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  function addNewLoan() {
+  const user = auth.currentUser;
+  if (!user) return alert("Login first.");
+
+  const name = document.getElementById('loanName').value.trim();
+  const amount = parseFloat(document.getElementById('loanAmount').value);
+  const type = document.getElementById('loanType').value;
+  const date = document.getElementById('loanDate').value;
+  const dueDate = document.getElementById('dueDate').value;
+  const status = document.getElementById('loanStatus').value;
+  const note = document.getElementById('loanNote').value.trim() || 'No note';
+
+  if (!name || isNaN(amount)) return alert("Enter valid name and amount.");
+
+  if (editingLoanId) {
+    // EDIT MODE
+    db.collection("users").doc(user.uid)
+      .collection("loans").doc(editingLoanId)
+      .update({ name, amount, type, date, dueDate, status, note })
+      .then(() => {
+        showToast("Loan updated successfully!");
+        editingLoanId = null;
+        addLoanBtn.innerHTML = '<i class="fas fa-plus"></i> Add Loan';
+        document.getElementById('loanForm').reset();
+        document.getElementById('loanDate').valueAsDate = new Date();
+        loanModal.style.display = 'none';
+      })
+      .catch(err => alert("Error updating loan: " + err.message));
+  } else {
+    // ADD MODE
+    db.collection("users").doc(user.uid).collection("loans").add({
+      name, amount, type, date, dueDate, status, note,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      showToast("Loan added successfully!");
+      document.getElementById('loanForm').reset();
+      document.getElementById('loanDate').valueAsDate = new Date();
+      loanModal.style.display = 'none';
+    }).catch(err => alert("Error: " + err.message));
+  }
+}
+
+
+  function fetchLoans() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  db.collection("users").doc(user.uid)
+    .collection("loans")
+    .orderBy("createdAt", "desc")
+    .onSnapshot(snapshot => {
+      loans = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderLoans(loans);
+      updateStats(loans); // 🔁 Real-time update
+    });
+} // ✅ Add this closing brace
+
+
+
+  function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');
+
+    doc.setFontSize(18).text('EasyKharcha - Loan Report', 40, 40);
+    doc.setFontSize(12).setTextColor(100).text(`Generated: ${new Date().toLocaleDateString()}`, 40, 60);
+
+    const totalGiven = loans.filter(l => l.type === 'given').reduce((sum, l) => sum + l.amount, 0);
+    const totalTaken = loans.filter(l => l.type === 'taken').reduce((sum, l) => sum + l.amount, 0);
+    const netBalance = totalGiven - totalTaken;
+
+    doc.setFontSize(14).setTextColor(0).text('Summary', 40, 90);
+    doc.setFontSize(12).text(`Total Given: ₹${totalGiven.toLocaleString('en-IN')}`, 50, 115);
+    doc.text(`Total Taken: ₹${totalTaken.toLocaleString('en-IN')}`, 50, 135);
+    doc.text(`Net Balance: ₹${netBalance.toLocaleString('en-IN')}`, 50, 155);
+
+    doc.setTextColor(255).setFillColor(37, 99, 235).rect(40, 180, 520, 20, 'F');
+    doc.text('Name', 45, 193);
+    doc.text('Amount', 200, 193);
+    doc.text('Type', 300, 193);
+    doc.text('Date', 350, 193);
+    doc.text('Status', 450, 193);
+
+    doc.setTextColor(0);
+    let y = 210;
+    loans.forEach((loan, i) => {
+      if (y > 700) { doc.addPage(); y = 40; }
+      doc.setFontSize(10);
+      doc.text(loan.name, 45, y);
+      doc.text(`₹${loan.amount.toLocaleString('en-IN')}`, 200, y);
+      doc.text(loan.type === 'given' ? 'Given' : 'Taken', 300, y);
+      doc.text(formatDate(loan.date), 350, y);
+      doc.text(loan.status.charAt(0).toUpperCase() + loan.status.slice(1), 450, y);
+      y += 20;
+    });
+
+    doc.save(`EasyKharcha-Loans-${new Date().toISOString().slice(0, 10)}.pdf`);
+  }
+
+  function init() {
+    const today = new Date();
+    document.getElementById('loanDate').valueAsDate = today;
+
+    const dueDate = new Date();
+    dueDate.setDate(today.getDate() + 30);
+    document.getElementById('dueDate').valueAsDate = dueDate;
+
+    addLoanBtn.addEventListener('click', addNewLoan);
+    searchInput.addEventListener('input', filterLoans);
+    applyFilters.addEventListener('click', filterLoans);
+    exportPdfBtn.addEventListener('click', exportToPDF);
+    fabButton.addEventListener('click', () => loanModal.style.display = 'flex');
+    closeModal.addEventListener('click', () => loanModal.style.display = 'none');
+    window.addEventListener('click', e => {
+      if (e.target === loanModal) loanModal.style.display = 'none';
+    });
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        fetchLoans(); // ✅ Start real-time listener after login
+      } else {
+        alert("Please log in to access your loans.");
+        window.location.href = "login.html";
+      }
+    });
+  }
+function updateStats(loans) {
+  const totalGiven = loans.filter(l => l.type === 'given').reduce((sum, l) => sum + l.amount, 0);
+  const totalTaken = loans.filter(l => l.type === 'taken').reduce((sum, l) => sum + l.amount, 0);
+  const netBalance = totalGiven - totalTaken;
+
+  document.getElementById('totalGiven').textContent = formatCurrency(totalGiven);
+  document.getElementById('totalTaken').textContent = formatCurrency(totalTaken);
+  document.getElementById('netBalance').textContent = formatCurrency(netBalance);
+
+  // Optional: Monthly trend calculation
+  const now = new Date();
+  const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+  const lastMonthGiven = loans.filter(l => l.type === 'given' && new Date(l.date) >= lastMonth)
+                               .reduce((sum, l) => sum + l.amount, 0);
+
+  const lastMonthTaken = loans.filter(l => l.type === 'taken' && new Date(l.date) >= lastMonth)
+                               .reduce((sum, l) => sum + l.amount, 0);
+
+  const givenTrend = totalGiven ? Math.round((lastMonthGiven / totalGiven) * 100) : 0;
+  const takenTrend = totalTaken ? Math.round((lastMonthTaken / totalTaken) * 100) : 0;
+  const balanceTrend = netBalance ? Math.round(((lastMonthGiven - lastMonthTaken) / netBalance) * 100) : 0;
+
+  document.getElementById('givenTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${givenTrend}% from last month`;
+  document.getElementById('takenTrend').innerHTML = `<i class="fas fa-arrow-down"></i> ${takenTrend}% from last month`;
+  document.getElementById('balanceTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${balanceTrend}% from last month`;
+}
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+            <nav class="bottom-nav">
+  <a href="dashboard.html" class="nav-link">
+    <i class="fas fa-home"></i><span>Dashboard</span>
+  </a>
+  <a href="loan.html" class="nav-link active">
+    <i class="fas fa-money-bill-wave"></i><span>Loan</span>
+  </a>
+  <a href="profile.html" class="nav-link">
+    <i class="fas fa-user-circle"></i><span>Profile</span>
+  </a>
+</nav>
+
+</body>
+</html>

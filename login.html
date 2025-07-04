@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Login - EasyKharcha Expense Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #0d47a1;
+      --secondary: #4caf50;
+      --accent: #ff6d00;
+      --light: #f5f9ff;
+      --dark: #202124;
+      --gray: #5f6368;
+      --light-gray: #dadce0;
+      --success: #34a853;
+      --error: #ea4335;
+      --warning: #f9ab00;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .illustration {
+      flex: 1;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: white;
+      text-align: center;
+      display: none;
+    }
+
+    .illustration img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+
+    .illustration h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .illustration p {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 400px;
+    }
+
+    .login-container {
+      flex: 1;
+      padding: 50px 40px;
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      justify-content: center;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      box-shadow: var(--shadow);
+    }
+
+    .logo-icon i {
+      font-size: 24px;
+      color: white;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .logo-text span {
+      color: var(--primary);
+    }
+
+    .login-container h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--dark);
+      text-align: center;
+    }
+
+    .login-container p {
+      color: var(--gray);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 16px 16px 48px;
+      border: 2px solid var(--light-gray);
+      border-radius: 12px;
+      font-size: 16px;
+      transition: var(--transition);
+      background-color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+    }
+
+    .remember input {
+      width: auto;
+      margin-right: 10px;
+      margin-top: 4px;
+    }
+
+    .remember label {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .forgot-password {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.4s;
+    }
+
+    .btn:hover::after {
+      left: 120%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 30px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--light-gray);
+    }
+
+    .divider-text {
+      padding: 0 15px;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .social-login {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: 12px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .social-btn:hover {
+      background: var(--light);
+    }
+
+    .social-btn.google {
+      color: var(--error);
+    }
+
+    .social-btn.facebook {
+      color: #1877f2;
+    }
+
+    .social-btn.apple {
+      color: var(--dark);
+    }
+
+    .social-btn i {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+
+    .toggle-form {
+      text-align: center;
+      font-size: 15px;
+      color: var(--gray);
+    }
+
+    .toggle-form a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .toggle-form a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: var(--error);
+      font-size: 14px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .success {
+      color: var(--success);
+      font-size: 14px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    #errorMsg {
+      background: rgba(234, 67, 53, 0.1);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    @media (min-width: 992px) {
+      .illustration {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .login-container {
+        padding: 40px 30px;
+      }
+      
+      .social-login {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+      
+      .logo {
+        margin-bottom: 20px;
+      }
+      
+      .login-container h1 {
+        font-size: 24px;
+      }
+      
+      .options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-container > * {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .options { animation-delay: 0.3s; }
+    .btn { animation-delay: 0.4s; }
+    .divider { animation-delay: 0.5s; }
+    .social-login { animation-delay: 0.6s; }
+    .toggle-form { animation-delay: 0.7s; }
+    
+    /* Loading spinner */
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="illustration">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='300' viewBox='0 0 800 600'%3E%3Crect fill='%23ffffff' opacity='0.2' x='50' y='100' width='300' height='400' rx='20'/%3E%3Ccircle fill='%23ffffff' opacity='0.2' cx='200' cy='200' r='60'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='300' width='200' height='20' rx='10'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='340' width='150' height='20' rx='10'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='380' width='180' height='20' rx='10'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='420' width='120' height='20' rx='10'/%3E%3C/svg%3E" alt="EasyKharcha App">
+      <h2>Welcome Back to EasyKharcha</h2>
+      <p>Track your expenses, manage your budget, and achieve your financial goals with our intuitive platform.</p>
+    </div>
+    
+    <div class="login-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <div class="logo-text">Easy<span>Kharcha</span></div>
+      </div>
+      
+      <h1>Sign In to Your Account</h1>
+      <p>Manage your expenses and track your spending</p>
+      
+      <div class="error" id="errorMsg"></div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-with-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="error" id="email-error">Please enter a valid email address</div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Enter your password">
+          <button class="password-toggle" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <div class="error" id="password-error">Please enter your password</div>
+      </div>
+      
+      <div class="options">
+        <div class="remember">
+          <input type="checkbox" id="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+      
+      <button class="btn" id="authBtn">
+        <span class="spinner" id="spinner"></span>
+        <span id="btnText">Sign In</span>
+      </button>
+      
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-text">or sign in with</div>
+        <div class="divider-line"></div>
+      </div>
+      
+      <div class="social-login">
+        <button class="social-btn google">
+          <i class="fab fa-google"></i> Google
+        </button>
+        <button class="social-btn facebook">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </button>
+        <button class="social-btn apple">
+          <i class="fab fa-apple"></i> Apple
+        </button>
+      </div>
+      
+      <div class="toggle-form">
+        Don't have an account? <a href="registration.html" id="toggleForm">Create account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
+        authDomain: "easykharcha.firebaseapp.com",
+        projectId: "easykharcha",
+        storageBucket: "easykharcha.firebasestorage.app",
+        messagingSenderId: "735642025618",
+        appId: "1:735642025618:web:eacc16213b61c48c93f04b",
+        measurementId: "G-JF3E4QMZQN"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // DOM Elements
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const togglePassword = document.getElementById('togglePassword');
+      const authBtn = document.getElementById('authBtn');
+      const toggleForm = document.getElementById('toggleForm');
+      const errorMsg = document.getElementById('errorMsg');
+      const spinner = document.getElementById('spinner');
+      const btnText = document.getElementById('btnText');
+      const rememberCheckbox = document.getElementById('remember');
+
+      // Password visibility toggle
+      togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+      });
+
+      // Load saved credentials if "Remember me" was checked
+      if (localStorage.getItem('rememberMe') === 'true') {
+        const savedEmail = localStorage.getItem('email');
+        const savedPassword = localStorage.getItem('password');
+        if (savedEmail) emailInput.value = savedEmail;
+        if (savedPassword) passwordInput.value = savedPassword;
+        rememberCheckbox.checked = true;
+      }
+
+      // Login functionality
+      authBtn.addEventListener('click', function() {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        
+        // Reset errors
+        document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+        errorMsg.textContent = '';
+        errorMsg.style.display = 'none';
+        
+        // Validation
+        let isValid = true;
+        
+        if (!email) {
+          document.getElementById('email-error').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!password) {
+          document.getElementById('password-error').style.display = 'block';
+          isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        // Show loading state
+        spinner.style.display = 'inline-block';
+        btnText.textContent = 'Signing in...';
+        authBtn.disabled = true;
+        
+        // Save credentials if "Remember me" is checked
+        if (rememberCheckbox.checked) {
+          localStorage.setItem('rememberMe', 'true');
+          localStorage.setItem('email', email);
+          localStorage.setItem('password', password);
+        } else {
+          localStorage.removeItem('rememberMe');
+          localStorage.removeItem('email');
+          localStorage.removeItem('password');
+        }
+        
+        // Firebase authentication
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            // Success - redirect to dashboard
+            window.location.href = "dashboard.html";
+          })
+          .catch(err => {
+            // Handle errors
+            spinner.style.display = 'none';
+            btnText.textContent = 'Sign In';
+            authBtn.disabled = false;
+            
+            // Show error message
+            errorMsg.textContent = err.message;
+            errorMsg.style.display = 'block';
+          });
+      });
+      
+      // Social login buttons
+      document.querySelectorAll('.social-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          alert(`Signing in with ${this.textContent.trim()}...`);
+        });
+      });
+      
+      // Forgot password
+      document.querySelector('.forgot-password').addEventListener('click', function(e) {
+        e.preventDefault();
+        const email = prompt("Please enter your email address to reset your password:");
+        if (email) {
+          auth.sendPasswordResetEmail(email)
+            .then(() => {
+              alert("Password reset email sent! Please check your inbox.");
+            })
+            .catch(err => {
+              alert(`Error: ${err.message}`);
+            });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
