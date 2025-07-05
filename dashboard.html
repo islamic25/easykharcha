@@ -26,6 +26,7 @@
       --card-bg: #ffffff;
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       --transition: all 0.3s ease;
+      --warning: #ff9800;
     }
 
     body {
@@ -33,6 +34,7 @@
       color: var(--dark);
       min-height: 100vh;
       padding: 16px;
+      padding-bottom: 70px; /* Space for bottom nav */
     }
 
     .container {
@@ -207,6 +209,30 @@
 
     .negative {
       color: var(--danger);
+    }
+
+    /* Budget Alert */
+    .budget-alert {
+      background-color: #fff8e1;
+      border-left: 4px solid var(--warning);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .budget-alert i {
+      color: var(--warning);
+      font-size: 20px;
     }
 
     /* Charts and Transactions */
@@ -384,8 +410,8 @@
     /* Add Transaction Button */
     .add-transaction-btn {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
+      bottom: 80px;
+      right: 20px;
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -420,6 +446,14 @@
       .user-actions {
         align-self: flex-end;
       }
+      
+      .summary-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .categories-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     @media (max-width: 480px) {
@@ -438,7 +472,16 @@
       .transaction-item {
         padding: 12px 0;
       }
+      
+      .summary-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .categories-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
+    
     .modal-overlay {
       display: none;
       position: fixed;
@@ -480,7 +523,7 @@
       padding: 12px;
       margin-top: 6px;
       border-radius: 12px;
-      border: 2px solid var(--light-gray);
+      border: 2px solid #e5e7eb;
       margin-bottom: 10px;
       font-size: 16px;
     }
@@ -522,6 +565,7 @@
       from { transform: translateY(30px); opacity: 0 }
       to { transform: translateY(0); opacity: 1 }
     }
+    
     .transaction-icon.bills {
       background: rgba(100, 116, 139, 0.15);
       color: #64748b;
@@ -559,7 +603,7 @@
       min-width: 150px;
       padding: 10px;
       border-radius: 12px;
-      border: 2px solid var(--light-gray);
+      border: 2px solid #e5e7eb;
       background: white;
     }
 
@@ -608,7 +652,7 @@
     
     .budget-meter {
       height: 8px;
-      background: var(--light-gray);
+      background: #e5e7eb;
       border-radius: 4px;
       margin-top: 8px;
       overflow: hidden;
@@ -619,45 +663,126 @@
       background: var(--secondary);
       border-radius: 4px;
     }
+    
+    .budget-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .edit-budget-btn {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .budget-modal-content {
+      padding: 20px;
+      border-radius: 16px;
+      background: white;
+      max-width: 400px;
+      width: 90%;
+    }
+    
+    .budget-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .budget-modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .close-budget-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--gray);
+      cursor: pointer;
+    }
+    
+    .budget-input-container {
+      margin-bottom: 20px;
+    }
+    
+    .budget-input-container label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .budget-input-container input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid #e5e7eb;
+      font-size: 16px;
+    }
+    
+    /* Bottom Navigation */
     .bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 1000;
-  box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
-}
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+    }
 
-.nav-link {
-  text-align: center;
-  color: #555;
-  font-size: 12px;
-  flex: 1;
-  padding: 5px 0;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
+    .nav-link {
+      text-align: center;
+      color: #555;
+      font-size: 12px;
+      flex: 1;
+      padding: 5px 0;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
 
-.nav-link i {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 2px;
-}
+    .nav-link i {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
 
-.nav-link.active {
-  color: #004225;
-}
+    .nav-link.active {
+      color: var(--primary);
+    }
 
-.nav-link:hover {
-  color: #004225;
-}
-
+    .nav-link:hover {
+      color: var(--primary);
+    }
+    
+    /* Budget Status */
+    .budget-status {
+      font-size: 14px;
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .budget-remaining {
+      color: var(--secondary);
+    }
+    
+    .budget-exceeded {
+      color: var(--danger);
+    }
   </style>
 </head>
 <body>
@@ -680,6 +805,9 @@
         </div>
       </div>
     </header>
+
+    <!-- Budget Alert Placeholder -->
+    <div id="budgetAlertContainer"></div>
 
     <!-- Summary Cards -->
     <div class="summary-cards">
@@ -732,6 +860,12 @@
         <div class="card-value" id="totalBudget">₹0</div>
         <div class="budget-meter">
           <div class="budget-progress" id="budgetProgress"></div>
+        </div>
+        <div class="budget-status">
+          <span id="budgetStatusText">₹0 remaining</span>
+          <button class="edit-budget-btn" id="editBudgetBtn">
+            <i class="fas fa-edit"></i> Edit
+          </button>
         </div>
       </div>
     </div>
@@ -850,6 +984,21 @@
       <div id="formMessage"></div>
     </div>
   </div>
+  
+  <!-- Budget Modal -->
+  <div id="budgetModal" class="modal-overlay">
+    <div class="budget-modal-content">
+      <div class="budget-modal-header">
+        <h3 class="budget-modal-title">Set Monthly Budget</h3>
+        <button class="close-budget-modal" id="closeBudgetModal">&times;</button>
+      </div>
+      <div class="budget-input-container">
+        <label for="monthlyBudgetInput">Monthly Budget (₹)</label>
+        <input type="number" id="monthlyBudgetInput" placeholder="Enter budget amount" min="0" step="100">
+      </div>
+      <button id="saveBudgetBtn" class="btn-primary">Save Budget</button>
+    </div>
+  </div>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -880,31 +1029,16 @@
 
     // Initialize the dashboard when page loads
     document.addEventListener('DOMContentLoaded', () => {
-      // Check if elements exist before attaching event listeners
-      if (document.getElementById('categoryFilter')) {
-        document.getElementById('categoryFilter').addEventListener('change', renderTransactions);
-      }
-      
-      if (document.getElementById('monthFilter')) {
-        document.getElementById('monthFilter').addEventListener('change', renderTransactions);
-      }
-      
-      if (document.getElementById('addTransactionBtn')) {
-        document.getElementById('addTransactionBtn').addEventListener('click', showAddModal);
-      }
-      
-      if (document.getElementById('logoutBtn')) {
-        document.getElementById('logoutBtn').addEventListener('click', logoutUser);
-      }
-      
-      // Setup modal buttons only if elements exist
-      if (document.getElementById('saveBtn')) {
-        document.getElementById('saveBtn').addEventListener('click', saveTransaction);
-      }
-      
-      if (document.getElementById('cancelBtn')) {
-        document.getElementById('cancelBtn').addEventListener('click', hideAddModal);
-      }
+      // Event listeners
+      document.getElementById('categoryFilter').addEventListener('change', renderTransactions);
+      document.getElementById('monthFilter').addEventListener('change', renderTransactions);
+      document.getElementById('addTransactionBtn').addEventListener('click', showAddModal);
+      document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+      document.getElementById('saveBtn').addEventListener('click', saveTransaction);
+      document.getElementById('cancelBtn').addEventListener('click', hideAddModal);
+      document.getElementById('editBudgetBtn').addEventListener('click', showBudgetModal);
+      document.getElementById('saveBudgetBtn').addEventListener('click', saveBudget);
+      document.getElementById('closeBudgetModal').addEventListener('click', hideBudgetModal);
       
       // Initialize Firebase auth state listener
       auth.onAuthStateChanged(user => {
@@ -922,21 +1056,32 @@
     // Show add modal
     function showAddModal() {
       const modal = document.getElementById("addModal");
-      if (modal) {
-        modal.style.display = "flex";
-        document.getElementById("formMessage").style.display = "none";
-        document.getElementById("amountInput").value = '';
-        document.getElementById("descriptionInput").value = '';
-        document.getElementById("categoryInput").value = '';
-        document.getElementById("typeInput").value = 'expense';
-        document.getElementById("dateInput").valueAsDate = new Date();
-      }
+      modal.style.display = "flex";
+      document.getElementById("formMessage").style.display = "none";
+      document.getElementById("amountInput").value = '';
+      document.getElementById("descriptionInput").value = '';
+      document.getElementById("categoryInput").value = '';
+      document.getElementById("typeInput").value = 'expense';
+      document.getElementById("dateInput").valueAsDate = new Date();
     }
 
     // Hide add modal
     function hideAddModal() {
       const modal = document.getElementById("addModal");
-      if (modal) modal.style.display = "none";
+      modal.style.display = "none";
+    }
+    
+    // Show budget modal
+    function showBudgetModal() {
+      const modal = document.getElementById("budgetModal");
+      modal.style.display = "flex";
+      document.getElementById("monthlyBudgetInput").value = monthlyBudget;
+    }
+    
+    // Hide budget modal
+    function hideBudgetModal() {
+      const modal = document.getElementById("budgetModal");
+      modal.style.display = "none";
     }
 
     // Logout user
@@ -963,6 +1108,9 @@
         
         // Initialize the chart
         initExpenseChart();
+        
+        // Check budget status
+        checkBudgetStatus();
       } catch (error) {
         console.error("Error loading dashboard data:", error);
         showNotification("Error loading dashboard data. Please try again.", "error");
@@ -1012,8 +1160,6 @@
     // Render transactions based on filters
     function renderTransactions() {
       const transactionsList = document.getElementById('transactionsList');
-      if (!transactionsList) return;
-      
       transactionsList.innerHTML = '';
       
       if (transactions.length === 0) {
@@ -1094,23 +1240,70 @@
       
       // Update budget progress
       const budgetProgress = document.getElementById('budgetProgress');
-      if (budgetProgress) {
-        const progressPercent = Math.min((currentMonthExpense / monthlyBudget) * 100, 100);
-        budgetProgress.style.width = `${progressPercent}%`;
-        budgetProgress.style.background = progressPercent > 80 ? 
-          (progressPercent > 95 ? 'var(--danger)' : 'var(--accent)') : 'var(--secondary)';
+      const progressPercent = Math.min((currentMonthExpense / monthlyBudget) * 100, 100);
+      budgetProgress.style.width = `${progressPercent}%`;
+      budgetProgress.style.background = progressPercent > 80 ? 
+        (progressPercent > 95 ? 'var(--danger)' : 'var(--warning)') : 'var(--secondary)';
+      
+      // Update budget status
+      const budgetRemaining = monthlyBudget - currentMonthExpense;
+      const budgetStatusText = document.getElementById('budgetStatusText');
+      if (budgetRemaining >= 0) {
+        budgetStatusText.textContent = `₹${budgetRemaining.toLocaleString()} remaining`;
+        budgetStatusText.className = "budget-remaining";
+      } else {
+        budgetStatusText.textContent = `₹${Math.abs(budgetRemaining).toLocaleString()} over budget`;
+        budgetStatusText.className = "budget-exceeded";
       }
       
       document.getElementById('totalBalance').textContent = `₹${totalBalance.toLocaleString()}`;
       document.getElementById('totalIncome').textContent = `₹${totalIncome.toLocaleString()}`;
       document.getElementById('totalExpense').textContent = `₹${totalExpense.toLocaleString()}`;
     }
+    
+    // Check if budget is exceeded and show alert
+    function checkBudgetStatus() {
+      const budgetAlertContainer = document.getElementById('budgetAlertContainer');
+      budgetAlertContainer.innerHTML = '';
+      
+      let currentMonthExpense = 0;
+      const currentMonth = new Date().getMonth();
+      
+      transactions.forEach(transaction => {
+        if (transaction.type === "expense" && transaction.date.getMonth() === currentMonth) {
+          currentMonthExpense += transaction.amount;
+        }
+      });
+      
+      const budgetRemaining = monthlyBudget - currentMonthExpense;
+      
+      // Show alert if budget is exceeded or almost exceeded
+      if (budgetRemaining < 0) {
+        const alert = document.createElement('div');
+        alert.className = 'budget-alert';
+        alert.innerHTML = `
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>
+            <strong>Budget Exceeded!</strong> You have spent ₹${Math.abs(budgetRemaining).toLocaleString()} over your monthly budget.
+          </div>
+        `;
+        budgetAlertContainer.appendChild(alert);
+      } else if (budgetRemaining < (monthlyBudget * 0.2)) {
+        const alert = document.createElement('div');
+        alert.className = 'budget-alert';
+        alert.innerHTML = `
+          <i class="fas fa-exclamation-circle"></i>
+          <div>
+            <strong>Budget Warning!</strong> Only ₹${budgetRemaining.toLocaleString()} left in your monthly budget.
+          </div>
+        `;
+        budgetAlertContainer.appendChild(alert);
+      }
+    }
 
     // Update categories grid with real data
     function updateCategoriesGrid() {
       const categoriesGrid = document.getElementById('categoriesGrid');
-      if (!categoriesGrid) return;
-      
       categoriesGrid.innerHTML = '';
       
       const categories = {};
@@ -1275,6 +1468,42 @@
         saveBtn.textContent = 'Save';
       }
     }
+    
+    // Save monthly budget
+    async function saveBudget() {
+      const budgetInput = document.getElementById("monthlyBudgetInput").value;
+      const budgetValue = parseFloat(budgetInput);
+      
+      if (!budgetValue || budgetValue <= 0) {
+        showNotification("Please enter a valid budget amount", "error");
+        return;
+      }
+      
+      try {
+        // Save budget to Firestore
+        await db.collection("users").doc(currentUser.uid).set({
+          monthlyBudget: budgetValue
+        }, { merge: true });
+        
+        // Update local variable
+        monthlyBudget = budgetValue;
+        
+        // Update UI
+        document.getElementById('totalBudget').textContent = `₹${monthlyBudget.toLocaleString()}`;
+        
+        // Hide modal
+        hideBudgetModal();
+        
+        // Update dashboard
+        updateSummaryCards();
+        checkBudgetStatus();
+        
+        showNotification("Budget updated successfully!", "success");
+      } catch (error) {
+        console.error("Error saving budget:", error);
+        showNotification("Error saving budget: " + error.message, "error");
+      }
+    }
 
     // Helper functions
     function getIcon(category) {
@@ -1316,8 +1545,6 @@
 
     function showFormMessage(message, type) {
       const formMessage = document.getElementById("formMessage");
-      if (!formMessage) return;
-      
       formMessage.textContent = message;
       formMessage.style.display = "block";
       formMessage.style.color = type === "error" ? "var(--danger)" : "var(--success)";
@@ -1330,6 +1557,19 @@
       notification.className = `notification ${type}`;
       notification.textContent = message;
       
+      // Style based on type
+      notification.style.position = 'fixed';
+      notification.style.top = '20px';
+      notification.style.left = '50%';
+      notification.style.transform = 'translateX(-50%)';
+      notification.style.padding = '12px 20px';
+      notification.style.borderRadius = '8px';
+      notification.style.backgroundColor = type === 'error' ? 'rgba(239, 68, 68, 0.9)' : 'rgba(16, 185, 129, 0.9)';
+      notification.style.color = 'white';
+      notification.style.zIndex = '2000';
+      notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+      notification.style.fontWeight = '500';
+      
       // Add to body
       document.body.appendChild(notification);
       
@@ -1339,17 +1579,18 @@
       }, 3000);
     }
   </script>
+  
+  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
-  <a href="dashboard.html" class="nav-link">
-    <i class="fas fa-home"></i><span>Dashboard</span>
-  </a>
-  <a href="loan.html" class="nav-link active">
-    <i class="fas fa-money-bill-wave"></i><span>Loan</span>
-  </a>
-  <a href="profile.html" class="nav-link">
-    <i class="fas fa-user-circle"></i><span>Profile</span>
-  </a>
-</nav>
-
+    <a href="dashboard.html" class="nav-link">
+      <i class="fas fa-home"></i><span>Dashboard</span>
+    </a>
+    <a href="loan.html" class="nav-link">
+      <i class="fas fa-money-bill-wave"></i><span>Loan</span>
+    </a>
+    <a href="profile.html" class="nav-link active">
+      <i class="fas fa-user-circle"></i><span>Profile</span>
+    </a>
+  </nav>
 </body>
 </html>
