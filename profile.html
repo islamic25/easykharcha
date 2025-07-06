@@ -1446,5 +1446,11 @@
             initMobileEvents();
         });
     </script>
+    <script>
+    window.addEventListener("load", function() {
+        document.querySelector(".container").classList.add("loaded");
+        document.getElementById("loadingOverlay").style.display = "none";
+    });
+            </script>
 </body>
 </html>
