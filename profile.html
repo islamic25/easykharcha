@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+    <style>
+        /* Bottom Navigation - Mobile Advanced */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid #eee;
+  z-index: 999;
+  height: 60px;
+}
+
+.bottom-nav-link {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  color: #666;
+  font-size: 12px;
+  padding: 6px 0;
+  transition: color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottom-nav-link i {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.bottom-nav-link span {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.bottom-nav-link.active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.bottom-nav-link.active i {
+  color: #007bff;
+}
+
+/* Optional: add animation when changing tab */
+.bottom-nav-link:active {
+  transform: scale(0.95);
+}
+
+/* Dark mode support */
+body.dark-mode .bottom-nav {
+  background-color: #222;
+  border-top-color: #333;
+}
+
+body.dark-mode .bottom-nav-link {
+  color: #ccc;
+}
+
+body.dark-mode .bottom-nav-link.active {
+  color: #4da6ff;
+}
+
+body.dark-mode .bottom-nav-link.active i {
+  color: #4da6ff;
+}
+
+        body.urdu-mode {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #ff6b6b;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --gray: #adb5bd;
+            --success: #06d6a0;
+            --danger: #ef476f;
+            --warning: #ffd166;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 0 16px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+            position: relative;
+            border-radius: 0 0 20px 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .profile-img-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 0;
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .upload-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .section-title {
+            padding: 18px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .setting-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .setting-content {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .setting-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .setting-action {
+            color: var(--gray);
+            font-size: 20px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 0 15px;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        /* Editable Fields */
+        .editable-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        .editable-input {
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 70%;
+            padding: 5px;
+            border-bottom: 1px dashed #ccc;
+            text-align: center;
+        }
+
+        .editable-input:focus {
+            outline: none;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .edit-icon {
+            color: var(--primary);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .edit-icon:hover {
+            opacity: 1;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d93b5f;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--dark);
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Language Modal */
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid #eee;
+        }
+
+        .language-option:hover {
+            background: #f8f9fa;
+            border-color: var(--primary);
+        }
+
+        .language-option.active {
+            background: rgba(67, 97, 238, 0.1);
+            border-color: var(--primary);
+        }
+
+        .language-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            background: #f0f2f5;
+            font-size: 1.2rem;
+        }
+
+        .language-name {
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .header {
+                padding: 30px 16px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-img {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .profile-card,
+        body.dark-mode .settings-section,
+        body.dark-mode .bottom-nav {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .section-title {
+            background-color: #252525;
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .setting-item {
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .setting-item:hover {
+            background-color: #252525;
+        }
+
+        body.dark-mode .setting-desc {
+            color: #9e9e9e;
+        }
+
+        body.dark-mode .editable-input {
+            color: #e0e0e0;
+            border-bottom: 1px dashed #555;
+        }
+
+        body.dark-mode .modal-content {
+            background: #252525;
+        }
+
+        body.dark-mode .modal-title {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .language-option {
+            border: 1px solid #333;
+        }
+
+        body.dark-mode .language-option:hover {
+            background: #252525;
+        }
+
+        body.dark-mode .language-option.active {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        body.dark-mode .language-icon {
+            background: #1e1e1e;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Profile</h1>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-img-container">
+                <img src="https://ui-avatars.com/api/?name=John+Doe&background=4361ee&color=fff" alt="Profile" class="profile-img" id="profileImage">
+                <div class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            </div>
+            
+            <div class="profile-name">
+                <div class="editable-field">
+                    <input type="text" class="editable-input" id="fullName" value="John Doe">
+                    <i class="fas fa-edit edit-icon" id="editName"></i>
+                </div>
+            </div>
+            
+            <div class="profile-email" id="userEmail">john.doe@example.com</div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-outline" id="logoutBtn">Logout</button>
+                <button class="btn btn-primary" id="saveBtn">Save Changes</button>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="section-title">Account Settings</div>
+            <ul class="settings-list">
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Phone Number</div>
+                        <div class="setting-desc" id="userPhone">+1 (555) 123-4567</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </li>
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Business Name</div>
+                        <div class="setting-desc">Your business display name</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                </li>
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Security Lock</div>
+                        <div class="setting-desc">Enable PIN or biometric lock</div>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="securityLockToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="settings-section">
+            <div class="section-title">App Preferences</div>
+            <ul class="settings-list">
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Reminder Settings</div>
+                        <div class="setting-desc">Daily SMS/Email reminders</div>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="reminderToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
+                <li class="setting-item" id="languageSelector">
+                    <div class="setting-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Language</div>
+                        <div class="setting-desc" id="currentLanguage">English</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </li>
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Dark Mode</div>
+                        <div class="setting-desc">Switch between themes</div>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="settings-section">
+            <div class="section-title">Account Management</div>
+            <ul class="settings-list">
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Backup & Restore</div>
+                        <div class="setting-desc">Export your data</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </li>
+                <li class="setting-item" id="supportItem">
+                    <div class="setting-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Support & Contact</div>
+                        <div class="setting-desc">Get help from our team</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </li>
+                <li class="setting-item" id="deleteAccountBtn">
+                    <div class="setting-icon" style="background: rgba(239, 71, 111, 0.1); color: var(--danger);">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title" style="color: var(--danger);">Delete Account</div>
+                        <div class="setting-desc">Permanently remove your account</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+<!-- PIN Modal -->
+<div class="modal" id="pinModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Security Lock</div>
+      <button class="close-btn" onclick="closePinModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="pinModalMsg">Enter your 4-digit PIN</p>
+      <input type="password" id="pinInput" maxlength="4" placeholder="****" style="font-size:1.5rem; text-align:center; padding:10px; margin:15px auto; display:block;">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitPIN()">Submit</button>
+    </div>
+  </div>
+</div>
+<nav class="bottom-nav">
+    <a href="profile.html" class="bottom-nav-link">
+      <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
+    </a>
+    <a href="loan.html" class="bottom-nav-link active">
+      <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
+    </a>
+    <a href="dashboard.html" class="bottom-nav-link">
+      <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
+    </a>
+  </nav>
+
+    <!-- Delete Account Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Delete Account</div>
+                <button class="close-btn" id="closeDeleteModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete your account? This action is irreversible and will permanently remove all your data.</p>
+                <div style="margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid var(--danger);">
+                    <p style="font-size: 0.9rem; color: var(--dark);"><i class="fas fa-exclamation-triangle" style="color: var(--danger); margin-right: 8px;"></i> This will permanently delete:</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; font-size: 0.85rem;">
+                        <li>All your expense records</li>
+                        <li>Loan and debt information</li>
+                        <li>Account settings and preferences</li>
+                        <li>Payment methods and history</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Selection Modal -->
+    <div class="modal" id="languageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Select Language</div>
+                <button class="close-btn" id="closeLanguageModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="language-option" data-lang="en">
+                    <div class="language-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <div class="language-name">English</div>
+                </div>
+                <div class="language-option" data-lang="ur">
+                    <div class="language-icon">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <div class="language-name">اردو (Urdu)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+    <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+ 
+    const firebaseConfig = {
+      apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
+      authDomain: "easykharcha.firebaseapp.com",
+      projectId: "easykharcha",
+      storageBucket: "easykharcha.appspot.com", // ✅ Fixed typo here
+      messagingSenderId: "735642025618",
+      appId: "1:735642025618:web:eacc16213b61c48c93f04b",
+      measurementId: "G-JF3E4QMZQN"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+        // DOM Elements
+        const fullNameInput = document.getElementById('fullName');
+        const userEmail = document.getElementById('userEmail');
+        const userPhone = document.getElementById('userPhone');
+        const profileImage = document.getElementById('profileImage');
+        const editNameBtn = document.getElementById('editName');
+        const saveBtn = document.getElementById('saveBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const languageOptions = document.querySelectorAll('.language-option');
+        const currentLanguage = document.getElementById('currentLanguage');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const deleteModal = document.getElementById('deleteModal');
+        const languageModal = document.getElementById('languageModal');
+        const closeDeleteModal = document.getElementById('closeDeleteModal');
+        const closeLanguageModal = document.getElementById('closeLanguageModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        const languageSelector = document.getElementById('languageSelector');
+        const securityLockToggle = document.getElementById('securityLockToggle');
+        const toast = document.getElementById('toast');
+        const reminderToggle = document.getElementById('reminderToggle');
+        const supportItem = document.getElementById('supportItem');
+
+        let userData = null;
+
+auth.onAuthStateChanged(async (user) => {
+    if (user) {
+        const uid = user.uid;
+        const docRef = db.collection("users").doc(uid);
+        const doc = await docRef.get();
+        if (doc.exists) {
+            userData = doc.data();
+            userData.uid = uid;
+
+            // Fallbacks if fields are missing
+            userData.fullName ||= user.displayName || "User";
+            userData.email ||= user.email;
+            userData.phoneNumber ||= "Not provided";
+            userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
+            userData.settings ||= {
+                darkMode: false,
+                language: 'en',
+                securityLock: false,
+                reminders: true
+            };
+
+            initializeUI();
+        } else {
+            console.error("User document not found!");
+        }
+    } else {
+        // No user, redirect to login
+        window.location.href = "login.html";
+    }
+});
+
+
+        // Translations
+        const translations = {
+            en: {
+                darkMode: "Dark Mode",
+                switchTheme: "Switch between themes",
+                backup: "Backup & Restore",
+                export: "Export your data",
+                support: "Support & Contact",
+                help: "Get help from our team",
+                delete: "Delete Account",
+                confirmDelete: "Permanently remove your account",
+                saveSuccess: "Changes saved successfully!",
+                languageSelected: "Language updated to English",
+                darkModeOn: "Dark mode enabled",
+                darkModeOff: "Dark mode disabled",
+                securityOn: "Security lock enabled",
+                securityOff: "Security lock disabled",
+                remindersOn: "Reminders enabled",
+                remindersOff: "Reminders disabled"
+            },
+            ur: {
+                darkMode: "ڈارک موڈ",
+                switchTheme: "تھیم تبدیل کریں",
+                backup: "بیک اپ اور بحال کریں",
+                export: "اپنا ڈیٹا برآمد کریں",
+                support: "سپورٹ اور رابطہ",
+                help: "ہماری ٹیم سے مدد حاصل کریں",
+                delete: "اکاؤنٹ حذف کریں",
+                confirmDelete: "اپنا اکاؤنٹ مستقل طور پر حذف کریں",
+                saveSuccess: "تبدیلیاں کامیابی سے محفوظ ہو گئیں!",
+                languageSelected: "زبان اردو میں اپ ڈیٹ ہو گئی",
+                darkModeOn: "ڈارک موڈ فعال ہو گیا",
+                darkModeOff: "ڈارک موڈ غیر فعال ہو گیا",
+                securityOn: "سیکورٹی لاک فعال ہو گیا",
+                securityOff: "سیکورٹی لاک غیر فعال ہو گیا",
+                remindersOn: "یاددہانیاں فعال ہو گئیں",
+                remindersOff: "یاددہانیاں غیر فعال ہو گئیں"
+            }
+        };
+
+        // Initialize UI
+        function initializeUI() {
+            // Set initial values
+            fullNameInput.value = userData.fullName;
+            userEmail.textContent = userData.email;
+            userPhone.textContent = userData.phoneNumber;
+            profileImage.src = userData.profileImage;
+            
+            // Apply settings
+            darkModeToggle.checked = userData.settings.darkMode;
+            securityLockToggle.checked = userData.settings.securityLock;
+            reminderToggle.checked = userData.settings.reminders;
+            applySettings();
+        }
+
+       async function applySettings() {
+    const lang = userData.settings.language;
+
+    // Apply to UI
+    applyLanguage(lang);
+    currentLanguage.textContent = lang === 'en' ? 'English' : 'اردو (Urdu)';
+    document.body.classList.toggle('urdu-mode', lang === 'ur');
+    document.body.classList.toggle('dark-mode', userData.settings.darkMode);
+
+    // Save to Firestore
+    if (userData?.uid) {
+        try {
+            await db.collection("users").doc(userData.uid).update({
+                settings: userData.settings
+            });
+        } catch (e) {
+            console.error("Failed to save settings to Firestore:", e);
+        }
+    }
+}
+
+        // Apply language translations
+        function applyLanguage(lang) {
+            const t = translations[lang] || translations.en;
+            
+            // Update settings section titles
+            document.querySelectorAll('.section-title').forEach(title => {
+                if (title.textContent === "Account Settings") {
+                    title.textContent = lang === 'ur' ? "اکاؤنٹ کی ترتیبات" : "Account Settings";
+                } else if (title.textContent === "App Preferences") {
+                    title.textContent = lang === 'ur' ? "ایپ کی ترجیحات" : "App Preferences";
+                } else if (title.textContent === "Account Management") {
+                    title.textContent = lang === 'ur' ? "اکاؤنٹ مینجمنٹ" : "Account Management";
+                }
+            });
+            
+            // Update setting titles and descriptions
+            const settingTitles = document.querySelectorAll('.setting-title');
+            const settingDescs = document.querySelectorAll('.setting-desc');
+            
+            if (lang === 'ur') {
+                settingTitles[0].textContent = "فون نمبر";
+                settingTitles[1].textContent = "کاروبار کا نام";
+                settingTitles[2].textContent = "سیکورٹی لاک";
+                settingTitles[3].textContent = "یاددہانی کی ترتیبات";
+                settingTitles[4].textContent = "زبان";
+                settingTitles[5].textContent = "ڈارک موڈ";
+                settingTitles[6].textContent = "بیک اپ اور بحال کریں";
+                settingTitles[7].textContent = "سپورٹ اور رابطہ";
+                settingTitles[8].textContent = "اکاؤنٹ حذف کریں";
+                
+                settingDescs[1].textContent = "آپ کا کاروباری ڈسپلے نام";
+                settingDescs[2].textContent = "پن یا بائیومیٹرک لاک کو فعال کریں";
+                settingDescs[3].textContent = "روزانہ ایس ایم ایس/ای میل یاددہانیاں";
+                settingDescs[4].textContent = "زبان تبدیل کریں";
+                settingDescs[5].textContent = "تھیم تبدیل کریں";
+                settingDescs[6].textContent = "اپنا ڈیٹا برآمد کریں";
+                settingDescs[7].textContent = "ہماری ٹیم سے مدد حاصل کریں";
+                settingDescs[8].textContent = "اپنا اکاؤنٹ مستقل طور پر حذف کریں";
+            } else {
+                settingTitles[0].textContent = "Phone Number";
+                settingTitles[1].textContent = "Business Name";
+                settingTitles[2].textContent = "Security Lock";
+                settingTitles[3].textContent = "Reminder Settings";
+                settingTitles[4].textContent = "Language";
+                settingTitles[5].textContent = "Dark Mode";
+                settingTitles[6].textContent = "Backup & Restore";
+                settingTitles[7].textContent = "Support & Contact";
+                settingTitles[8].textContent = "Delete Account";
+                
+                settingDescs[1].textContent = "Your business display name";
+                settingDescs[2].textContent = "Enable PIN or biometric lock";
+                settingDescs[3].textContent = "Daily SMS/Email reminders";
+                settingDescs[4].textContent = "Change language";
+                settingDescs[5].textContent = "Switch between themes";
+                settingDescs[6].textContent = "Export your data";
+                settingDescs[7].textContent = "Get help from our team";
+                settingDescs[8].textContent = "Permanently remove your account";
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, duration = 3000) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        // Event Listeners
+        editNameBtn.addEventListener('click', () => {
+            fullNameInput.focus();
+            fullNameInput.select();
+        });
+
+      saveBtn.addEventListener('click', async () => {
+    if (!userData) return;
+
+    userData.fullName = fullNameInput.value;
+
+    try {
+        await db.collection("users").doc(userData.uid).update({
+            fullName: userData.fullName,
+            settings: userData.settings
+        });
+        showToast(translations[userData.settings.language].saveSuccess);
+    } catch (error) {
+        console.error("Error saving user data:", error);
+        showToast("Failed to save changes.");
+    }
+});
+
+
+        logoutBtn.addEventListener('click', () => {
+            // Simulate logout
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                alert("Logout successful. Redirecting to login...");
+                // In a real app: location.href = 'login.html';
+            }, 300);
+        });
+
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Simulate upload
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                profileImage.src = e.target.result;
+                showToast("Profile image updated successfully!");
+            };
+            reader.readAsDataURL(file);
+        });
+
+        darkModeToggle.addEventListener('change', function() {
+            userData.settings.darkMode = this.checked;
+            document.body.classList.toggle('dark-mode', this.checked);
+            showToast(this.checked ? 
+                translations[userData.settings.language].darkModeOn : 
+                translations[userData.settings.language].darkModeOff
+            );
+        });
+
+       securityLockToggle.addEventListener('change', function () {
+    userData.settings.securityLock = this.checked;
+
+    if (this.checked) {
+        // Prompt to set a PIN
+        openPinModal(true);
+    } else {
+        db.collection("users").doc(userData.uid).update({
+            settings: {
+                ...userData.settings,
+                securityLock: false
+            },
+            pin: firebase.firestore.FieldValue.delete()
+        });
+        savedPIN = null;
+        showToast(translations[userData.settings.language].securityOff);
+    }
+});
+
+
+        reminderToggle.addEventListener('change', function() {
+            userData.settings.reminders = this.checked;
+            showToast(this.checked ? 
+                translations[userData.settings.language].remindersOn : 
+                translations[userData.settings.language].remindersOff
+            );
+        });
+
+        languageSelector.addEventListener('click', () => {
+            languageModal.classList.add('active');
+        });
+
+        deleteAccountBtn.addEventListener('click', () => {
+            deleteModal.classList.add('active');
+        });
+
+        closeDeleteModal.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+        });
+
+        closeLanguageModal.addEventListener('click', () => {
+            languageModal.classList.remove('active');
+        });
+
+        cancelDeleteBtn.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+        });
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+            showToast("Account deletion request sent. Processing...", 2000);
+            setTimeout(() => {
+                alert("Account deleted successfully. Redirecting...");
+                // In real app: location.href = 'deleted.html';
+            }, 2000);
+        });
+
+        supportItem.addEventListener('click', () => {
+            window.location.href = 'mailto:support@easykharcha.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
+        });
+
+        languageOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const lang = option.getAttribute('data-lang');
+                userData.settings.language = lang;
+                applySettings();
+                languageModal.classList.remove('active');
+                showToast(lang === 'en' ? 
+                    translations.en.languageSelected : 
+                    translations.ur.languageSelected
+                );
+                
+                // Update active state
+                languageOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+const pinModal = document.getElementById('pinModal');
+const pinInput = document.getElementById('pinInput');
+const pinModalMsg = document.getElementById('pinModalMsg');
+
+// Check if user has saved PIN
+let savedPIN = null;
+
+function openPinModal(setup = false) {
+    pinModal.classList.add('active');
+    pinInput.value = "";
+    pinModalMsg.textContent = setup ? "Set a 4-digit PIN" : "Enter your 4-digit PIN";
+    pinInput.focus();
+    pinModal.dataset.mode = setup ? 'setup' : 'unlock';
+}
+
+function closePinModal() {
+    pinModal.classList.remove('active');
+}
+
+async function submitPIN() {
+    const enteredPIN = pinInput.value;
+    if (enteredPIN.length !== 4 || !/^\d{4}$/.test(enteredPIN)) {
+        showToast("PIN must be 4 digits.");
+        return;
+    }
+
+    if (pinModal.dataset.mode === 'setup') {
+        savedPIN = enteredPIN;
+        await db.collection("users").doc(userData.uid).update({
+            pin: enteredPIN
+        });
+        showToast("Security PIN set.");
+        closePinModal();
+    } else if (pinModal.dataset.mode === 'unlock') {
+        if (enteredPIN === savedPIN) {
+            showToast("Unlocked successfully.");
+            closePinModal();
+        } else {
+            showToast("Incorrect PIN.");
+        }
+    }
+}
+
+        // Initialize on load
+       
+    </script>
+   
+</body>
+</html>
