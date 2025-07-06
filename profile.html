@@ -2,82 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>My Profile - Expense Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
     <style>
+        /* Mobile-specific fixes */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+        
+        /* Touch-friendly toggle switches */
+        @media (max-width: 768px) {
+            .toggle-switch {
+                width: 60px !important;
+                height: 34px !important;
+            }
+            
+            .slider:before {
+                width: 26px !important;
+                height: 26px !important;
+                bottom: 4px !important;
+            }
+            
+            input:checked + .slider:before {
+                transform: translateX(26px) !important;
+            }
+            
+            .setting-item {
+                padding: 22px 24px !important;
+            }
+            
+            .editable-field {
+                max-width: 100% !important;
+                padding: 0 20px;
+            }
+        }
+        
         /* Bottom Navigation - Mobile Advanced */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffffff;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
-  border-top: 1px solid #eee;
-  z-index: 999;
-  height: 60px;
-}
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            border-top: 1px solid #eee;
+            z-index: 999;
+            height: 60px;
+        }
 
-.bottom-nav-link {
-  flex: 1;
-  text-align: center;
-  text-decoration: none;
-  color: #666;
-  font-size: 12px;
-  padding: 6px 0;
-  transition: color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+        .bottom-nav-link {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 12px;
+            padding: 6px 0;
+            transition: color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.bottom-nav-link i {
-  font-size: 18px;
-  margin-bottom: 2px;
-}
+        .bottom-nav-link i {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
 
-.bottom-nav-link span {
-  font-size: 11px;
-  line-height: 1;
-}
+        .bottom-nav-link span {
+            font-size: 11px;
+            line-height: 1;
+        }
 
-.bottom-nav-link.active {
-  color: #007bff;
-  font-weight: 600;
-}
+        .bottom-nav-link.active {
+            color: #007bff;
+            font-weight: 600;
+        }
 
-.bottom-nav-link.active i {
-  color: #007bff;
-}
+        .bottom-nav-link.active i {
+            color: #007bff;
+        }
 
-/* Optional: add animation when changing tab */
-.bottom-nav-link:active {
-  transform: scale(0.95);
-}
+        /* Optional: add animation when changing tab */
+        .bottom-nav-link:active {
+            transform: scale(0.95);
+        }
 
-/* Dark mode support */
-body.dark-mode .bottom-nav {
-  background-color: #222;
-  border-top-color: #333;
-}
+        /* Dark mode support */
+        body.dark-mode .bottom-nav {
+            background-color: #222;
+            border-top-color: #333;
+        }
 
-body.dark-mode .bottom-nav-link {
-  color: #ccc;
-}
+        body.dark-mode .bottom-nav-link {
+            color: #ccc;
+        }
 
-body.dark-mode .bottom-nav-link.active {
-  color: #4da6ff;
-}
+        body.dark-mode .bottom-nav-link.active {
+            color: #4da6ff;
+        }
 
-body.dark-mode .bottom-nav-link.active i {
-  color: #4da6ff;
-}
+        body.dark-mode .bottom-nav-link.active i {
+            color: #4da6ff;
+        }
 
         body.urdu-mode {
             font-family: 'Noto Nastaliq Urdu', serif;
@@ -102,6 +135,7 @@ body.dark-mode .bottom-nav-link.active i {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            touch-action: manipulation;
         }
 
         body {
@@ -324,6 +358,7 @@ body.dark-mode .bottom-nav-link.active i {
             padding: 5px;
             border-bottom: 1px dashed #ccc;
             text-align: center;
+            font-size: 16px; /* Prevent mobile zoom */
         }
 
         .editable-input:focus {
@@ -405,6 +440,7 @@ body.dark-mode .bottom-nav-link.active i {
             transition: var(--transition);
             border: none;
             font-family: 'Poppins', sans-serif;
+            min-height: 44px; /* Minimum touch target size */
         }
 
         .btn-primary {
@@ -447,6 +483,7 @@ body.dark-mode .bottom-nav-link.active i {
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            touch-action: none;
         }
 
         .modal.active {
@@ -495,6 +532,11 @@ body.dark-mode .bottom-nav-link.active i {
             cursor: pointer;
             color: var(--gray);
             transition: var(--transition);
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-btn:hover {
@@ -650,56 +692,60 @@ body.dark-mode .bottom-nav-link.active i {
             opacity: 1;
         }
         .loading-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.3s ease;
-}
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
 
-.dark-mode .loading-overlay {
-  background-color: #121212;
-}
+        .dark-mode .loading-overlay {
+            background-color: #121212;
+        }
 
-.loading-text {
-  margin-top: 16px;
-  font-size: 1rem;
-  color: var(--dark);
-}
+        .loading-text {
+            margin-top: 16px;
+            font-size: 1rem;
+            color: var(--dark);
+        }
 
-.dark-mode .loading-text {
-  color: #e0e0e0;
-}
+        .dark-mode .loading-text {
+            color: #e0e0e0;
+        }
 
-/* Spinner */
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 6px solid #eee;
-  border-top: 6px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
+        /* Spinner */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 6px solid #eee;
+            border-top: 6px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.container {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.container.loaded {
-  opacity: 1;
-}
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .container {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .container.loaded {
+            opacity: 1;
+        }
 
-
+        /* Touch feedback */
+        .btn:active, .setting-item:active, .bottom-nav-link:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -707,10 +753,10 @@ body.dark-mode .bottom-nav-link.active i {
         <div class="header">
             <h1>My Profile</h1>
         </div>
-<div id="loadingOverlay" class="loading-overlay">
-  <div class="spinner"></div>
-  <div class="loading-text">Loading your settings...</div>
-</div>
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="spinner"></div>
+            <div class="loading-text">Loading your settings...</div>
+        </div>
 
         <div class="profile-card">
             <div class="profile-img-container">
@@ -871,34 +917,36 @@ body.dark-mode .bottom-nav-link.active i {
             </ul>
         </div>
     </div>
-<!-- PIN Modal -->
-<div class="modal" id="pinModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-title">Security Lock</div>
-      <button class="close-btn" onclick="closePinModal()">&times;</button>
+    
+    <!-- PIN Modal -->
+    <div class="modal" id="pinModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Security Lock</div>
+                <button class="close-btn" onclick="closePinModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="pinModalMsg">Enter your 4-digit PIN</p>
+                <input type="number" pattern="[0-9]*" inputmode="numeric" id="pinInput" maxlength="4" placeholder="****" style="font-size:1.5rem; text-align:center; padding:10px; margin:15px auto; display:block; width: 80%;">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitPIN()">Submit</button>
+            </div>
+        </div>
     </div>
-    <div class="modal-body">
-      <p id="pinModalMsg">Enter your 4-digit PIN</p>
-      <input type="password" id="pinInput" maxlength="4" placeholder="****" style="font-size:1.5rem; text-align:center; padding:10px; margin:15px auto; display:block;">
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="submitPIN()">Submit</button>
-    </div>
-  </div>
-</div>
-<nav class="bottom-nav">
-    <a href="profile.html" class="bottom-nav-link">
-      <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
-    </a>
-    <a href="loan.html" class="bottom-nav-link active">
-      <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
-    </a>
-    <a href="dashboard.html" class="bottom-nav-link">
-      <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
-    </a>
-  </nav>
+    
+    <nav class="bottom-nav">
+        <a href="profile.html" class="bottom-nav-link">
+            <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
+        </a>
+        <a href="loan.html" class="bottom-nav-link active">
+            <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
+        </a>
+        <a href="dashboard.html" class="bottom-nav-link">
+            <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
+        </a>
+    </nav>
 
     <!-- Delete Account Modal -->
     <div class="modal" id="deleteModal">
@@ -956,22 +1004,22 @@ body.dark-mode .bottom-nav-link.active i {
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script>
- 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
-      authDomain: "easykharcha.firebaseapp.com",
-      projectId: "easykharcha",
-      storageBucket: "easykharcha.appspot.com", // ✅ Fixed typo here
-      messagingSenderId: "735642025618",
-      appId: "1:735642025618:web:eacc16213b61c48c93f04b",
-      measurementId: "G-JF3E4QMZQN"
-    };
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
+            authDomain: "easykharcha.firebaseapp.com",
+            projectId: "easykharcha",
+            storageBucket: "easykharcha.appspot.com",
+            messagingSenderId: "735642025618",
+            appId: "1:735642025618:web:eacc16213b61c48c93f04b",
+            measurementId: "G-JF3E4QMZQN"
+        };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
         // DOM Elements
         const fullNameInput = document.getElementById('fullName');
@@ -989,7 +1037,6 @@ body.dark-mode .bottom-nav-link.active i {
         const deleteModal = document.getElementById('deleteModal');
         const languageModal = document.getElementById('languageModal');
         const closeDeleteModal = document.getElementById('closeDeleteModal');
-        const closeLanguageModal = document.getElementById('closeLanguageModal');
         const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         const deleteAccountBtn = document.getElementById('deleteAccountBtn');
@@ -998,46 +1045,12 @@ body.dark-mode .bottom-nav-link.active i {
         const toast = document.getElementById('toast');
         const reminderToggle = document.getElementById('reminderToggle');
         const supportItem = document.getElementById('supportItem');
+        const pinModalElement = document.getElementById('pinModal');
+        const pinInput = document.getElementById('pinInput');
+        const pinModalMsg = document.getElementById('pinModalMsg');
 
         let userData = null;
-
-auth.onAuthStateChanged(async (user) => {
-    if (user) {
-        const uid = user.uid;
-        const docRef = db.collection("users").doc(uid);
-        const doc = await docRef.get();
-        if (doc.exists) {
-            userData = doc.data();
-            userData.uid = uid;
-
-            userData.fullName ||= user.displayName || "User";
-            userData.email ||= user.email;
-            userData.phoneNumber ||= "Not provided";
-            userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
-            userData.settings ||= {
-                darkMode: false,
-                language: 'en',
-                securityLock: false,
-                reminders: true
-            };
-
-            // Apply early dark mode
-            if (userData.settings.darkMode) {
-                document.body.classList.add('dark-mode');
-            }
-
-            initializeUI();
-            await applySettings();
-
-            // ✅ Hide loader now
-            document.getElementById('loadingOverlay').style.display = 'none';
-        } else {
-            console.error("User document not found!");
-        }
-    } else {
-        window.location.href = "login.html";
-    }
-});
+        let savedPIN = null;
 
         // Translations
         const translations = {
@@ -1079,6 +1092,56 @@ auth.onAuthStateChanged(async (user) => {
             }
         };
 
+        // Authentication state change handler
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const uid = user.uid;
+                const docRef = db.collection("users").doc(uid);
+                const doc = await docRef.get();
+                
+                if (doc.exists) {
+                    userData = doc.data();
+                    userData.uid = uid;
+
+                    // Set defaults if missing
+                    userData.fullName ||= user.displayName || "User";
+                    userData.email ||= user.email;
+                    userData.phoneNumber ||= "Not provided";
+                    userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
+                    userData.settings ||= {
+                        darkMode: false,
+                        language: 'en',
+                        securityLock: false,
+                        reminders: true
+                    };
+                    
+                    savedPIN = userData.pin || null;
+
+                    // Apply early dark mode
+                    if (userData.settings.darkMode) {
+                        document.body.classList.add('dark-mode');
+                    }
+
+                    initializeUI();
+                    await applySettings();
+
+                    // Hide loader
+                    setTimeout(() => {
+                        document.getElementById('loadingOverlay').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('loadingOverlay').style.display = 'none';
+                            document.querySelector('.container').classList.add('loaded');
+                        }, 300);
+                    }, 500);
+                } else {
+                    console.error("User document not found!");
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                }
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
         // Initialize UI
         function initializeUI() {
             // Set initial values
@@ -1094,26 +1157,26 @@ auth.onAuthStateChanged(async (user) => {
             applySettings();
         }
 
-       async function applySettings() {
-    const lang = userData.settings.language;
+        async function applySettings() {
+            const lang = userData.settings.language;
 
-    // Apply to UI
-    applyLanguage(lang);
-    currentLanguage.textContent = lang === 'en' ? 'English' : 'اردو (Urdu)';
-    document.body.classList.toggle('urdu-mode', lang === 'ur');
-    document.body.classList.toggle('dark-mode', userData.settings.darkMode);
+            // Apply to UI
+            applyLanguage(lang);
+            currentLanguage.textContent = lang === 'en' ? 'English' : 'اردو (Urdu)';
+            document.body.classList.toggle('urdu-mode', lang === 'ur');
+            document.body.classList.toggle('dark-mode', userData.settings.darkMode);
 
-    // Save to Firestore
-    if (userData?.uid) {
-        try {
-            await db.collection("users").doc(userData.uid).update({
-                settings: userData.settings
-            });
-        } catch (e) {
-            console.error("Failed to save settings to Firestore:", e);
+            // Save to Firestore
+            if (userData?.uid) {
+                try {
+                    await db.collection("users").doc(userData.uid).update({
+                        settings: userData.settings
+                    });
+                } catch (e) {
+                    console.error("Failed to save settings to Firestore:", e);
+                }
+            }
         }
-    }
-}
 
         // Apply language translations
         function applyLanguage(lang) {
@@ -1184,192 +1247,204 @@ auth.onAuthStateChanged(async (user) => {
             }, duration);
         }
 
-        // Event Listeners
-        editNameBtn.addEventListener('click', () => {
-            fullNameInput.focus();
-            fullNameInput.select();
-        });
-
-      saveBtn.addEventListener('click', async () => {
-    if (!userData) return;
-
-    userData.fullName = fullNameInput.value;
-
-    try {
-        await db.collection("users").doc(userData.uid).update({
-            fullName: userData.fullName,
-            settings: userData.settings
-        });
-        showToast(translations[userData.settings.language].saveSuccess);
-    } catch (error) {
-        console.error("Error saving user data:", error);
-        showToast("Failed to save changes.");
-    }
-});
-
-
-        logoutBtn.addEventListener('click', () => {
-            // Simulate logout
-            document.body.classList.add('fade-out');
-            setTimeout(() => {
-                alert("Logout successful. Redirecting to login...");
-                // In a real app: location.href = 'login.html';
-            }, 300);
-        });
-
-        uploadBtn.addEventListener('click', () => fileInput.click());
-        
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            // Simulate upload
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                profileImage.src = e.target.result;
-                showToast("Profile image updated successfully!");
-            };
-            reader.readAsDataURL(file);
-        });
-
-        darkModeToggle.addEventListener('change', function() {
-            userData.settings.darkMode = this.checked;
-            document.body.classList.toggle('dark-mode', this.checked);
-            showToast(this.checked ? 
-                translations[userData.settings.language].darkModeOn : 
-                translations[userData.settings.language].darkModeOff
-            );
-        });
-
-       securityLockToggle.addEventListener('change', function () {
-    userData.settings.securityLock = this.checked;
-
-    if (this.checked) {
-        // Prompt to set a PIN
-        openPinModal(true);
-    } else {
-        db.collection("users").doc(userData.uid).update({
-            settings: {
-                ...userData.settings,
-                securityLock: false
-            },
-            pin: firebase.firestore.FieldValue.delete()
-        });
-        savedPIN = null;
-        showToast(translations[userData.settings.language].securityOff);
-    }
-});
-
-
-        reminderToggle.addEventListener('change', function() {
-            userData.settings.reminders = this.checked;
-            showToast(this.checked ? 
-                translations[userData.settings.language].remindersOn : 
-                translations[userData.settings.language].remindersOff
-            );
-        });
-
-        languageSelector.addEventListener('click', () => {
-            languageModal.classList.add('active');
-        });
-
-        deleteAccountBtn.addEventListener('click', () => {
-            deleteModal.classList.add('active');
-        });
-
-        closeDeleteModal.addEventListener('click', () => {
-            deleteModal.classList.remove('active');
-        });
-
-        closeLanguageModal.addEventListener('click', () => {
-            languageModal.classList.remove('active');
-        });
-
-        cancelDeleteBtn.addEventListener('click', () => {
-            deleteModal.classList.remove('active');
-        });
-
-        confirmDeleteBtn.addEventListener('click', () => {
-            deleteModal.classList.remove('active');
-            showToast("Account deletion request sent. Processing...", 2000);
-            setTimeout(() => {
-                alert("Account deleted successfully. Redirecting...");
-                // In real app: location.href = 'deleted.html';
-            }, 2000);
-        });
-
-        supportItem.addEventListener('click', () => {
-            window.location.href = 'mailto:support@easykharcha.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
-        });
-
-        languageOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const lang = option.getAttribute('data-lang');
-                userData.settings.language = lang;
-                applySettings();
-                languageModal.classList.remove('active');
-                showToast(lang === 'en' ? 
-                    translations.en.languageSelected : 
-                    translations.ur.languageSelected
-                );
-                
-                // Update active state
-                languageOptions.forEach(opt => opt.classList.remove('active'));
-                option.classList.add('active');
-            });
-        });
-const pinModal = document.getElementById('pinModal');
-const pinInput = document.getElementById('pinInput');
-const pinModalMsg = document.getElementById('pinModalMsg');
-
-// Check if user has saved PIN
-let savedPIN = null;
-
-function openPinModal(setup = false) {
-    pinModal.classList.add('active');
-    pinInput.value = "";
-    pinModalMsg.textContent = setup ? "Set a 4-digit PIN" : "Enter your 4-digit PIN";
-    pinInput.focus();
-    pinModal.dataset.mode = setup ? 'setup' : 'unlock';
-}
-
-function closePinModal() {
-    pinModal.classList.remove('active');
-}
-
-async function submitPIN() {
-    const enteredPIN = pinInput.value;
-    if (enteredPIN.length !== 4 || !/^\d{4}$/.test(enteredPIN)) {
-        showToast("PIN must be 4 digits.");
-        return;
-    }
-
-    if (pinModal.dataset.mode === 'setup') {
-        savedPIN = enteredPIN;
-        await db.collection("users").doc(userData.uid).update({
-            pin: enteredPIN
-        });
-        showToast("Security PIN set.");
-        closePinModal();
-    } else if (pinModal.dataset.mode === 'unlock') {
-        if (enteredPIN === savedPIN) {
-            showToast("Unlocked successfully.");
-            closePinModal();
-        } else {
-            showToast("Incorrect PIN.");
+        // Mobile-friendly event binding
+        function addMobileEvent(element, eventHandler) {
+            element.addEventListener('click', eventHandler);
+            element.addEventListener('touchend', eventHandler);
         }
-    }
-}
-// ✅ Hide loader smoothly
-const overlay = document.getElementById('loadingOverlay');
-overlay.style.opacity = '0';
-setTimeout(() => {
-  overlay.style.display = 'none';
-  document.querySelector('.container').classList.add('loaded'); // ✅ now show UI
-}, 300);
 
+        // Initialize mobile events
+        function initMobileEvents() {
+            // Edit name button
+            addMobileEvent(editNameBtn, () => {
+                fullNameInput.focus();
+                fullNameInput.select();
+            });
 
+            // Save button
+            addMobileEvent(saveBtn, async () => {
+                if (!userData) return;
+
+                userData.fullName = fullNameInput.value;
+
+                try {
+                    await db.collection("users").doc(userData.uid).update({
+                        fullName: userData.fullName,
+                        settings: userData.settings
+                    });
+                    showToast(translations[userData.settings.language].saveSuccess);
+                } catch (error) {
+                    console.error("Error saving user data:", error);
+                    showToast("Failed to save changes.");
+                }
+            });
+
+            // Logout button
+            addMobileEvent(logoutBtn, () => {
+                auth.signOut().then(() => {
+                    window.location.href = 'login.html';
+                }).catch((error) => {
+                    showToast("Logout failed: " + error.message);
+                });
+            });
+
+            // Upload button
+            addMobileEvent(uploadBtn, () => fileInput.click());
+            
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                // Simulate upload
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImage.src = e.target.result;
+                    showToast("Profile image updated successfully!");
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Dark mode toggle
+            darkModeToggle.addEventListener('change', function() {
+                userData.settings.darkMode = this.checked;
+                document.body.classList.toggle('dark-mode', this.checked);
+                showToast(this.checked ? 
+                    translations[userData.settings.language].darkModeOn : 
+                    translations[userData.settings.language].darkModeOff
+                );
+            });
+
+            // Security lock toggle
+            securityLockToggle.addEventListener('change', function() {
+                userData.settings.securityLock = this.checked;
+
+                if (this.checked) {
+                    // Prompt to set a PIN
+                    openPinModal(true);
+                } else {
+                    db.collection("users").doc(userData.uid).update({
+                        settings: {
+                            ...userData.settings,
+                            securityLock: false
+                        },
+                        pin: firebase.firestore.FieldValue.delete()
+                    });
+                    savedPIN = null;
+                    showToast(translations[userData.settings.language].securityOff);
+                }
+            });
+
+            // Reminder toggle
+            reminderToggle.addEventListener('change', function() {
+                userData.settings.reminders = this.checked;
+                showToast(this.checked ? 
+                    translations[userData.settings.language].remindersOn : 
+                    translations[userData.settings.language].remindersOff
+                );
+            });
+
+            // Language selector
+            addMobileEvent(languageSelector, () => {
+                languageModal.classList.add('active');
+            });
+
+            // Delete account button
+            addMobileEvent(deleteAccountBtn, () => {
+                deleteModal.classList.add('active');
+            });
+
+            // Close modals
+            addMobileEvent(closeDeleteModal, () => {
+                deleteModal.classList.remove('active');
+            });
+
+            addMobileEvent(closeLanguageModal, () => {
+                languageModal.classList.remove('active');
+            });
+
+            addMobileEvent(cancelDeleteBtn, () => {
+                deleteModal.classList.remove('active');
+            });
+
+            // Confirm delete
+            addMobileEvent(confirmDeleteBtn, () => {
+                deleteModal.classList.remove('active');
+                showToast("Account deletion request sent. Processing...", 2000);
+                setTimeout(() => {
+                    auth.currentUser.delete().then(() => {
+                        window.location.href = 'deleted.html';
+                    }).catch((error) => {
+                        showToast("Error deleting account: " + error.message);
+                    });
+                }, 2000);
+            });
+
+            // Support item
+            addMobileEvent(supportItem, () => {
+                window.location.href = 'mailto:support@easykharcha.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
+            });
+
+            // Language options
+            languageOptions.forEach(option => {
+                addMobileEvent(option, () => {
+                    const lang = option.getAttribute('data-lang');
+                    userData.settings.language = lang;
+                    applySettings();
+                    languageModal.classList.remove('active');
+                    showToast(lang === 'en' ? 
+                        translations.en.languageSelected : 
+                        translations.ur.languageSelected
+                    );
+                    
+                    // Update active state
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
+        }
+
+        // PIN Modal functions
+        function openPinModal(setup = false) {
+            pinModalElement.classList.add('active');
+            pinInput.value = "";
+            pinModalMsg.textContent = setup ? "Set a 4-digit PIN" : "Enter your 4-digit PIN";
+            pinInput.focus();
+            pinModalElement.dataset.mode = setup ? 'setup' : 'unlock';
+        }
+
+        function closePinModal() {
+            pinModalElement.classList.remove('active');
+        }
+
+        async function submitPIN() {
+            const enteredPIN = pinInput.value;
+            if (enteredPIN.length !== 4 || !/^\d{4}$/.test(enteredPIN)) {
+                showToast("PIN must be 4 digits.");
+                return;
+            }
+
+            if (pinModalElement.dataset.mode === 'setup') {
+                savedPIN = enteredPIN;
+                await db.collection("users").doc(userData.uid).update({
+                    pin: enteredPIN
+                });
+                showToast("Security PIN set.");
+                closePinModal();
+            } else if (pinModalElement.dataset.mode === 'unlock') {
+                if (enteredPIN === savedPIN) {
+                    showToast("Unlocked successfully.");
+                    closePinModal();
+                } else {
+                    showToast("Incorrect PIN.");
+                }
+            }
+        }
+
+        // Initialize events when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileEvents();
+        });
     </script>
-   
 </body>
 </html>
