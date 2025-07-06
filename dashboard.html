@@ -7,6 +7,93 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    .chart-wrapper {
+  width: 100%;
+  max-width: 100%;
+  height: 300px;
+  position: relative;
+  overflow-x: hidden;
+}
+canvas#expenseChart {
+  width: 100% !important;
+  height: 100% !important;
+}
+.chart-container {
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+    /* Bottom Navigation - Mobile Advanced */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid #eee;
+  z-index: 999;
+  height: 60px;
+}
+
+.bottom-nav-link {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  color: #666;
+  font-size: 12px;
+  padding: 6px 0;
+  transition: color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottom-nav-link i {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.bottom-nav-link span {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.bottom-nav-link.active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.bottom-nav-link.active i {
+  color: #007bff;
+}
+
+/* Optional: add animation when changing tab */
+.bottom-nav-link:active {
+  transform: scale(0.95);
+}
+
+/* Dark mode support */
+body.dark-mode .bottom-nav {
+  background-color: #222;
+  border-top-color: #333;
+}
+
+body.dark-mode .bottom-nav-link {
+  color: #ccc;
+}
+
+body.dark-mode .bottom-nav-link.active {
+  color: #4da6ff;
+}
+
+body.dark-mode .bottom-nav-link.active i {
+  color: #4da6ff;
+}
+
     * {
       margin: 0;
       padding: 0;
@@ -1020,7 +1107,40 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-    
+     firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+      const uid = user.uid;
+      const doc = await firebase.firestore().collection("users").doc(uid).get();
+      if (doc.exists) {
+        const settings = doc.data().settings || {};
+        const lang = settings.language || 'en';
+
+        applyLanguage(lang);
+        document.body.classList.toggle('urdu-mode', lang === 'ur');
+        document.body.classList.toggle('dark-mode', settings.darkMode === true);
+      }
+    }
+  });
+
+  function applyLanguage(lang) {
+    const translations = {
+      en: {
+        home: "Dashboard",
+        loans: "Loans",
+        profile: "Profile"
+      },
+      ur: {
+        home: "ڈیش بورڈ",
+        loans: "قرضے",
+        profile: "پروفائل"
+      }
+    };
+
+    const t = translations[lang] || translations.en;
+    document.querySelector('.bottom-nav .nav-item:nth-child(1) span').textContent = t.home;
+    document.querySelector('.bottom-nav .nav-item:nth-child(2) span').textContent = t.loans;
+    document.querySelector('.bottom-nav .nav-item:nth-child(3) span').textContent = t.profile;
+  }
     // Global variables
     let expenseChart = null;
     let currentUser = null;
@@ -1580,17 +1700,17 @@
     }
   </script>
   
-  <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <a href="dashboard.html" class="nav-link">
-      <i class="fas fa-home"></i><span>Dashboard</span>
+ <nav class="bottom-nav">
+    <a href="profile.html" class="bottom-nav-link">
+      <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
     </a>
-    <a href="loan.html" class="nav-link">
-      <i class="fas fa-money-bill-wave"></i><span>Loan</span>
+    <a href="loan.html" class="bottom-nav-link active">
+      <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
     </a>
-    <a href="profile.html" class="nav-link active">
-      <i class="fas fa-user-circle"></i><span>Profile</span>
+    <a href="dashboard.html" class="bottom-nav-link">
+      <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
     </a>
+  </nav>
   </nav>
 </body>
 </html>
