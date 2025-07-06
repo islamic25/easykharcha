@@ -9,6 +9,146 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
+    /* ========== DARK MODE STYLES ========== */
+    .dark-mode {
+      --primary: #3b82f6;
+      --primary-light: #60a5fa;
+      --secondary: #1e293b;
+      --accent: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --text: #f1f5f9;
+      --text-light: #94a3b8;
+      --border: #334155;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      background: #0f172a;
+      color: var(--text);
+    }
+    
+    .dark-mode header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+    }
+    
+    .dark-mode .card, 
+    .dark-mode .stat-card, 
+    .dark-mode .filters {
+      background: #1e293b;
+      color: var(--text);
+    }
+    
+    .dark-mode input, 
+    .dark-mode select, 
+    .dark-mode textarea {
+      background: #1e293b;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    
+    .dark-mode .table-container {
+      border-color: var(--border);
+    }
+    
+    .dark-mode th {
+      background: #1e293b;
+    }
+    
+    .dark-mode td {
+      border-bottom-color: var(--border);
+      color: var(--text);
+    }
+    
+    .dark-mode .bottom-nav {
+      background: #1e293b;
+      border-top-color: var(--border);
+    }
+    
+    .dark-mode .bottom-nav-link {
+      color: var(--text-light);
+    }
+    
+    .dark-mode .bottom-nav-link.active {
+      color: var(--primary-light);
+    }
+    
+    .dark-mode .user-menu {
+      background: #1e293b;
+    }
+    
+    .dark-mode .user-menu-item {
+      color: var(--text);
+      border-bottom-color: var(--border);
+    }
+    
+    .dark-mode .user-menu-item:hover {
+      background: #334155;
+    }
+    
+    /* ========== URDU MODE (RTL) ========== */
+    .urdu-mode {
+      direction: rtl;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: right;
+    }
+    
+    .urdu-mode .logo, 
+    .urdu-mode .nav-links, 
+    .urdu-mode .user-profile, 
+    .urdu-mode .card-header, 
+    .urdu-mode .table-actions, 
+    .urdu-mode .action-cell, 
+    .urdu-mode .loan-actions, 
+    .urdu-mode .filter-group, 
+    .urdu-mode .search-box {
+      direction: ltr;
+    }
+    
+    .urdu-mode .stat-title, 
+    .urdu-mode .stat-value, 
+    .urdu-mode .stat-trend,
+    .urdu-mode .loan-name, 
+    .urdu-mode .loan-amount, 
+    .urdu-mode .detail-label, 
+    .urdu-mode .loan-type,
+    .urdu-mode .form-group label, 
+    .urdu-mode .filter-label,
+    .urdu-mode .page-title, 
+    .urdu-mode .card-title, 
+    .urdu-mode .modal-title,
+    .urdu-mode .footer-section {
+      text-align: right;
+    }
+    
+    .urdu-mode .empty-state {
+      text-align: center;
+    }
+    
+    .urdu-mode .footer-section h3::after {
+      left: auto;
+      right: 0;
+    }
+    
+    .urdu-mode .loan-details {
+      text-align: right;
+    }
+    
+    .urdu-mode .action-cell {
+      justify-content: flex-start;
+    }
+    
+    .urdu-mode .table-container table {
+      text-align: right;
+    }
+    
+    .urdu-mode .table-container table td:first-child,
+    .urdu-mode .table-container table th:first-child {
+      text-align: right;
+    }
+    
+    .urdu-mode .table-container table td:last-child,
+    .urdu-mode .table-container table th:last-child {
+      text-align: left;
+    }
+    
     :root {
       --primary: #2563eb;
       --primary-light: #3b82f6;
@@ -38,6 +178,7 @@
       padding: 0;
       min-height: 100vh;
       padding-bottom: 60px; /* Space for bottom nav */
+      transition: background 0.3s ease, color 0.3s ease;
     }
     
     .container {
@@ -55,6 +196,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      transition: background 0.3s ease;
     }
     
     .header-container {
@@ -205,6 +347,7 @@
       flex: 1;
       min-width: calc(33.333% - 11px);
       margin-bottom: 10px;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
     }
     
     @media (max-width: 768px) {
@@ -376,6 +519,7 @@
       max-height: 500px;
       overflow-y: auto;
       border: 1px solid var(--border);
+      transition: border-color 0.3s ease;
     }
     
     table {
@@ -399,6 +543,7 @@
       font-weight: 500;
       position: sticky;
       top: 0;
+      transition: background-color 0.3s ease;
     }
     
     th:first-child {
@@ -414,6 +559,7 @@
       border-bottom: 1px solid var(--border);
       color: var(--text);
       font-size: 14px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
     
     tbody tr {
@@ -496,6 +642,7 @@
       padding: 18px 22px;
       border-radius: var(--radius);
       box-shadow: var(--card-shadow);
+      transition: background 0.3s ease;
     }
     
     .filter-group {
@@ -525,6 +672,7 @@
       font-size: 14px;
       min-width: 250px;
       background: #f8fafc;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
     
     .search-icon {
@@ -542,6 +690,7 @@
       font-size: 14px;
       background: #f8fafc;
       min-width: 150px;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
     
     .filter-btn {
@@ -624,6 +773,7 @@
       padding: 15px;
       margin-bottom: 15px;
       box-shadow: var(--card-shadow);
+      transition: background 0.3s ease;
     }
     
     .loan-header {
@@ -687,6 +837,7 @@
       color: white;
       padding: 40px 0 20px;
       margin-top: 50px;
+      transition: background 0.3s ease;
     }
     
     .footer-container {
@@ -981,6 +1132,7 @@
       align-items: center;
       z-index: 1000;
       box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
     
     .bottom-nav-link {
@@ -1114,13 +1266,13 @@
   
   <div class="container">
     <div class="page-header">
-      <h1 class="page-title">
+      <h1 class="page-title" data-translate="Loan Management">
         <i class="fas fa-hand-holding-usd"></i> Loan Management
       </h1>
       
       <div class="stats-container">
         <div class="stat-card">
-          <div class="stat-title"><i class="fas fa-arrow-up"></i> Total Given</div>
+          <div class="stat-title"><i class="fas fa-arrow-up"></i> <span data-translate="Total Given">Total Given</span></div>
           <div class="stat-value" id="totalGiven">₹ 0</div>
           <div class="stat-trend trend-negative" id="givenTrend">
             <i class="fas fa-arrow-up"></i> 0% from last month
@@ -1128,7 +1280,7 @@
         </div>
 
         <div class="stat-card warning">
-          <div class="stat-title"><i class="fas fa-arrow-down"></i> Total Taken</div>
+          <div class="stat-title"><i class="fas fa-arrow-down"></i> <span data-translate="Total Taken">Total Taken</span></div>
           <div class="stat-value" id="totalTaken">₹ 0</div>
           <div class="stat-trend trend-positive" id="takenTrend">
             <i class="fas fa-arrow-down"></i> 0% from last month
@@ -1136,7 +1288,7 @@
         </div>
 
         <div class="stat-card danger">
-          <div class="stat-title"><i class="fas fa-balance-scale"></i> Net Balance</div>
+          <div class="stat-title"><i class="fas fa-balance-scale"></i> <span data-translate="Net Balance">Net Balance</span></div>
           <div class="stat-value" id="netBalance">₹ 0</div>
           <div class="stat-trend trend-positive" id="balanceTrend">
             <i class="fas fa-arrow-up"></i> 0% from last month
@@ -1147,98 +1299,98 @@
     
     <div class="filters">
       <div class="filter-group">
-        <span class="filter-label">Filter by:</span>
+        <span class="filter-label" data-translate="Filter by:">Filter by:</span>
         <select class="filter-select" id="typeFilter">
-          <option value="all">All Loans</option>
-          <option value="given">Given Loans</option>
-          <option value="taken">Taken Loans</option>
+          <option value="all" data-translate="All Loans">All Loans</option>
+          <option value="given" data-translate="Given Loans">Given Loans</option>
+          <option value="taken" data-translate="Taken Loans">Taken Loans</option>
         </select>
         
         <select class="filter-select" id="statusFilter">
-          <option value="all">All Status</option>
-          <option value="active">Active Loans</option>
-          <option value="closed">Closed Loans</option>
-          <option value="overdue">Overdue Loans</option>
+          <option value="all" data-translate="All Status">All Status</option>
+          <option value="active" data-translate="Active Loans">Active Loans</option>
+          <option value="closed" data-translate="Closed Loans">Closed Loans</option>
+          <option value="overdue" data-translate="Overdue Loans">Overdue Loans</option>
         </select>
         
         <button class="filter-btn" id="applyFilters">
-          <i class="fas fa-filter"></i> Apply
+          <i class="fas fa-filter"></i> <span data-translate="Apply">Apply</span>
         </button>
       </div>
       
       <div class="search-box">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" id="searchInput" placeholder="Search by name or note...">
+        <input type="text" id="searchInput" placeholder="Search by name or note..." data-placeholder="Search by name or note...">
       </div>
     </div>
     
     <div class="content-grid">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title"><i class="fas fa-plus-circle"></i> Add New Loan</h2>
+          <h2 class="card-title"><i class="fas fa-plus-circle"></i> <span data-translate="Add New Loan">Add New Loan</span></h2>
         </div>
         
         <form class="loan-form" id="loanForm">
           <div class="form-row">
             <div class="form-group">
-              <label for="loanName"><i class="fas fa-user"></i> Person/Shop Name</label>
+              <label for="loanName"><i class="fas fa-user"></i> <span data-translate="Person/Shop Name">Person/Shop Name</span></label>
               <input type="text" id="loanName" placeholder="Enter name" required>
             </div>
             
             <div class="form-group">
-              <label for="loanAmount"><i class="fas fa-rupee-sign"></i> Amount</label>
+              <label for="loanAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Amount">Amount</span></label>
               <input type="number" id="loanAmount" placeholder="Enter amount" required>
             </div>
           </div>
           
           <div class="form-row">
             <div class="form-group">
-              <label for="loanType"><i class="fas fa-exchange-alt"></i> Loan Type</label>
+              <label for="loanType"><i class="fas fa-exchange-alt"></i> <span data-translate="Loan Type">Loan Type</span></label>
               <select id="loanType">
-                <option value="given">Given (You lent money)</option>
-                <option value="taken">Taken (You borrowed money)</option>
+                <option value="given" data-translate="Given (You lent money)">Given (You lent money)</option>
+                <option value="taken" data-translate="Taken (You borrowed money)">Taken (You borrowed money)</option>
               </select>
             </div>
             
             <div class="form-group">
-              <label for="loanDate"><i class="fas fa-calendar"></i> Date</label>
+              <label for="loanDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
               <input type="date" id="loanDate" value="2023-10-15">
             </div>
           </div>
           
           <div class="form-row">
             <div class="form-group">
-              <label for="dueDate"><i class="fas fa-calendar-check"></i> Due Date</label>
+              <label for="dueDate"><i class="fas fa-calendar-check"></i> <span data-translate="Due Date">Due Date</span></label>
               <input type="date" id="dueDate">
             </div>
             
             <div class="form-group">
-              <label for="loanStatus"><i class="fas fa-info-circle"></i> Status</label>
+              <label for="loanStatus"><i class="fas fa-info-circle"></i> <span data-translate="Status">Status</span></label>
               <select id="loanStatus">
-                <option value="active">Active</option>
-                <option value="closed">Closed</option>
-                <option value="overdue">Overdue</option>
+                <option value="active" data-translate="Active">Active</option>
+                <option value="closed" data-translate="Closed">Closed</option>
+                <option value="overdue" data-translate="Overdue">Overdue</option>
               </select>
             </div>
           </div>
           
           <div class="form-group">
-            <label for="loanNote"><i class="fas fa-sticky-note"></i> Note (Optional)</label>
+            <label for="loanNote"><i class="fas fa-sticky-note"></i> <span data-translate="Note (Optional)">Note (Optional)</span></label>
             <textarea id="loanNote" placeholder="Add any details about this loan..." rows="3"></textarea>
           </div>
           
           <button type="button" id="addLoanBtn">
-            <i class="fas fa-plus"></i> Add Loan
+            <i class="fas fa-plus"></i> <span data-translate="Add Loan">Add Loan</span>
           </button>
         </form>
       </div>
       
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title"><i class="fas fa-list"></i> Loan Records</h2>
+          <h2 class="card-title"><i class="fas fa-list"></i> <span data-translate="Loan Records">Loan Records</span></h2>
           <div class="table-actions">
             <button class="filter-btn" id="exportPdfBtn">
-              <i class="fas fa-file-pdf"></i> Export PDF
+              <i class="fas fa-file-pdf"></i> <span data-translate="Export PDF">Export PDF</span>
             </button>
           </div>
         </div>
@@ -1247,14 +1399,14 @@
           <table id="loansTable">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Due Date</th>
-                <th>Status</th>
-                <th>Note</th>
-                <th>Actions</th>
+                <th data-translate="Name">Name</th>
+                <th data-translate="Amount">Amount</th>
+                <th data-translate="Type">Type</th>
+                <th data-translate="Date">Date</th>
+                <th data-translate="Due Date">Due Date</th>
+                <th data-translate="Status">Status</th>
+                <th data-translate="Note">Note</th>
+                <th data-translate="Actions">Actions</th>
               </tr>
             </thead>
             <tbody id="loansTableBody">
@@ -1286,7 +1438,7 @@
   <div class="modal" id="loanModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Add New Loan</h3>
+        <h3 class="modal-title" data-translate="Add New Loan">Add New Loan</h3>
         <button class="close-modal" id="closeModal">&times;</button>
       </div>
       <div class="modal-body">
@@ -1302,33 +1454,33 @@
     <div class="whatsapp-modal-content">
       <div class="whatsapp-modal-header">
         <h3 class="whatsapp-modal-title">
-          <i class="fab fa-whatsapp" style="color: #25D366;"></i> Send WhatsApp Reminder
+          <i class="fab fa-whatsapp" style="color: #25D366;"></i> <span data-translate="Send WhatsApp Reminder">Send WhatsApp Reminder</span>
         </h3>
         <button class="whatsapp-modal-close" id="closeWhatsappModal">&times;</button>
       </div>
       <div class="whatsapp-modal-body">
-        <p>This message will be sent to the borrower/lender:</p>
+        <p data-translate="This message will be sent to the borrower/lender:">This message will be sent to the borrower/lender:</p>
         <textarea id="whatsappMessage" placeholder="Customize your message..."></textarea>
-        <p><small>Note: You'll need to select the contact manually in WhatsApp</small></p>
+        <p><small data-translate="Note: You'll need to select the contact manually in WhatsApp">Note: You'll need to select the contact manually in WhatsApp</small></p>
       </div>
       <div class="whatsapp-modal-footer">
-        <button class="cancel-btn" id="cancelWhatsapp">Cancel</button>
+        <button class="cancel-btn" id="cancelWhatsapp" data-translate="Cancel">Cancel</button>
         <button class="whatsapp-btn" id="sendWhatsapp">
-          <i class="fab fa-whatsapp"></i> Open WhatsApp
+          <i class="fab fa-whatsapp"></i> <span data-translate="Open WhatsApp">Open WhatsApp</span>
         </button>
       </div>
     </div>
   </div>
   
   <nav class="bottom-nav">
-    <a href="dashboard.html" class="bottom-nav-link">
-      <i class="fas fa-home"></i><span>Dashboard</span>
+    <a href="profile.html" class="bottom-nav-link">
+      <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
     </a>
     <a href="loan.html" class="bottom-nav-link active">
-      <i class="fas fa-money-bill-wave"></i><span>Loan</span>
+      <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
     </a>
-    <a href="profile.html" class="bottom-nav-link">
-      <i class="fas fa-user-circle"></i><span>Profile</span>
+    <a href="dashboard.html" class="bottom-nav-link">
+      <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
     </a>
   </nav>
   
@@ -1352,6 +1504,113 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    
+    // Define translations dictionary
+    const translations = {
+      ur: {
+        "Loan Management": "قرض کا انتظام",
+        "Total Given": "کل دیا گیا",
+        "Total Taken": "کل لیا گیا",
+        "Net Balance": "خالص بیلنس",
+        "Filter by:": "فلٹر کریں:",
+        "All Loans": "تمام قرضے",
+        "Given Loans": "دیے گئے قرضے",
+        "Taken Loans": "لیے گئے قرضے",
+        "All Status": "تمام حیثیتیں",
+        "Active Loans": "فعال قرضے",
+        "Closed Loans": "مکمل قرضے",
+        "Overdue Loans": "ادائیگی میں تاخیر",
+        "Apply": "لگو کریں",
+        "Search by name or note...": "نام یا نوٹ سے تلاش کریں...",
+        "Add New Loan": "نیا قرض شامل کریں",
+        "Person/Shop Name": "شخص یا دکان کا نام",
+        "Amount": "رقم",
+        "Loan Type": "قرض کی قسم",
+        "Date": "تاریخ",
+        "Due Date": "واجب الادا تاریخ",
+        "Status": "حیثیت",
+        "Note (Optional)": "نوٹ (اختیاری)",
+        "Add Loan": "قرض شامل کریں",
+        "Loan Records": "قرض کا ریکارڈ",
+        "Export PDF": "پی ڈی ایف برآمد کریں",
+        "Name": "نام",
+        "Type": "قسم",
+        "Due Date": "واجب الادا تاریخ",
+        "Note": "نوٹ",
+        "Actions": "اعمال",
+        "No Loans Found": "کوئی قرض نہیں ملا",
+        "Try adjusting your search or add a new loan": "تلاش کو تبدیل کریں یا نیا قرض شامل کریں",
+        "Send WhatsApp Reminder": "واٹس ایپ یاددہانی بھیجیں",
+        "This message will be sent to the borrower/lender:": "یہ پیغام قرض لینے والے/قرض دینے والے کو بھیجا جائے گا:",
+        "Note: You'll need to select the contact manually in WhatsApp": "نوٹ: آپ کو رابطہ دستی طور پر واٹس ایپ میں منتخب کرنا ہوگا",
+        "Cancel": "منسوخ کریں",
+        "Open WhatsApp": "واٹس ایپ کھولیں",
+        "Dashboard": "ڈیش بورڈ",
+        "Loan": "قرض",
+        "Profile": "پروفائل",
+        "Active": "فعال",
+        "Closed": "مکمل",
+        "Overdue": "ادائیگی میں تاخیر",
+        "Given (You lent money)": "دیے گئے (آپ نے رقم قرض دی)",
+        "Taken (You borrowed money)": "لیے گئے (آپ نے رقم قرض لی)"
+      }
+    };
+
+    // Function to translate the page
+    function translatePage(lang) {
+      const dict = translations[lang];
+      if (!dict) return;
+
+      // Translate elements with data-translate attribute
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (dict[key]) {
+          el.innerHTML = dict[key];
+        }
+      });
+
+      // Translate placeholders
+      document.querySelectorAll('[data-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-placeholder');
+        if (dict[key]) {
+          el.setAttribute('placeholder', dict[key]);
+        }
+      });
+    }
+
+    // Function to apply user settings
+    function applySettings(settings) {
+      // Apply dark mode
+      if (settings.darkMode) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+
+      // Apply language
+      document.body.classList.remove('urdu-mode');
+      if (settings.language === 'ur') {
+        document.body.classList.add('urdu-mode');
+        translatePage('ur');
+      }
+    }
+
+   function fetchUserSettings(userId) {
+  return db.collection("users").doc(userId).get().then(doc => {
+    if (doc.exists) {
+      const data = doc.data();
+      return data.settings || { darkMode: false, language: 'en' }; // fallback
+    } else {
+      // Create user doc with default settings
+      const defaultSettings = { darkMode: false, language: 'en' };
+      return db.collection("users").doc(userId).set({ settings: defaultSettings }).then(() => defaultSettings);
+    }
+  }).catch(error => {
+    console.error("Error getting settings:", error);
+    return { darkMode: false, language: 'en' };
+  });
+}
+
 
     let loans = [];
     let editingLoanId = null;
@@ -1415,8 +1674,8 @@
           <tr><td colspan="8">
             <div class="empty-state">
               <i class="fas fa-file-invoice-dollar"></i>
-              <h3>No Loans Found</h3>
-              <p>Try adjusting your search or add a new loan</p>
+              <h3 data-translate="No Loans Found">No Loans Found</h3>
+              <p data-translate="Try adjusting your search or add a new loan">Try adjusting your search or add a new loan</p>
             </div>
           </td></tr>`;
         return;
@@ -1462,8 +1721,8 @@
         mobileLoanList.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-file-invoice-dollar"></i>
-            <h3>No Loans Found</h3>
-            <p>Try adjusting your search or add a new loan</p>
+            <h3 data-translate="No Loans Found">No Loans Found</h3>
+            <p data-translate="Try adjusting your search or add a new loan">Try adjusting your search or add a new loan</p>
           </div>`;
         return;
       }
@@ -1478,19 +1737,19 @@
           </div>
           <div class="loan-details">
             <div>
-              <span class="detail-label">Type:</span>
+              <span class="detail-label" data-translate="Type:">Type:</span>
               <span class="loan-type ${loan.type === 'given' ? 'type-given-bg' : 'type-taken-bg'}">
                 ${loan.type === 'given' ? 'Given' : 'Taken'}
               </span>
             </div>
             <div>
-              <span class="detail-label">Date:</span> ${formatDate(loan.date)}
+              <span class="detail-label" data-translate="Date:">Date:</span> ${formatDate(loan.date)}
             </div>
             <div>
-              <span class="detail-label">Due:</span> ${loan.dueDate ? formatDate(loan.dueDate) : '-'}
+              <span class="detail-label" data-translate="Due:">Due:</span> ${loan.dueDate ? formatDate(loan.dueDate) : '-'}
             </div>
             <div>
-              <span class="detail-label">Status:</span> ${getStatusBadge(loan.status)}
+              <span class="detail-label" data-translate="Status:">Status:</span> ${getStatusBadge(loan.status)}
             </div>
           </div>
           <div class="loan-actions">
@@ -1764,7 +2023,20 @@
       // Check auth state
       auth.onAuthStateChanged(user => {
         if (user) {
-          fetchLoans();
+          // First fetch user settings
+          fetchUserSettings(user.uid)
+            .then(settings => {
+              // Apply settings to the page
+              applySettings(settings);
+              // Then fetch loans
+              fetchLoans();
+            })
+            .catch(error => {
+              console.error("Error loading settings:", error);
+              // Proceed with default settings
+              applySettings({ darkMode: false, language: 'en' });
+              fetchLoans();
+            });
         } else {
           alert("Please log in to access your loans.");
           window.location.href = "login.html";
