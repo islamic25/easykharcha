@@ -746,8 +746,19 @@
             transform: scale(0.97);
             opacity: 0.9;
         }
-        input, button, label {
-  touch-action: manipulation;
+        .loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+}
+
+.loading-overlay.fade-out {
+  opacity: 0;
 }
 
     </style>
@@ -1095,92 +1106,117 @@
                 remindersOff: "یاددہانیاں غیر فعال ہو گئیں"
             }
         };
+        function initializeUI() {
+    fullNameInput.value = userData.fullName || "User";
+    userEmail.textContent = userData.email || "Not set";
+    userPhone.textContent = userData.phoneNumber || "Not provided";
+    profileImage.src = userData.profileImage;
 
-        // Authentication state change handler
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const uid = user.uid;
-                const docRef = db.collection("users").doc(uid);
-                const doc = await docRef.get();
-                
-                if (doc.exists) {
-                    userData = doc.data();
-                    userData.uid = uid;
+    // Apply toggle states
+    darkModeToggle.checked = userData.settings.darkMode;
+    securityLockToggle.checked = userData.settings.securityLock;
+    reminderToggle.checked = userData.settings.reminders;
 
-                    // Set defaults if missing
-                    userData.fullName ||= user.displayName || "User";
-                    userData.email ||= user.email;
-                    userData.phoneNumber ||= "Not provided";
-                    userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
-                    userData.settings ||= {
+    // Language display
+    currentLanguage.textContent = 
+        userData.settings.language === 'ur' ? "اردو (Urdu)" : "English";
+
+    // Mobile-specific bindings
+    initMobileEvents();
+}
+async function applySettings() {
+    const lang = userData.settings.language || 'en';
+
+    // Apply translations
+    applyLanguage(lang);
+    currentLanguage.textContent = 
+        lang === 'ur' ? "اردو (Urdu)" : "English";
+
+    // Apply dark mode visually
+    document.body.classList.toggle('dark-mode', userData.settings.darkMode);
+
+    // Save updated settings to Firestore
+    try {
+        await db.collection("users").doc(userData.uid).update({
+            settings: userData.settings
+        });
+    } catch (e) {
+        console.error("Failed to save settings:", e);
+    }
+}
+
+auth.onAuthStateChanged(async (user) => {
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const container = document.querySelector('.container');
+
+    try {
+        if (user) {
+            const uid = user.uid;
+            const docRef = db.collection("users").doc(uid);
+            let doc = await docRef.get();
+
+            // ✅ Create default document if missing
+            if (!doc.exists) {
+                const defaultData = {
+                    fullName: user.displayName || "User",
+                    email: user.email,
+                    phoneNumber: user.phoneNumber || "Not provided",
+                    profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
+                    settings: {
                         darkMode: false,
                         language: 'en',
                         securityLock: false,
                         reminders: true
-                    };
-                    
-                    savedPIN = userData.pin || null;
-
-                    // Apply early dark mode
-                    if (userData.settings.darkMode) {
-                        document.body.classList.add('dark-mode');
                     }
+                };
 
-                    initializeUI();
-                    await applySettings();
-
-                    // Hide loader
-                    setTimeout(() => {
-                        document.getElementById('loadingOverlay').style.opacity = '0';
-                        setTimeout(() => {
-                            document.getElementById('loadingOverlay').style.display = 'none';
-                            document.querySelector('.container').classList.add('loaded');
-                        }, 300);
-                    }, 500);
-                } else {
-                    console.error("User document not found!");
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                }
-            } else {
-                window.location.href = "login.html";
+                await docRef.set(defaultData);
+                doc = await docRef.get(); // fetch again
             }
-        });
 
-        // Initialize UI
-        function initializeUI() {
-            // Set initial values
-            fullNameInput.value = userData.fullName;
-            userEmail.textContent = userData.email;
-            userPhone.textContent = userData.phoneNumber;
-            profileImage.src = userData.profileImage;
-            
-            // Apply settings
-            darkModeToggle.checked = userData.settings.darkMode;
-            securityLockToggle.checked = userData.settings.securityLock;
-            reminderToggle.checked = userData.settings.reminders;
-            applySettings();
-        }
+            userData = doc.data();
+            userData.uid = uid;
 
-        async function applySettings() {
-            const lang = userData.settings.language;
+            // Set defaults if missing
+            userData.fullName ||= user.displayName || "User";
+            userData.email ||= user.email;
+            userData.phoneNumber ||= "Not provided";
+            userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
+            userData.settings ||= {
+                darkMode: false,
+                language: 'en',
+                securityLock: false,
+                reminders: true
+            };
 
-            // Apply to UI
-            applyLanguage(lang);
-            currentLanguage.textContent = lang === 'en' ? 'English' : 'اردو (Urdu)';
-            document.body.classList.toggle('urdu-mode', lang === 'ur');
-            document.body.classList.toggle('dark-mode', userData.settings.darkMode);
+            savedPIN = userData.pin || null;
 
-            // Save to Firestore
-            if (userData?.uid) {
-                try {
-                    await db.collection("users").doc(userData.uid).update({
-                        settings: userData.settings
-                    });
-                } catch (e) {
-                    console.error("Failed to save settings to Firestore:", e);
-                }
+            // Dark mode before load
+            if (userData.settings.darkMode) {
+                document.body.classList.add('dark-mode');
             }
+
+            initializeUI();
+            await applySettings();
+
+            // ✅ Fade out loader after success
+            loadingOverlay.classList.add('fade-out');
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                container.classList.add('loaded');
+            }, 600);
+
+        } else {
+            window.location.href = "login.html";
         }
+    } catch (error) {
+        console.error("Auth load error:", error);
+
+        // 🛑 Show message or fallback if something fails
+        loadingOverlay.innerHTML = `<div style="color:red;">Failed to load profile. Please refresh.</div>`;
+    }
+});
+
 
         // Apply language translations
         function applyLanguage(lang) {
@@ -1309,45 +1345,44 @@
                 reader.readAsDataURL(file);
             });
 
-           darkModeToggle.addEventListener('change', function() {
-    userData.settings.darkMode = this.checked;
-    document.body.classList.toggle('dark-mode', this.checked);
-    showToast(this.checked ? 
-        translations[userData.settings.language].darkModeOn : 
-        translations[userData.settings.language].darkModeOff
-    );
-    applySettings(); // ✅ This saves to Firestore
-});
+            // Dark mode toggle
+            darkModeToggle.addEventListener('change', function() {
+                userData.settings.darkMode = this.checked;
+                document.body.classList.toggle('dark-mode', this.checked);
+                showToast(this.checked ? 
+                    translations[userData.settings.language].darkModeOn : 
+                    translations[userData.settings.language].darkModeOff
+                );
+            });
 
+            // Security lock toggle
+            securityLockToggle.addEventListener('change', function() {
+                userData.settings.securityLock = this.checked;
 
-           securityLockToggle.addEventListener('change', function() {
-    userData.settings.securityLock = this.checked;
+                if (this.checked) {
+                    // Prompt to set a PIN
+                    openPinModal(true);
+                } else {
+                    db.collection("users").doc(userData.uid).update({
+                        settings: {
+                            ...userData.settings,
+                            securityLock: false
+                        },
+                        pin: firebase.firestore.FieldValue.delete()
+                    });
+                    savedPIN = null;
+                    showToast(translations[userData.settings.language].securityOff);
+                }
+            });
 
-    if (this.checked) {
-        openPinModal(true);
-    } else {
-        db.collection("users").doc(userData.uid).update({
-            settings: {
-                ...userData.settings,
-                securityLock: false
-            },
-            pin: firebase.firestore.FieldValue.delete()
-        });
-        savedPIN = null;
-        showToast(translations[userData.settings.language].securityOff);
-        applySettings(); // ✅ Save changes
-    }
-});
-
-
-           reminderToggle.addEventListener('change', function() {
-    userData.settings.reminders = this.checked;
-    showToast(this.checked ? 
-        translations[userData.settings.language].remindersOn : 
-        translations[userData.settings.language].remindersOff
-    );
-    applySettings(); // ✅ Save to Firestore
-});
+            // Reminder toggle
+            reminderToggle.addEventListener('change', function() {
+                userData.settings.reminders = this.checked;
+                showToast(this.checked ? 
+                    translations[userData.settings.language].remindersOn : 
+                    translations[userData.settings.language].remindersOff
+                );
+            });
 
             // Language selector
             addMobileEvent(languageSelector, () => {
@@ -1366,8 +1401,6 @@
 
             addMobileEvent(closeLanguageModal, () => {
                 languageModal.classList.remove('active');
-                const closeLanguageModal = document.getElementById('closeLanguageModal');
-
             });
 
             addMobileEvent(cancelDeleteBtn, () => {
