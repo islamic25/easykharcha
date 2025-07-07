@@ -746,6 +746,10 @@
             transform: scale(0.97);
             opacity: 0.9;
         }
+        input, button, label {
+  touch-action: manipulation;
+}
+
     </style>
 </head>
 <body>
@@ -1305,44 +1309,45 @@
                 reader.readAsDataURL(file);
             });
 
-            // Dark mode toggle
-            darkModeToggle.addEventListener('change', function() {
-                userData.settings.darkMode = this.checked;
-                document.body.classList.toggle('dark-mode', this.checked);
-                showToast(this.checked ? 
-                    translations[userData.settings.language].darkModeOn : 
-                    translations[userData.settings.language].darkModeOff
-                );
-            });
+           darkModeToggle.addEventListener('change', function() {
+    userData.settings.darkMode = this.checked;
+    document.body.classList.toggle('dark-mode', this.checked);
+    showToast(this.checked ? 
+        translations[userData.settings.language].darkModeOn : 
+        translations[userData.settings.language].darkModeOff
+    );
+    applySettings(); // ✅ This saves to Firestore
+});
 
-            // Security lock toggle
-            securityLockToggle.addEventListener('change', function() {
-                userData.settings.securityLock = this.checked;
 
-                if (this.checked) {
-                    // Prompt to set a PIN
-                    openPinModal(true);
-                } else {
-                    db.collection("users").doc(userData.uid).update({
-                        settings: {
-                            ...userData.settings,
-                            securityLock: false
-                        },
-                        pin: firebase.firestore.FieldValue.delete()
-                    });
-                    savedPIN = null;
-                    showToast(translations[userData.settings.language].securityOff);
-                }
-            });
+           securityLockToggle.addEventListener('change', function() {
+    userData.settings.securityLock = this.checked;
 
-            // Reminder toggle
-            reminderToggle.addEventListener('change', function() {
-                userData.settings.reminders = this.checked;
-                showToast(this.checked ? 
-                    translations[userData.settings.language].remindersOn : 
-                    translations[userData.settings.language].remindersOff
-                );
-            });
+    if (this.checked) {
+        openPinModal(true);
+    } else {
+        db.collection("users").doc(userData.uid).update({
+            settings: {
+                ...userData.settings,
+                securityLock: false
+            },
+            pin: firebase.firestore.FieldValue.delete()
+        });
+        savedPIN = null;
+        showToast(translations[userData.settings.language].securityOff);
+        applySettings(); // ✅ Save changes
+    }
+});
+
+
+           reminderToggle.addEventListener('change', function() {
+    userData.settings.reminders = this.checked;
+    showToast(this.checked ? 
+        translations[userData.settings.language].remindersOn : 
+        translations[userData.settings.language].remindersOff
+    );
+    applySettings(); // ✅ Save to Firestore
+});
 
             // Language selector
             addMobileEvent(languageSelector, () => {
@@ -1361,6 +1366,8 @@
 
             addMobileEvent(closeLanguageModal, () => {
                 languageModal.classList.remove('active');
+                const closeLanguageModal = document.getElementById('closeLanguageModal');
+
             });
 
             addMobileEvent(cancelDeleteBtn, () => {
@@ -1446,11 +1453,5 @@
             initMobileEvents();
         });
     </script>
-    <script>
-    window.addEventListener("load", function() {
-        document.querySelector(".container").classList.add("loaded");
-        document.getElementById("loadingOverlay").style.display = "none";
-    });
-            </script>
 </body>
 </html>
