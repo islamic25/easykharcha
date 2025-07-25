@@ -12,111 +12,13 @@
         * {
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation;
         }
         
-        /* Touch-friendly toggle switches */
-        @media (max-width: 768px) {
-            .toggle-switch {
-                width: 60px !important;
-                height: 34px !important;
-            }
-            
-            .slider:before {
-                width: 26px !important;
-                height: 26px !important;
-                bottom: 4px !important;
-            }
-            
-            input:checked + .slider:before {
-                transform: translateX(26px) !important;
-            }
-            
-            .setting-item {
-                padding: 22px 24px !important;
-            }
-            
-            .editable-field {
-                max-width: 100% !important;
-                padding: 0 20px;
-            }
-        }
-        
-        /* Bottom Navigation - Mobile Advanced */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
-            border-top: 1px solid #eee;
-            z-index: 999;
-            height: 60px;
-        }
-
-        .bottom-nav-link {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            color: #666;
-            font-size: 12px;
-            padding: 6px 0;
-            transition: color 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .bottom-nav-link i {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-        .bottom-nav-link span {
-            font-size: 11px;
-            line-height: 1;
-        }
-
-        .bottom-nav-link.active {
-            color: #007bff;
-            font-weight: 600;
-        }
-
-        .bottom-nav-link.active i {
-            color: #007bff;
-        }
-
-        /* Optional: add animation when changing tab */
-        .bottom-nav-link:active {
-            transform: scale(0.95);
-        }
-
-        /* Dark mode support */
-        body.dark-mode .bottom-nav {
-            background-color: #222;
-            border-top-color: #333;
-        }
-
-        body.dark-mode .bottom-nav-link {
-            color: #ccc;
-        }
-
-        body.dark-mode .bottom-nav-link.active {
-            color: #4da6ff;
-        }
-
-        body.dark-mode .bottom-nav-link.active i {
-            color: #4da6ff;
-        }
-
-        body.urdu-mode {
-            font-family: 'Noto Nastaliq Urdu', serif;
-            direction: rtl;
-        }
-
+        /* Base Styles */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -127,85 +29,95 @@
             --success: #06d6a0;
             --danger: #ef476f;
             --warning: #ffd166;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            touch-action: manipulation;
+            --surface: #ffffff;
+            --surface-dark: #1e1e1e;
+            --border: #eaeaea;
+            --border-dark: #333;
+            --text-primary: #222;
+            --text-secondary: #666;
+            --text-primary-dark: #f0f0f0;
+            --text-secondary-dark: #aaa;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f0f2f5;
+            background-color: #f5f7fa;
             color: var(--dark);
             line-height: 1.6;
             padding: 0;
             margin: 0;
             min-height: 100vh;
             padding-bottom: 80px;
+            transition: background-color 0.3s ease;
         }
 
+        /* Improved Container */
         .container {
             max-width: 100%;
             padding: 0 16px;
+            padding-top: 0;
         }
 
-        /* Header Styles */
+        /* Enhanced Header */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 20px 16px;
+            padding: 18px 16px;
             text-align: center;
             position: relative;
-            border-radius: 0 0 20px 20px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 24px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .header h1 {
             font-weight: 600;
-            font-size: 1.5rem;
-            margin-bottom: 24px;
+            font-size: 1.4rem;
+            margin-bottom: 0;
+            letter-spacing: 0.5px;
         }
 
-        /* Profile Card */
+        /* Improved Profile Card */
         .profile-card {
-            background: white;
+            background: var(--surface);
             border-radius: 20px;
-            padding: 24px;
+            padding: 20px;
             box-shadow: var(--card-shadow);
             margin-bottom: 24px;
             text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
         }
 
         .profile-img-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .profile-img {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid white;
+            border: 4px solid white;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
         }
 
         .upload-btn {
             position: absolute;
-            bottom: 10px;
+            bottom: 5px;
             right: 0;
             background: var(--primary);
             color: white;
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -214,6 +126,7 @@
             border: 2px solid white;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: var(--transition);
+            z-index: 2;
         }
 
         .upload-btn:hover {
@@ -222,33 +135,36 @@
         }
 
         .profile-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+            color: var(--text-primary);
         }
 
         .profile-email {
-            color: var(--gray);
-            margin-bottom: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            font-size: 0.9rem;
         }
 
-        /* Settings Section */
+        /* Enhanced Settings Section */
         .settings-section {
-            background: white;
-            border-radius: 20px;
+            background: var(--surface);
+            border-radius: 18px;
             padding: 0;
             box-shadow: var(--card-shadow);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .section-title {
-            padding: 18px 24px;
-            font-size: 1.1rem;
+            padding: 16px 20px;
+            font-size: 1.05rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-primary);
             background-color: #f8f9fa;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
         }
 
         .settings-list {
@@ -259,10 +175,11 @@
         .setting-item {
             display: flex;
             align-items: center;
-            padding: 18px 24px;
-            border-bottom: 1px solid #eee;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
             transition: var(--transition);
             cursor: pointer;
+            min-height: 64px;
         }
 
         .setting-item:last-child {
@@ -281,62 +198,93 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 16px;
+            margin-right: 14px;
             color: var(--primary);
             font-size: 18px;
+            flex-shrink: 0;
         }
 
         .setting-content {
             flex: 1;
+            min-width: 0;
         }
 
         .setting-title {
             font-weight: 500;
             margin-bottom: 4px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
         }
 
         .setting-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .setting-action {
             color: var(--gray);
-            font-size: 20px;
+            font-size: 18px;
+            margin-left: 8px;
+            flex-shrink: 0;
         }
 
-        /* Bottom Navigation */
+        /* Enhanced Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
-            right: 0;
-            background: white;
+            width: 100%;
+            background-color: var(--surface);
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-            z-index: 100;
+            align-items: center;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+            border-top: 1px solid var(--border);
+            z-index: 999;
+            height: 70px;
+            padding: 0 8px;
         }
 
-        .nav-item {
+        .bottom-nav-link {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 12px;
+            padding: 8px 0;
+            transition: color 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--gray);
-            font-size: 0.8rem;
-            transition: var(--transition);
-            cursor: pointer;
-            padding: 0 15px;
+            min-height: 60px;
+            justify-content: center;
+            border-radius: 12px;
+            margin: 0 4px;
         }
 
-        .nav-item.active {
-            color: var(--primary);
-        }
-
-        .nav-icon {
-            font-size: 1.4rem;
+        .bottom-nav-link i {
+            font-size: 20px;
             margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-nav-link span {
+            font-size: 11px;
+            line-height: 1;
+            font-weight: 500;
+        }
+
+        .bottom-nav-link.active {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .bottom-nav-link.active i {
+            color: var(--primary);
+            transform: translateY(-2px);
         }
 
         /* Editable Fields */
@@ -358,7 +306,8 @@
             padding: 5px;
             border-bottom: 1px dashed #ccc;
             text-align: center;
-            font-size: 16px; /* Prevent mobile zoom */
+            font-size: 16px;
+            color: var(--text-primary);
         }
 
         .editable-input:focus {
@@ -371,18 +320,20 @@
             cursor: pointer;
             opacity: 0.7;
             transition: var(--transition);
+            font-size: 18px;
+            padding: 8px;
         }
 
         .edit-icon:hover {
             opacity: 1;
         }
 
-        /* Toggle Switch */
+        /* Toggle Switch - Enhanced */
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
+            width: 52px;
+            height: 26px;
         }
 
         .toggle-switch input {
@@ -406,13 +357,14 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         input:checked + .slider {
@@ -423,33 +375,40 @@
             transform: translateX(26px);
         }
 
-        /* Action Buttons */
+        /* Action Buttons - Enhanced */
         .action-buttons {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .btn {
             flex: 1;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 14px;
             font-weight: 500;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
             border: none;
             font-family: 'Poppins', sans-serif;
-            min-height: 44px; /* Minimum touch target size */
+            min-height: 48px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary {
             background: var(--primary);
             color: white;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
         }
 
         .btn-primary:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         .btn-outline {
@@ -460,18 +419,21 @@
 
         .btn-outline:hover {
             background: rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
         }
 
         .btn-danger {
             background: var(--danger);
             color: white;
+            box-shadow: 0 4px 10px rgba(239, 71, 111, 0.25);
         }
 
         .btn-danger:hover {
             background: #d93b5f;
+            transform: translateY(-2px);
         }
 
-        /* Modal Styles */
+        /* Modal Styles - Enhanced */
         .modal {
             display: none;
             position: fixed;
@@ -491,20 +453,21 @@
         }
 
         .modal-content {
-            background: white;
+            background: var(--surface);
             border-radius: 20px;
             width: 90%;
             max-width: 400px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             position: relative;
             animation: modalIn 0.3s ease-out;
+            border: 1px solid var(--border);
         }
 
         @keyframes modalIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -516,53 +479,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
         }
 
         .modal-title {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-primary);
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             cursor: pointer;
-            color: var(--gray);
+            color: var(--text-secondary);
             transition: var(--transition);
             min-width: 44px;
             min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
         }
 
         .close-btn:hover {
-            color: var(--dark);
+            color: var(--primary);
+            background: rgba(0,0,0,0.05);
         }
 
         .modal-body {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            padding: 10px 0;
         }
 
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
         }
 
         /* Language Modal */
         .language-option {
             display: flex;
             align-items: center;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 14px 16px;
+            border-radius: 14px;
             margin-bottom: 10px;
             cursor: pointer;
             transition: var(--transition);
-            border: 1px solid #eee;
+            border: 1px solid var(--border);
         }
 
         .language-option:hover {
@@ -585,10 +555,12 @@
             margin-right: 15px;
             background: #f0f2f5;
             font-size: 1.2rem;
+            flex-shrink: 0;
         }
 
         .language-name {
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         /* Responsive Design */
@@ -599,16 +571,16 @@
             }
             
             .header {
-                padding: 30px 16px;
+                padding: 22px 16px;
             }
             
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
             .profile-img {
-                width: 140px;
-                height: 140px;
+                width: 120px;
+                height: 120px;
             }
         }
 
@@ -616,13 +588,18 @@
         body.dark-mode {
             background-color: #121212;
             color: #e0e0e0;
+            --surface: var(--surface-dark);
+            --border: var(--border-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
         }
 
         body.dark-mode .profile-card,
         body.dark-mode .settings-section,
-        body.dark-mode .bottom-nav {
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        body.dark-mode .bottom-nav,
+        body.dark-mode .modal-content {
+            background-color: var(--surface-dark);
+            border-color: #333;
         }
 
         body.dark-mode .section-title {
@@ -639,20 +616,12 @@
         }
 
         body.dark-mode .setting-desc {
-            color: #9e9e9e;
+            color: var(--text-secondary-dark);
         }
 
         body.dark-mode .editable-input {
-            color: #e0e0e0;
+            color: var(--text-primary-dark);
             border-bottom: 1px dashed #555;
-        }
-
-        body.dark-mode .modal-content {
-            background: #252525;
-        }
-
-        body.dark-mode .modal-title {
-            color: #e0e0e0;
         }
 
         body.dark-mode .language-option {
@@ -674,23 +643,26 @@
         /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 80px;
+            bottom: 90px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--dark);
             color: white;
-            padding: 12px 24px;
+            padding: 14px 26px;
             border-radius: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
             z-index: 200;
             opacity: 0;
             transition: opacity 0.3s ease;
             font-size: 0.9rem;
+            max-width: 90%;
+            text-align: center;
         }
 
         .toast.show {
             opacity: 1;
         }
+        
         .loading-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -722,8 +694,8 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 6px solid #eee;
-            border-top: 6px solid var(--primary);
+            border: 5px solid #eee;
+            border-top: 5px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -733,10 +705,12 @@
                 transform: rotate(360deg);
             }
         }
+        
         .container {
             opacity: 0;
             transition: opacity 0.3s ease;
         }
+        
         .container.loaded {
             opacity: 1;
         }
@@ -746,24 +720,123 @@
             transform: scale(0.97);
             opacity: 0.9;
         }
+        
+        .btn-mining {
+            background: linear-gradient(135deg, #004225, #006b3a);
+            color: white;
+            border-radius: 14px;
+            padding: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 66, 37, 0.25);
+            transition: all 0.3s ease;
+            border: none;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .btn-mining:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 66, 37, 0.3);
+        }
+        
+        .btn-mining i {
+            font-size: 1.2rem;
+        }
+        
+        /* Animation for settings */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .settings-section {
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .profile-card {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Improved PIN Input */
+        #pinInput {
+            width: 80%;
+            margin: 20px auto;
+            padding: 15px;
+            font-size: 1.8rem;
+            text-align: center;
+            border: 2px solid #eaeaea;
+            border-radius: 12px;
+            background: #f9f9f9;
+            letter-spacing: 10px;
+            font-weight: bold;
+        }
+        
+        .dark-mode #pinInput {
+            background: #252525;
+            border-color: #333;
+            color: #fff;
+        }
+        
+        /* Badge for settings */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Improved language options */
+        .language-option {
+            align-items: center;
+        }
+        
+        /* Enhanced delete modal */
+        .warning-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(239, 71, 111, 0.08);
+            border-radius: 12px;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .warning-box ul {
+            margin-top: 10px;
+            padding-left: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .warning-box li {
+            margin-bottom: 6px;
+        }
+        
+        /* Improved loading overlay */
         .loading-overlay {
-  position: fixed;
-  inset: 0;
-  background: white;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.5s ease;
-}
-
-.loading-overlay.fade-out {
-  opacity: 0;
-}
-
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+        }
+        
+        .dark-mode .loading-overlay {
+            background: rgba(18, 18, 18, 0.95);
+        }
+        
+        /* Active state for settings items */
+        .setting-item:active {
+            background: rgba(67, 97, 238, 0.08);
+        }
     </style>
 </head>
 <body>
+    
     <div class="container">
         <div class="header">
             <h1>My Profile</h1>
@@ -792,8 +865,12 @@
             <div class="profile-email" id="userEmail">john.doe@example.com</div>
             
             <div class="action-buttons">
-                <button class="btn btn-outline" id="logoutBtn">Logout</button>
-                <button class="btn btn-primary" id="saveBtn">Save Changes</button>
+                <button class="btn btn-outline" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <button class="btn btn-primary" id="saveBtn">
+                    <i class="fas fa-save"></i> Save
+                </button>
             </div>
         </div>
 
@@ -805,7 +882,7 @@
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="setting-content">
-                        <div class="setting-title">Phone Number</div>
+                        <div class="setting-title">Phone Number <span class="badge">Verified</span></div>
                         <div class="setting-desc" id="userPhone">+1 (555) 123-4567</div>
                     </div>
                     <div class="setting-action">
@@ -889,6 +966,12 @@
                 </li>
             </ul>
         </div>
+        
+        <div class="settings-section">
+            <button id="startMiningBtn" class="btn-mining">
+                <i class="fas fa-digging"></i> Start Digital Mining
+            </button>
+        </div>
 
         <div class="settings-section">
             <div class="section-title">Account Management</div>
@@ -942,7 +1025,7 @@
             </div>
             <div class="modal-body">
                 <p id="pinModalMsg">Enter your 4-digit PIN</p>
-                <input type="number" pattern="[0-9]*" inputmode="numeric" id="pinInput" maxlength="4" placeholder="****" style="font-size:1.5rem; text-align:center; padding:10px; margin:15px auto; display:block; width: 80%;">
+                <input type="number" pattern="[0-9]*" inputmode="numeric" id="pinInput" maxlength="4" placeholder="****">
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
@@ -952,14 +1035,15 @@
     </div>
     
     <nav class="bottom-nav">
+        </a>
         <a href="profile.html" class="bottom-nav-link">
-            <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
+            <i class="fas fa-user-circle"></i><span>Profile</span>
         </a>
         <a href="loan.html" class="bottom-nav-link active">
-            <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
+            <i class="fas fa-money-bill-wave"></i><span>Loan</span>
         </a>
         <a href="dashboard.html" class="bottom-nav-link">
-            <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
+            <i class="fas fa-chart-line"></i><span>Dashboard</span>
         </a>
     </nav>
 
@@ -972,9 +1056,9 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete your account? This action is irreversible and will permanently remove all your data.</p>
-                <div style="margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid var(--danger);">
-                    <p style="font-size: 0.9rem; color: var(--dark);"><i class="fas fa-exclamation-triangle" style="color: var(--danger); margin-right: 8px;"></i> This will permanently delete:</p>
-                    <ul style="margin-top: 10px; padding-left: 20px; font-size: 0.85rem;">
+                <div class="warning-box">
+                    <p><i class="fas fa-exclamation-triangle" style="color: var(--danger); margin-right: 8px;"></i> This will permanently delete:</p>
+                    <ul>
                         <li>All your expense records</li>
                         <li>Loan and debt information</li>
                         <li>Account settings and preferences</li>
@@ -1015,10 +1099,12 @@
 
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
+    
     <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <script>
         // Firebase configuration
         const firebaseConfig = {
@@ -1063,10 +1149,11 @@
         const pinModalElement = document.getElementById('pinModal');
         const pinInput = document.getElementById('pinInput');
         const pinModalMsg = document.getElementById('pinModalMsg');
+        const startMiningBtn = document.getElementById('startMiningBtn');
 
         let userData = null;
         let savedPIN = null;
-
+ 
         // Translations
         const translations = {
             en: {
@@ -1106,117 +1193,117 @@
                 remindersOff: "یاددہانیاں غیر فعال ہو گئیں"
             }
         };
+
+        // Initialize
         function initializeUI() {
-    fullNameInput.value = userData.fullName || "User";
-    userEmail.textContent = userData.email || "Not set";
-    userPhone.textContent = userData.phoneNumber || "Not provided";
-    profileImage.src = userData.profileImage;
+            fullNameInput.value = userData.fullName || "User";
+            userEmail.textContent = userData.email || "Not set";
+            userPhone.textContent = userData.phoneNumber || "Not provided";
+            profileImage.src = userData.profileImage;
 
-    // Apply toggle states
-    darkModeToggle.checked = userData.settings.darkMode;
-    securityLockToggle.checked = userData.settings.securityLock;
-    reminderToggle.checked = userData.settings.reminders;
+            // Apply toggle states
+            darkModeToggle.checked = userData.settings.darkMode;
+            securityLockToggle.checked = userData.settings.securityLock;
+            reminderToggle.checked = userData.settings.reminders;
 
-    // Language display
-    currentLanguage.textContent = 
-        userData.settings.language === 'ur' ? "اردو (Urdu)" : "English";
-
-    // Mobile-specific bindings
-    initMobileEvents();
-}
-async function applySettings() {
-    const lang = userData.settings.language || 'en';
-
-    // Apply translations
-    applyLanguage(lang);
-    currentLanguage.textContent = 
-        lang === 'ur' ? "اردو (Urdu)" : "English";
-
-    // Apply dark mode visually
-    document.body.classList.toggle('dark-mode', userData.settings.darkMode);
-
-    // Save updated settings to Firestore
-    try {
-        await db.collection("users").doc(userData.uid).update({
-            settings: userData.settings
-        });
-    } catch (e) {
-        console.error("Failed to save settings:", e);
-    }
-}
-
-auth.onAuthStateChanged(async (user) => {
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    const container = document.querySelector('.container');
-
-    try {
-        if (user) {
-            const uid = user.uid;
-            const docRef = db.collection("users").doc(uid);
-            let doc = await docRef.get();
-
-            // ✅ Create default document if missing
-            if (!doc.exists) {
-                const defaultData = {
-                    fullName: user.displayName || "User",
-                    email: user.email,
-                    phoneNumber: user.phoneNumber || "Not provided",
-                    profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
-                    settings: {
-                        darkMode: false,
-                        language: 'en',
-                        securityLock: false,
-                        reminders: true
-                    }
-                };
-
-                await docRef.set(defaultData);
-                doc = await docRef.get(); // fetch again
-            }
-
-            userData = doc.data();
-            userData.uid = uid;
-
-            // Set defaults if missing
-            userData.fullName ||= user.displayName || "User";
-            userData.email ||= user.email;
-            userData.phoneNumber ||= "Not provided";
-            userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
-            userData.settings ||= {
-                darkMode: false,
-                language: 'en',
-                securityLock: false,
-                reminders: true
-            };
-
-            savedPIN = userData.pin || null;
-
-            // Dark mode before load
-            if (userData.settings.darkMode) {
-                document.body.classList.add('dark-mode');
-            }
-
-            initializeUI();
-            await applySettings();
-
-            // ✅ Fade out loader after success
-            loadingOverlay.classList.add('fade-out');
-            setTimeout(() => {
-                loadingOverlay.style.display = 'none';
-                container.classList.add('loaded');
-            }, 600);
-
-        } else {
-            window.location.href = "login.html";
+            // Language display
+            currentLanguage.textContent = 
+                userData.settings.language === 'ur' ? "اردو (Urdu)" : "English";
         }
-    } catch (error) {
-        console.error("Auth load error:", error);
 
-        // 🛑 Show message or fallback if something fails
-        loadingOverlay.innerHTML = `<div style="color:red;">Failed to load profile. Please refresh.</div>`;
-    }
-});
+        async function applySettings() {
+            const lang = userData.settings.language || 'en';
 
+            // Apply translations
+            applyLanguage(lang);
+            currentLanguage.textContent = 
+                lang === 'ur' ? "اردو (Urdu)" : "English";
+
+            // Apply dark mode visually
+            document.body.classList.toggle('dark-mode', userData.settings.darkMode);
+
+            // Save updated settings to Firestore
+            try {
+                await db.collection("users").doc(userData.uid).update({
+                    settings: userData.settings
+                });
+            } catch (e) {
+                console.error("Failed to save settings:", e);
+            }
+        }
+
+        auth.onAuthStateChanged(async (user) => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const container = document.querySelector('.container');
+
+            try {
+                if (user) {
+                    const uid = user.uid;
+                    const docRef = db.collection("users").doc(uid);
+                    let doc = await docRef.get();
+
+                    // Create default document if missing
+                    if (!doc.exists) {
+                        const defaultData = {
+                            fullName: user.displayName || "User",
+                            email: user.email,
+                            phoneNumber: user.phoneNumber || "Not provided",
+                            profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
+                            settings: {
+                                darkMode: false,
+                                language: 'en',
+                                securityLock: false,
+                                reminders: true
+                            }
+                        };
+
+                        await docRef.set(defaultData);
+                        doc = { exists: true, data: () => defaultData };
+                    }
+
+                    userData = doc.data();
+                    userData.uid = uid;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+
+                    // Set defaults if missing
+                    userData.fullName ||= user.displayName || "User";
+                    userData.email ||= user.email;
+                    userData.phoneNumber ||= "Not provided";
+                    userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
+
+                    if (!userData.settings) {
+                        userData.settings = {
+                            darkMode: false,
+                            language: 'en',
+                            securityLock: false,
+                            reminders: true
+                        };
+                    }
+
+                    savedPIN = userData.pin || null;
+
+                    // Dark mode before load
+                    if (userData.settings.darkMode) {
+                        document.body.classList.add('dark-mode');
+                    }
+
+                    initializeUI();
+                    await applySettings();
+
+                    // Hide loading overlay
+                    loadingOverlay.classList.add('fade-out');
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        container.classList.add('loaded');
+                    }, 300);
+                } else {
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("Auth load error:", error);
+                loadingOverlay.innerHTML = `<div style="color:red;">Failed to load profile. Please refresh.</div>`;
+            }
+        });
 
         // Apply language translations
         function applyLanguage(lang) {
@@ -1287,40 +1374,43 @@ auth.onAuthStateChanged(async (user) => {
             }, duration);
         }
 
-        // Mobile-friendly event binding
-        function addMobileEvent(element, eventHandler) {
-            element.addEventListener('click', eventHandler);
-            element.addEventListener('touchend', eventHandler);
-        }
-
-        // Initialize mobile events
-        function initMobileEvents() {
+        // Initialize events
+        function initEvents() {
             // Edit name button
-            addMobileEvent(editNameBtn, () => {
+            editNameBtn.addEventListener('click', () => {
                 fullNameInput.focus();
                 fullNameInput.select();
             });
 
             // Save button
-            addMobileEvent(saveBtn, async () => {
+            saveBtn.addEventListener('click', async () => {
                 if (!userData) return;
 
                 userData.fullName = fullNameInput.value;
 
                 try {
+                    // Show saving state
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving';
+                    saveBtn.disabled = true;
+                    
                     await db.collection("users").doc(userData.uid).update({
                         fullName: userData.fullName,
                         settings: userData.settings
                     });
+                    
                     showToast(translations[userData.settings.language].saveSuccess);
                 } catch (error) {
                     console.error("Error saving user data:", error);
                     showToast("Failed to save changes.");
+                } finally {
+                    // Reset button state
+                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
+                    saveBtn.disabled = false;
                 }
             });
 
             // Logout button
-            addMobileEvent(logoutBtn, () => {
+            logoutBtn.addEventListener('click', () => {
                 auth.signOut().then(() => {
                     window.location.href = 'login.html';
                 }).catch((error) => {
@@ -1329,7 +1419,7 @@ auth.onAuthStateChanged(async (user) => {
             });
 
             // Upload button
-            addMobileEvent(uploadBtn, () => fileInput.click());
+            uploadBtn.addEventListener('click', () => fileInput.click());
             
             // File input change
             fileInput.addEventListener('change', (e) => {
@@ -1385,30 +1475,30 @@ auth.onAuthStateChanged(async (user) => {
             });
 
             // Language selector
-            addMobileEvent(languageSelector, () => {
+            languageSelector.addEventListener('click', () => {
                 languageModal.classList.add('active');
             });
 
             // Delete account button
-            addMobileEvent(deleteAccountBtn, () => {
+            deleteAccountBtn.addEventListener('click', () => {
                 deleteModal.classList.add('active');
             });
 
             // Close modals
-            addMobileEvent(closeDeleteModal, () => {
+            closeDeleteModal.addEventListener('click', () => {
                 deleteModal.classList.remove('active');
             });
 
-            addMobileEvent(closeLanguageModal, () => {
+            document.getElementById('closeLanguageModal').addEventListener('click', () => {
                 languageModal.classList.remove('active');
             });
 
-            addMobileEvent(cancelDeleteBtn, () => {
+            cancelDeleteBtn.addEventListener('click', () => {
                 deleteModal.classList.remove('active');
             });
 
             // Confirm delete
-            addMobileEvent(confirmDeleteBtn, () => {
+            confirmDeleteBtn.addEventListener('click', () => {
                 deleteModal.classList.remove('active');
                 showToast("Account deletion request sent. Processing...", 2000);
                 setTimeout(() => {
@@ -1421,13 +1511,13 @@ auth.onAuthStateChanged(async (user) => {
             });
 
             // Support item
-            addMobileEvent(supportItem, () => {
+            supportItem.addEventListener('click', () => {
                 window.location.href = 'mailto:support@easykharcha.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
             });
 
             // Language options
             languageOptions.forEach(option => {
-                addMobileEvent(option, () => {
+                option.addEventListener('click', () => {
                     const lang = option.getAttribute('data-lang');
                     userData.settings.language = lang;
                     applySettings();
@@ -1441,6 +1531,11 @@ auth.onAuthStateChanged(async (user) => {
                     languageOptions.forEach(opt => opt.classList.remove('active'));
                     option.classList.add('active');
                 });
+            });
+            
+            // Mining button
+            startMiningBtn.addEventListener('click', () => {
+                window.location.href = 'mining.html';
             });
         }
 
@@ -1481,10 +1576,11 @@ auth.onAuthStateChanged(async (user) => {
             }
         }
 
-        // Initialize events when DOM is ready
+        // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            initMobileEvents();
+            initEvents();
         });
+        
     </script>
 </body>
 </html>
