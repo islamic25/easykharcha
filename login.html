@@ -519,7 +519,7 @@
       </div>
       
       <div class="toggle-form">
-        Don't have an account? <a href="registration.html" id="toggleForm">Create account</a>
+        Don't have an account? <a href="index.html" id="toggleForm">Create account</a>
       </div>
     </div>
   </div>
@@ -529,131 +529,112 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
-        authDomain: "easykharcha.firebaseapp.com",
-        projectId: "easykharcha",
-        storageBucket: "easykharcha.firebasestorage.app",
-        messagingSenderId: "735642025618",
-        appId: "1:735642025618:web:eacc16213b61c48c93f04b",
-        measurementId: "G-JF3E4QMZQN"
-      };
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
 
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
+  /* 🔹 Firebase init */
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
+    authDomain:        "easykharcha.firebaseapp.com",
+    projectId:         "easykharcha",
+    storageBucket:     "easykharcha.appspot.com",
+    messagingSenderId: "735642025618",
+    appId:             "1:735642025618:web:eacc16213b61c48c93f04b"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db   = firebase.firestore();
 
-      // DOM Elements
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-      const togglePassword = document.getElementById('togglePassword');
-      const authBtn = document.getElementById('authBtn');
-      const toggleForm = document.getElementById('toggleForm');
-      const errorMsg = document.getElementById('errorMsg');
-      const spinner = document.getElementById('spinner');
-      const btnText = document.getElementById('btnText');
-      const rememberCheckbox = document.getElementById('remember');
+  /* 🔹 DOM */
+  const $ = id => document.getElementById(id);
+  const emailIn   = $('email');
+  const pwIn      = $('password');
+  const toggleBtn = $('togglePassword');
+  const authBtn   = $('authBtn');
+  const spinner   = $('spinner');
+  const btnText   = $('btnText');
+  const remember  = $('remember');
+  const errBox    = $('errorMsg');
+  const forgotLnk = document.querySelector('.forgot-password');
 
-      // Password visibility toggle
-      togglePassword.addEventListener('click', function() {
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-      });
+  /* 🔹 helpers */
+  const mapAuthErr = c => ({
+    'auth/user-not-found'    :'Account not found',
+    'auth/wrong-password'    :'Incorrect password',
+    'auth/too-many-requests' :'Too many attempts – try later'
+  }[c] || 'Login failed – check connection.');
 
-      // Load saved credentials if "Remember me" was checked
-      if (localStorage.getItem('rememberMe') === 'true') {
-        const savedEmail = localStorage.getItem('email');
-        const savedPassword = localStorage.getItem('password');
-        if (savedEmail) emailInput.value = savedEmail;
-        if (savedPassword) passwordInput.value = savedPassword;
-        rememberCheckbox.checked = true;
-      }
+  const showErr = m => { errBox.textContent = m; errBox.style.display='block'; };
+  const hideErr = () => { errBox.style.display='none'; };
 
-      // Login functionality
-      authBtn.addEventListener('click', function() {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        
-        // Reset errors
-        document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
-        errorMsg.textContent = '';
-        errorMsg.style.display = 'none';
-        
-        // Validation
-        let isValid = true;
-        
-        if (!email) {
-          document.getElementById('email-error').style.display = 'block';
-          isValid = false;
-        }
-        
-        if (!password) {
-          document.getElementById('password-error').style.display = 'block';
-          isValid = false;
-        }
-        
-        if (!isValid) return;
-        
-        // Show loading state
-        spinner.style.display = 'inline-block';
-        btnText.textContent = 'Signing in...';
-        authBtn.disabled = true;
-        
-        // Save credentials if "Remember me" is checked
-        if (rememberCheckbox.checked) {
-          localStorage.setItem('rememberMe', 'true');
-          localStorage.setItem('email', email);
-          localStorage.setItem('password', password);
-        } else {
-          localStorage.removeItem('rememberMe');
-          localStorage.removeItem('email');
-          localStorage.removeItem('password');
-        }
-        
-        // Firebase authentication
-        auth.signInWithEmailAndPassword(email, password)
-          .then(() => {
-            // Success - redirect to dashboard
-            window.location.href = "dashboard.html";
-          })
-          .catch(err => {
-            // Handle errors
-            spinner.style.display = 'none';
-            btnText.textContent = 'Sign In';
-            authBtn.disabled = false;
-            
-            // Show error message
-            errorMsg.textContent = err.message;
-            errorMsg.style.display = 'block';
-          });
-      });
-      
-      // Social login buttons
-      document.querySelectorAll('.social-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          alert(`Signing in with ${this.textContent.trim()}...`);
-        });
-      });
-      
-      // Forgot password
-      document.querySelector('.forgot-password').addEventListener('click', function(e) {
-        e.preventDefault();
-        const email = prompt("Please enter your email address to reset your password:");
-        if (email) {
-          auth.sendPasswordResetEmail(email)
-            .then(() => {
-              alert("Password reset email sent! Please check your inbox.");
-            })
-            .catch(err => {
-              alert(`Error: ${err.message}`);
-            });
-        }
-      });
-    });
-  </script>
+  /* 🔹 password eye */
+  toggleBtn.addEventListener('click', () => {
+    const t = pwIn.type === 'password' ? 'text' : 'password';
+    pwIn.type = t;
+    toggleBtn.innerHTML = t === 'password'
+        ? '<i class="fas fa-eye"></i>'
+        : '<i class="fas fa-eye-slash"></i>';
+  });
+
+  /* 🔹 remember‑email only */
+  if (localStorage.rememberEmail) {
+    emailIn.value = localStorage.rememberEmail;
+    remember.checked = true;
+  }
+
+  /* 🔹 sign‑in */
+  authBtn.addEventListener('click', async e => {
+    e.preventDefault();
+    hideErr();
+
+    const email = emailIn.value.trim();
+    const pw    = pwIn.value;
+    if (!email || !pw) { showErr('Email & password required'); return; }
+
+    btnText.textContent = 'Signing in…';
+    spinner.style.display='inline-block';
+    authBtn.disabled = true;
+
+    if (remember.checked)  localStorage.rememberEmail = email;
+    else                   localStorage.removeItem('rememberEmail');
+
+    try {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      await auth.signInWithEmailAndPassword(email, pw);
+      location.href = 'profile.html';
+    } catch (err) {
+      showErr(mapAuthErr(err.code));
+      authBtn.disabled=false;
+      btnText.textContent='Sign In';
+      spinner.style.display='none';
+    }
+  });
+
+
+  /* 🔹 forgot‑password */
+forgotLnk.addEventListener('click', async e => {
+
+    e.preventDefault();
+    const email = prompt('Enter your e‑mail to receive reset link:');
+    if (!email) return;
+    try {
+      await auth.sendPasswordResetEmail(email);
+      alert('Password‑reset email sent. Check your inbox.');
+    } catch (err) {
+      alert(mapAuthErr(err.code));
+    }
+  });
+
+  /* 🔹 auto‑redirect if already logged in */
+  auth.onAuthStateChanged(u => {
+    if (u && location.pathname.includes('login.html')) {
+      location.href = 'profile.html';
+    }
+  });
+
+});
+</script>
+
+
 </body>
 </html>
