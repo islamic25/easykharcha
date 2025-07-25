@@ -4,8 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Loan Management - EasyKharcha</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+  <!-- IN HEAD TAG, before any CSS loads -->
+<script>
+  try {
+    const localData = localStorage.getItem('userData');
+    const dark = localData && JSON.parse(localData).settings?.darkMode;
+    if (dark) document.documentElement.classList.add('dark-mode');
+  } catch (e) {}
+</script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
@@ -1273,7 +1283,7 @@
       <div class="stats-container">
         <div class="stat-card">
           <div class="stat-title"><i class="fas fa-arrow-up"></i> <span data-translate="Total Given">Total Given</span></div>
-          <div class="stat-value" id="totalGiven">₹ 0</div>
+          <div class="stat-value" id="totalGiven">RS 0</div>
           <div class="stat-trend trend-negative" id="givenTrend">
             <i class="fas fa-arrow-up"></i> 0% from last month
           </div>
@@ -1281,7 +1291,7 @@
 
         <div class="stat-card warning">
           <div class="stat-title"><i class="fas fa-arrow-down"></i> <span data-translate="Total Taken">Total Taken</span></div>
-          <div class="stat-value" id="totalTaken">₹ 0</div>
+          <div class="stat-value" id="totalTaken">RS 0</div>
           <div class="stat-trend trend-positive" id="takenTrend">
             <i class="fas fa-arrow-down"></i> 0% from last month
           </div>
@@ -1289,7 +1299,7 @@
 
         <div class="stat-card danger">
           <div class="stat-title"><i class="fas fa-balance-scale"></i> <span data-translate="Net Balance">Net Balance</span></div>
-          <div class="stat-value" id="netBalance">₹ 0</div>
+          <div class="stat-value" id="netBalance">RS 0</div>
           <div class="stat-trend trend-positive" id="balanceTrend">
             <i class="fas fa-arrow-up"></i> 0% from last month
           </div>
@@ -1637,7 +1647,7 @@
     const whatsappMessage = document.getElementById('whatsappMessage');
 
     function formatCurrency(amount) {
-      return '₹ ' + amount.toLocaleString('en-IN');
+      return 'RS ' + amount.toLocaleString('en-IN');
     }
 
     function formatDate(dateString) {
@@ -1777,7 +1787,7 @@
       
       // Generate default message
       let message = `Hi ${loan.name},\n\n`;
-      message += `This is a reminder about the loan of *₹${loan.amount.toLocaleString('en-IN')}* `;
+      message += `This is a reminder about the loan of *RS${loan.amount.toLocaleString('en-IN')}* `;
       message += loan.type === 'given' ? 'that you owe me.' : 'that I owe you.';
       message += `\n\n*Loan Details:*\n`;
       message += `- Date: ${formatDate(loan.date)}\n`;
@@ -1959,9 +1969,9 @@
       const netBalance = totalGiven - totalTaken;
 
       doc.setFontSize(14).setTextColor(0).text('Summary', 40, 90);
-      doc.setFontSize(12).text(`Total Given: ₹${totalGiven.toLocaleString('en-IN')}`, 50, 115);
-      doc.text(`Total Taken: ₹${totalTaken.toLocaleString('en-IN')}`, 50, 135);
-      doc.text(`Net Balance: ₹${netBalance.toLocaleString('en-IN')}`, 50, 155);
+      doc.setFontSize(12).text(`Total Given: RS${totalGiven.toLocaleString('en-IN')}`, 50, 115);
+      doc.text(`Total Taken: RS${totalTaken.toLocaleString('en-IN')}`, 50, 135);
+      doc.text(`Net Balance: RS${netBalance.toLocaleString('en-IN')}`, 50, 155);
 
       doc.setTextColor(255).setFillColor(37, 99, 235).rect(40, 180, 520, 20, 'F');
       doc.text('Name', 45, 193);
@@ -1976,7 +1986,7 @@
         if (y > 700) { doc.addPage(); y = 40; }
         doc.setFontSize(10);
         doc.text(loan.name, 45, y);
-        doc.text(`₹${loan.amount.toLocaleString('en-IN')}`, 200, y);
+        doc.text(`RS${loan.amount.toLocaleString('en-IN')}`, 200, y);
         doc.text(loan.type === 'given' ? 'Given' : 'Taken', 300, y);
         doc.text(formatDate(loan.date), 350, y);
         doc.text(loan.status.charAt(0).toUpperCase() + loan.status.slice(1), 450, y);
