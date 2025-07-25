@@ -1,2060 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loan Management - EasyKharcha</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Login - EasyKharcha Expense Tracker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
-  <!-- IN HEAD TAG, before any CSS loads -->
-<script>
-  try {
-    const localData = localStorage.getItem('userData');
-    const dark = localData && JSON.parse(localData).settings?.darkMode;
-    if (dark) document.documentElement.classList.add('dark-mode');
-  } catch (e) {}
-</script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* ========== DARK MODE STYLES ========== */
-    .dark-mode {
-      --primary: #3b82f6;
-      --primary-light: #60a5fa;
-      --secondary: #1e293b;
-      --accent: #ef4444;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --text: #f1f5f9;
-      --text-light: #94a3b8;
-      --border: #334155;
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      background: #0f172a;
-      color: var(--text);
-    }
-    
-    .dark-mode header {
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-    }
-    
-    .dark-mode .card, 
-    .dark-mode .stat-card, 
-    .dark-mode .filters {
-      background: #1e293b;
-      color: var(--text);
-    }
-    
-    .dark-mode input, 
-    .dark-mode select, 
-    .dark-mode textarea {
-      background: #1e293b;
-      color: var(--text);
-      border-color: var(--border);
-    }
-    
-    .dark-mode .table-container {
-      border-color: var(--border);
-    }
-    
-    .dark-mode th {
-      background: #1e293b;
-    }
-    
-    .dark-mode td {
-      border-bottom-color: var(--border);
-      color: var(--text);
-    }
-    
-    .dark-mode .bottom-nav {
-      background: #1e293b;
-      border-top-color: var(--border);
-    }
-    
-    .dark-mode .bottom-nav-link {
-      color: var(--text-light);
-    }
-    
-    .dark-mode .bottom-nav-link.active {
-      color: var(--primary-light);
-    }
-    
-    .dark-mode .user-menu {
-      background: #1e293b;
-    }
-    
-    .dark-mode .user-menu-item {
-      color: var(--text);
-      border-bottom-color: var(--border);
-    }
-    
-    .dark-mode .user-menu-item:hover {
-      background: #334155;
-    }
-    
-    /* ========== URDU MODE (RTL) ========== */
-    .urdu-mode {
-      direction: rtl;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: right;
-    }
-    
-    .urdu-mode .logo, 
-    .urdu-mode .nav-links, 
-    .urdu-mode .user-profile, 
-    .urdu-mode .card-header, 
-    .urdu-mode .table-actions, 
-    .urdu-mode .action-cell, 
-    .urdu-mode .loan-actions, 
-    .urdu-mode .filter-group, 
-    .urdu-mode .search-box {
-      direction: ltr;
-    }
-    
-    .urdu-mode .stat-title, 
-    .urdu-mode .stat-value, 
-    .urdu-mode .stat-trend,
-    .urdu-mode .loan-name, 
-    .urdu-mode .loan-amount, 
-    .urdu-mode .detail-label, 
-    .urdu-mode .loan-type,
-    .urdu-mode .form-group label, 
-    .urdu-mode .filter-label,
-    .urdu-mode .page-title, 
-    .urdu-mode .card-title, 
-    .urdu-mode .modal-title,
-    .urdu-mode .footer-section {
-      text-align: right;
-    }
-    
-    .urdu-mode .empty-state {
-      text-align: center;
-    }
-    
-    .urdu-mode .footer-section h3::after {
-      left: auto;
-      right: 0;
-    }
-    
-    .urdu-mode .loan-details {
-      text-align: right;
-    }
-    
-    .urdu-mode .action-cell {
-      justify-content: flex-start;
-    }
-    
-    .urdu-mode .table-container table {
-      text-align: right;
-    }
-    
-    .urdu-mode .table-container table td:first-child,
-    .urdu-mode .table-container table th:first-child {
-      text-align: right;
-    }
-    
-    .urdu-mode .table-container table td:last-child,
-    .urdu-mode .table-container table th:last-child {
-      text-align: left;
-    }
-    
-    :root {
-      --primary: #2563eb;
-      --primary-light: #3b82f6;
-      --secondary: #f8f9fa;
-      --accent: #ef4444;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --text: #1e293b;
-      --text-light: #64748b;
-      --border: #e2e8f0;
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      --transition: all 0.3s ease;
-      --radius: 12px;
-    }
-    
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    
+
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #0d47a1;
+      --secondary: #4caf50;
+      --accent: #ff6d00;
+      --light: #f5f9ff;
+      --dark: #202124;
+      --gray: #5f6368;
+      --light-gray: #dadce0;
+      --success: #34a853;
+      --error: #ea4335;
+      --warning: #f9ab00;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f8fafc;
-      color: var(--text);
-      line-height: 1.6;
-      padding: 0;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      color: var(--dark);
       min-height: 100vh;
-      padding-bottom: 60px; /* Space for bottom nav */
-      transition: background 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
     }
-    
+
     .container {
       max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    /* Header styles */
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 16px 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: background 0.3s ease;
-    }
-    
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
+      width: 100%;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
-    
+
+    .illustration {
+      flex: 1;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: white;
+      text-align: center;
+      display: none;
+    }
+
+    .illustration img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+
+    .illustration h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .illustration p {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 400px;
+    }
+
+    .login-container {
+      flex: 1;
+      padding: 50px 40px;
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      margin-bottom: 30px;
+      justify-content: center;
     }
-    
+
     .logo-icon {
-      font-size: 28px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      box-shadow: var(--shadow);
     }
-    
+
+    .logo-icon i {
+      font-size: 24px;
+      color: white;
+    }
+
     .logo-text {
       font-size: 24px;
       font-weight: 700;
+      color: var(--dark);
     }
-    
-    .nav-links {
-      display: flex;
-      gap: 25px;
-    }
-    
-    .nav-link {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 8px;
-    }
-    
-    .nav-link:hover, .nav-link.active {
-      color: white;
-      background: rgba(255, 255, 255, 0.15);
-    }
-    
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-      cursor: pointer;
-    }
-    
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: var(--transition);
-    }
-    
-    .user-profile:hover .user-avatar {
-      background: rgba(255, 255, 255, 0.3);
-    }
-    
-    .user-menu {
-      position: absolute;
-      top: 50px;
-      right: 0;
-      background: white;
-      border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      width: 200px;
-      z-index: 10;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: var(--transition);
-    }
-    
-    .user-profile:hover .user-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    
-    .user-menu-item {
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      transition: var(--transition);
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .user-menu-item:last-child {
-      border-bottom: none;
-    }
-    
-    .user-menu-item:hover {
-      background: #f1f5f9;
+
+    .logo-text span {
       color: var(--primary);
     }
-    
-    /* Page title and stats */
-    .page-header {
-      margin: 25px 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    
-    .page-title {
-      font-size: 26px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 600;
-    }
-    
-    .stats-container {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      width: 100%;
-    }
-    
-    .stat-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--card-shadow);
-      border-left: 4px solid var(--success);
-      flex: 1;
-      min-width: calc(33.333% - 11px);
-      margin-bottom: 10px;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    @media (max-width: 768px) {
-      .stat-card {
-        min-width: 100%;
-      }
-    }
-    
-    .stat-card.warning {
-      border-left-color: var(--warning);
-    }
-    
-    .stat-card.danger {
-      border-left-color: var(--accent);
-    }
-    
-    .stat-title {
-      font-size: 14px;
-      color: var(--text-light);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .stat-value {
-      font-size: 26px;
+
+    .login-container h1 {
+      font-size: 28px;
       font-weight: 700;
-      color: var(--text);
       margin-bottom: 5px;
+      color: var(--dark);
+      text-align: center;
     }
-    
-    .stat-trend {
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+
+    .login-container p {
+      color: var(--gray);
+      margin-bottom: 30px;
+      text-align: center;
     }
-    
-    .trend-positive {
-      color: var(--success);
-    }
-    
-    .trend-negative {
-      color: var(--accent);
-    }
-    
-    /* Main content layout */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-      margin-top: 20px;
-    }
-    
-    @media (max-width: 900px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 25px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-    
-    .card:hover {
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-    }
-    
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
+    .form-group {
       margin-bottom: 20px;
-    }
-    
-    .card-title {
-      font-size: 19px;
-      color: var(--primary);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    /* Form styles */
-    .loan-form .form-group {
-      margin-bottom: 18px;
-    }
-    
-    .loan-form label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--text);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .loan-form input, 
-    .loan-form select, 
-    .loan-form textarea {
-      width: 100%;
-      padding: 13px 15px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      transition: var(--transition);
-      background: #f8fafc;
-    }
-    
-    .loan-form input:focus, 
-    .loan-form select:focus, 
-    .loan-form textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-    
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-    
-    @media (max-width: 600px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .loan-form button {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    
-    .loan-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    }
-    
-    /* Table styles */
-    .table-container {
-      overflow-x: auto;
-      border-radius: var(--radius);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-      margin-top: 10px;
-      max-height: 500px;
-      overflow-y: auto;
-      border: 1px solid var(--border);
-      transition: border-color 0.3s ease;
-    }
-    
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      min-width: 800px;
-    }
-    
-    thead {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-    }
-    
-    th {
-      background-color: var(--primary);
-      color: white;
-      padding: 14px 18px;
-      text-align: left;
-      font-weight: 500;
-      position: sticky;
-      top: 0;
-      transition: background-color 0.3s ease;
-    }
-    
-    th:first-child {
-      border-top-left-radius: var(--radius);
-    }
-    
-    th:last-child {
-      border-top-right-radius: var(--radius);
-    }
-    
-    td {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-      font-size: 14px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    tbody tr {
-      transition: var(--transition);
-    }
-    
-    tbody tr:hover {
-      background-color: #f8fafc;
-    }
-    
-    .type-given {
-      color: var(--success);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .type-taken {
-      color: var(--accent);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .action-cell {
-      display: flex;
-      gap: 8px;
-    }
-    
-    .action-btn {
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      font-size: 13px;
-    }
-    
-    .edit-btn {
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--success);
-    }
-    
-    .edit-btn:hover {
-      background: rgba(16, 185, 129, 0.2);
-    }
-    
-    .delete-btn {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--accent);
-    }
-    
-    .delete-btn:hover {
-      background: rgba(239, 68, 68, 0.2);
-    }
-    
-    .whatsapp-btn {
-      background: rgba(37, 211, 102, 0.1);
-      color: #25D366;
-    }
-    
-    .whatsapp-btn:hover {
-      background: rgba(37, 211, 102, 0.2);
-    }
-    
-    /* Filter section */
-    .filters {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 20px;
-      background: white;
-      padding: 18px 22px;
-      border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      transition: background 0.3s ease;
-    }
-    
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    
-    .filter-label {
-      font-weight: 500;
-      color: var(--text-light);
-      font-size: 14px;
-    }
-    
-    .search-box {
       position: relative;
-      display: flex;
-      align-items: center;
     }
-    
-    .search-box input {
-      padding: 11px 15px 11px 40px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-family: 'Poppins', sans-serif;
+
+    .form-group label {
+      display: block;
       font-size: 14px;
-      min-width: 250px;
-      background: #f8fafc;
-      transition: background 0.3s ease, border-color 0.3s ease;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--dark);
     }
-    
-    .search-icon {
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
       position: absolute;
       left: 15px;
-      color: var(--text-light);
-      font-size: 15px;
-    }
-    
-    .filter-select {
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      background: #f8fafc;
-      min-width: 150px;
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .filter-btn {
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      background: var(--primary);
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .filter-btn:hover {
-      background: var(--primary-light);
-    }
-    
-    /* Status badge */
-    .status-badge {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-    
-    .status-active {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-    }
-    
-    .status-closed {
-      background: rgba(100, 116, 139, 0.15);
-      color: var(--text-light);
-    }
-    
-    .status-overdue {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent);
-    }
-    
-    /* Floating Action Button */
-    .fab {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-      cursor: pointer;
-      z-index: 99;
-      transition: var(--transition);
-      display: none;
-    }
-    
-    .fab:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-    }
-    
-    /* Mobile Loan List */
-    .mobile-loan-list {
-      display: none;
-      margin-top: 20px;
-    }
-    
-    .loan-item {
-      background: white;
-      border-radius: var(--radius);
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: var(--card-shadow);
-      transition: background 0.3s ease;
-    }
-    
-    .loan-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .loan-name {
-      font-weight: 600;
-      font-size: 16px;
-    }
-    
-    .loan-amount {
-      font-weight: 700;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
       font-size: 18px;
+      z-index: 2;
     }
-    
-    .loan-type {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 500;
-      margin-right: 8px;
-    }
-    
-    .type-given-bg {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-    }
-    
-    .type-taken-bg {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent);
-    }
-    
-    .loan-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-      font-size: 14px;
-    }
-    
-    .detail-label {
-      color: var(--text-light);
-      font-weight: 500;
-    }
-    
-    .loan-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-    
-    /* Footer */
-    footer {
-      background: var(--primary);
-      color: white;
-      padding: 40px 0 20px;
-      margin-top: 50px;
-      transition: background 0.3s ease;
-    }
-    
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-    }
-    
-    .footer-section h3 {
-      font-size: 18px;
-      margin-bottom: 20px;
-      position: relative;
-      padding-bottom: 10px;
-      font-weight: 600;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background: white;
-    }
-    
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-links li {
-      margin-bottom: 14px;
-    }
-    
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-    }
-    
-    .footer-links a:hover {
-      color: white;
-    }
-    
-    .copyright {
-      text-align: center;
-      padding-top: 30px;
-      margin-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 14px;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .header-container {
-        flex-wrap: wrap;
-        gap: 15px;
-      }
-      
-      .nav-links {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        margin-top: 10px;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      
-      .nav-link {
-        padding: 6px 10px;
-        font-size: 14px;
-      }
-      
-      .user-profile {
-        margin-left: auto;
-      }
-      
-      .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .stats-container {
-        width: 100%;
-      }
-      
-      .stat-card {
-        min-width: 100%;
-      }
-      
-      .filters {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .search-box input {
-        min-width: 100%;
-      }
-      
-      .fab {
-        display: flex;
-      }
-      
-      /* Show mobile list and hide table */
-      .table-container {
-        display: none;
-      }
-      
-      .mobile-loan-list {
-        display: block;
-      }
-    }
-    
-    @media (min-width: 769px) {
-      .table-container {
-        display: block;
-      }
-      
-      .mobile-loan-list {
-        display: none;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .header-container {
-        padding: 0 15px;
-      }
-      
-      .logo-text {
-        font-size: 20px;
-      }
-      
-      .page-title {
-        font-size: 22px;
-      }
-      
-      .card {
-        padding: 20px;
-      }
-      
-      .filters {
-        padding: 15px;
-      }
-    }
-    
-    /* Modal styles */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
+
+    input {
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
+      padding: 16px 16px 16px 48px;
+      border: 2px solid var(--light-gray);
+      border-radius: 12px;
+      font-size: 16px;
+      transition: var(--transition);
+      background-color: #fff;
+      position: relative;
+      z-index: 1;
     }
-    
-    .modal-content {
-      background: white;
-      border-radius: var(--radius);
-      width: 90%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      animation: modalOpen 0.3s ease;
+
+    input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
     }
-    
-    @keyframes modalOpen {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .modal-header {
-      padding: 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .modal-title {
-      font-size: 20px;
-      color: var(--primary);
-      font-weight: 600;
-    }
-    
-    .close-modal {
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
       background: none;
       border: none;
-      font-size: 24px;
-      color: var(--text-light);
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+    }
+
+    .remember input {
+      width: auto;
+      margin-right: 10px;
+      margin-top: 4px;
+    }
+
+    .remember label {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .forgot-password {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.4s;
+    }
+
+    .btn:hover::after {
+      left: 120%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 30px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--light-gray);
+    }
+
+    .divider-text {
+      padding: 0 15px;
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .social-login {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: 12px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: var(--transition);
     }
-    
-    .close-modal:hover {
-      color: var(--accent);
+
+    .social-btn:hover {
+      background: var(--light);
     }
-    
-    .modal-body {
-      padding: 20px;
+
+    .social-btn.google {
+      color: var(--error);
     }
-    
-    /* Toast notification */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--primary);
-      color: white;
-      padding: 15px 25px;
-      border-radius: var(--radius);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 1000;
-      opacity: 0;
-      transition: var(--transition);
+
+    .social-btn.facebook {
+      color: #1877f2;
     }
-    
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+
+    .social-btn.apple {
+      color: var(--dark);
     }
-    
-    /* Empty state */
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-    }
-    
-    .empty-state i {
-      font-size: 60px;
-      color: #cbd5e1;
-      margin-bottom: 20px;
-    }
-    
-    .empty-state h3 {
+
+    .social-btn i {
       font-size: 20px;
-      margin-bottom: 10px;
-      color: var(--text);
+      margin-right: 8px;
     }
-    
-    .empty-state p {
-      color: var(--text-light);
+
+    .toggle-form {
+      text-align: center;
+      font-size: 15px;
+      color: var(--gray);
+    }
+
+    .toggle-form a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .toggle-form a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: var(--error);
+      font-size: 14px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .success {
+      color: var(--success);
+      font-size: 14px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    #errorMsg {
+      background: rgba(234, 67, 53, 0.1);
+      padding: 12px;
+      border-radius: 8px;
       margin-bottom: 20px;
+      text-align: center;
+      display: none;
     }
+
+    @media (min-width: 992px) {
+      .illustration {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .login-container {
+        padding: 40px 30px;
+      }
+      
+      .social-login {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+      
+      .logo {
+        margin-bottom: 20px;
+      }
+      
+      .login-container h1 {
+        font-size: 24px;
+      }
+      
+      .options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-container > * {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .options { animation-delay: 0.3s; }
+    .btn { animation-delay: 0.4s; }
+    .divider { animation-delay: 0.5s; }
+    .social-login { animation-delay: 0.6s; }
+    .toggle-form { animation-delay: 0.7s; }
     
     /* Loading spinner */
-    .loading {
-      display: flex;
-      justify-content: center;
-      padding: 30px;
-    }
-    
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(37, 99, 235, 0.2);
-      border-top-color: var(--primary);
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
     }
     
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: #fff;
-      border-top: 1px solid #ddd;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 1000;
-      box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .bottom-nav-link {
-      text-align: center;
-      color: #555;
-      font-size: 12px;
-      flex: 1;
-      padding: 5px 0;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .bottom-nav-link i {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 2px;
-    }
-    
-    .bottom-nav-link.active {
-      color: var(--primary);
-    }
-    
-    .bottom-nav-link:hover {
-      color: var(--primary);
-    }
-    
-    /* WhatsApp reminder modal */
-    .whatsapp-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .whatsapp-modal-content {
-      background: white;
-      border-radius: var(--radius);
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-    
-    .whatsapp-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .whatsapp-modal-title {
-      font-size: 18px;
-      color: var(--text);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .whatsapp-modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: var(--text-light);
-      cursor: pointer;
-    }
-    
-    .whatsapp-modal-body {
-      margin-bottom: 20px;
-    }
-    
-    .whatsapp-modal-body p {
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
-    
-    .whatsapp-modal-body textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      min-height: 120px;
-      margin-bottom: 15px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-    }
-    
-    .whatsapp-modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    
-    .whatsapp-btn {
-      background: #25D366;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .cancel-btn {
-      background: #f1f5f9;
-      color: var(--text);
-    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-container">
+  <div class="container">
+    <div class="illustration">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='350' height='300' viewBox='0 0 800 600'%3E%3Crect fill='%23ffffff' opacity='0.2' x='50' y='100' width='300' height='400' rx='20'/%3E%3Ccircle fill='%23ffffff' opacity='0.2' cx='200' cy='200' r='60'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='300' width='200' height='20' rx='10'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='340' width='150' height='20' rx='10'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='380' width='180' height='20' rx='10'/%3E%3Crect fill='%23ffffff' opacity='0.2' x='150' y='420' width='120' height='20' rx='10'/%3E%3C/svg%3E" alt="EasyKharcha App">
+      <h2>Welcome Back to EasyKharcha</h2>
+      <p>Track your expenses, manage your budget, and achieve your financial goals with our intuitive platform.</p>
+    </div>
+    
+    <div class="login-container">
       <div class="logo">
         <div class="logo-icon">
-          <i class="fas fa-coins"></i>
+          <i class="fas fa-wallet"></i>
         </div>
-        <div class="logo-text">EasyKharcha</div>
-      </div>
-    </div>
-  </header>
-  
-  <div class="container">
-    <div class="page-header">
-      <h1 class="page-title" data-translate="Loan Management">
-        <i class="fas fa-hand-holding-usd"></i> Loan Management
-      </h1>
-      
-      <div class="stats-container">
-        <div class="stat-card">
-          <div class="stat-title"><i class="fas fa-arrow-up"></i> <span data-translate="Total Given">Total Given</span></div>
-          <div class="stat-value" id="totalGiven">RS 0</div>
-          <div class="stat-trend trend-negative" id="givenTrend">
-            <i class="fas fa-arrow-up"></i> 0% from last month
-          </div>
-        </div>
-
-        <div class="stat-card warning">
-          <div class="stat-title"><i class="fas fa-arrow-down"></i> <span data-translate="Total Taken">Total Taken</span></div>
-          <div class="stat-value" id="totalTaken">RS 0</div>
-          <div class="stat-trend trend-positive" id="takenTrend">
-            <i class="fas fa-arrow-down"></i> 0% from last month
-          </div>
-        </div>
-
-        <div class="stat-card danger">
-          <div class="stat-title"><i class="fas fa-balance-scale"></i> <span data-translate="Net Balance">Net Balance</span></div>
-          <div class="stat-value" id="netBalance">RS 0</div>
-          <div class="stat-trend trend-positive" id="balanceTrend">
-            <i class="fas fa-arrow-up"></i> 0% from last month
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="filters">
-      <div class="filter-group">
-        <span class="filter-label" data-translate="Filter by:">Filter by:</span>
-        <select class="filter-select" id="typeFilter">
-          <option value="all" data-translate="All Loans">All Loans</option>
-          <option value="given" data-translate="Given Loans">Given Loans</option>
-          <option value="taken" data-translate="Taken Loans">Taken Loans</option>
-        </select>
-        
-        <select class="filter-select" id="statusFilter">
-          <option value="all" data-translate="All Status">All Status</option>
-          <option value="active" data-translate="Active Loans">Active Loans</option>
-          <option value="closed" data-translate="Closed Loans">Closed Loans</option>
-          <option value="overdue" data-translate="Overdue Loans">Overdue Loans</option>
-        </select>
-        
-        <button class="filter-btn" id="applyFilters">
-          <i class="fas fa-filter"></i> <span data-translate="Apply">Apply</span>
-        </button>
+        <div class="logo-text">Easy<span>Kharcha</span></div>
       </div>
       
-      <div class="search-box">
-        <i class="fas fa-search search-icon"></i>
-        <input type="text" id="searchInput" placeholder="Search by name or note..." data-placeholder="Search by name or note...">
-      </div>
-    </div>
-    
-    <div class="content-grid">
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title"><i class="fas fa-plus-circle"></i> <span data-translate="Add New Loan">Add New Loan</span></h2>
+      <h1>Sign In to Your Account</h1>
+      <p>Manage your expenses and track your spending</p>
+      
+      <div class="error" id="errorMsg"></div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-with-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Enter your email">
         </div>
-        
-        <form class="loan-form" id="loanForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="loanName"><i class="fas fa-user"></i> <span data-translate="Person/Shop Name">Person/Shop Name</span></label>
-              <input type="text" id="loanName" placeholder="Enter name" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="loanAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Amount">Amount</span></label>
-              <input type="number" id="loanAmount" placeholder="Enter amount" required>
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="loanType"><i class="fas fa-exchange-alt"></i> <span data-translate="Loan Type">Loan Type</span></label>
-              <select id="loanType">
-                <option value="given" data-translate="Given (You lent money)">Given (You lent money)</option>
-                <option value="taken" data-translate="Taken (You borrowed money)">Taken (You borrowed money)</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="loanDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
-              <input type="date" id="loanDate" value="2023-10-15">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="dueDate"><i class="fas fa-calendar-check"></i> <span data-translate="Due Date">Due Date</span></label>
-              <input type="date" id="dueDate">
-            </div>
-            
-            <div class="form-group">
-              <label for="loanStatus"><i class="fas fa-info-circle"></i> <span data-translate="Status">Status</span></label>
-              <select id="loanStatus">
-                <option value="active" data-translate="Active">Active</option>
-                <option value="closed" data-translate="Closed">Closed</option>
-                <option value="overdue" data-translate="Overdue">Overdue</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="loanNote"><i class="fas fa-sticky-note"></i> <span data-translate="Note (Optional)">Note (Optional)</span></label>
-            <textarea id="loanNote" placeholder="Add any details about this loan..." rows="3"></textarea>
-          </div>
-          
-          <button type="button" id="addLoanBtn">
-            <i class="fas fa-plus"></i> <span data-translate="Add Loan">Add Loan</span>
+        <div class="error" id="email-error">Please enter a valid email address</div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Enter your password">
+          <button class="password-toggle" id="togglePassword">
+            <i class="fas fa-eye"></i>
           </button>
-        </form>
+        </div>
+        <div class="error" id="password-error">Please enter your password</div>
       </div>
       
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title"><i class="fas fa-list"></i> <span data-translate="Loan Records">Loan Records</span></h2>
-          <div class="table-actions">
-            <button class="filter-btn" id="exportPdfBtn">
-              <i class="fas fa-file-pdf"></i> <span data-translate="Export PDF">Export PDF</span>
-            </button>
-          </div>
+      <div class="options">
+        <div class="remember">
+          <input type="checkbox" id="remember">
+          <label for="remember">Remember me</label>
         </div>
-        
-        <div class="table-container">
-          <table id="loansTable">
-            <thead>
-              <tr>
-                <th data-translate="Name">Name</th>
-                <th data-translate="Amount">Amount</th>
-                <th data-translate="Type">Type</th>
-                <th data-translate="Date">Date</th>
-                <th data-translate="Due Date">Due Date</th>
-                <th data-translate="Status">Status</th>
-                <th data-translate="Note">Note</th>
-                <th data-translate="Actions">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="loansTableBody">
-              <!-- Loans will be populated here by JavaScript -->
-            </tbody>
-          </table>
-        </div>
-        
-        <!-- Mobile Loan List -->
-        <div class="mobile-loan-list" id="mobileLoanList">
-          <!-- Mobile loan items will be populated here -->
-        </div>
+        <a href="#" class="forgot-password">Forgot password?</a>
       </div>
-    </div>
-  </div>
-  
-  <!-- Floating Action Button -->
-  <div class="fab" id="fabButton">
-    <i class="fas fa-plus"></i>
-  </div>
-  
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">
-    <i class="fas fa-check-circle"></i>
-    <span id="toastMessage">Loan added successfully!</span>
-  </div>
-  
-  <!-- Modal for Mobile Form -->
-  <div class="modal" id="loanModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" data-translate="Add New Loan">Add New Loan</h3>
-        <button class="close-modal" id="closeModal">&times;</button>
+      
+      <button class="btn" id="authBtn">
+        <span class="spinner" id="spinner"></span>
+        <span id="btnText">Sign In</span>
+      </button>
+      
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-text">or sign in with</div>
+        <div class="divider-line"></div>
       </div>
-      <div class="modal-body">
-        <form class="loan-form" id="mobileLoanForm">
-          <!-- Same form fields as desktop version -->
-        </form>
-      </div>
-    </div>
-  </div>
-  
-  <!-- WhatsApp Reminder Modal -->
-  <div class="whatsapp-modal" id="whatsappModal">
-    <div class="whatsapp-modal-content">
-      <div class="whatsapp-modal-header">
-        <h3 class="whatsapp-modal-title">
-          <i class="fab fa-whatsapp" style="color: #25D366;"></i> <span data-translate="Send WhatsApp Reminder">Send WhatsApp Reminder</span>
-        </h3>
-        <button class="whatsapp-modal-close" id="closeWhatsappModal">&times;</button>
-      </div>
-      <div class="whatsapp-modal-body">
-        <p data-translate="This message will be sent to the borrower/lender:">This message will be sent to the borrower/lender:</p>
-        <textarea id="whatsappMessage" placeholder="Customize your message..."></textarea>
-        <p><small data-translate="Note: You'll need to select the contact manually in WhatsApp">Note: You'll need to select the contact manually in WhatsApp</small></p>
-      </div>
-      <div class="whatsapp-modal-footer">
-        <button class="cancel-btn" id="cancelWhatsapp" data-translate="Cancel">Cancel</button>
-        <button class="whatsapp-btn" id="sendWhatsapp">
-          <i class="fab fa-whatsapp"></i> <span data-translate="Open WhatsApp">Open WhatsApp</span>
+      
+      <div class="social-login">
+        <button class="social-btn google">
+          <i class="fab fa-google"></i> Google
+        </button>
+        <button class="social-btn facebook">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </button>
+        <button class="social-btn apple">
+          <i class="fab fa-apple"></i> Apple
         </button>
       </div>
+      
+      <div class="toggle-form">
+        Don't have an account? <a href="index.html" id="toggleForm">Create account</a>
+      </div>
     </div>
   </div>
-  
-  <nav class="bottom-nav">
-    <a href="profile.html" class="bottom-nav-link">
-      <i class="fas fa-home"></i><span data-translate="Dashboard">profile</span>
-    </a>
-    <a href="loan.html" class="bottom-nav-link active">
-      <i class="fas fa-money-bill-wave"></i><span data-translate="Loan">Loan</span>
-    </a>
-    <a href="dashboard.html" class="bottom-nav-link">
-      <i class="fas fa-user-circle"></i><span data-translate="Profile">dashboard</span>
-    </a>
-  </nav>
-  
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
-      authDomain: "easykharcha.firebaseapp.com",
-      projectId: "easykharcha",
-      storageBucket: "easykharcha.appspot.com",
-      messagingSenderId: "735642025618",
-      appId: "1:735642025618:web:eacc16213b61c48c93f04b",
-      measurementId: "G-JF3E4QMZQN"
-    };
+  /* 🔹 Firebase init */
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
+    authDomain:        "easykharcha.firebaseapp.com",
+    projectId:         "easykharcha",
+    storageBucket:     "easykharcha.appspot.com",
+    messagingSenderId: "735642025618",
+    appId:             "1:735642025618:web:eacc16213b61c48c93f04b"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db   = firebase.firestore();
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    
-    // Define translations dictionary
-    const translations = {
-      ur: {
-        "Loan Management": "قرض کا انتظام",
-        "Total Given": "کل دیا گیا",
-        "Total Taken": "کل لیا گیا",
-        "Net Balance": "خالص بیلنس",
-        "Filter by:": "فلٹر کریں:",
-        "All Loans": "تمام قرضے",
-        "Given Loans": "دیے گئے قرضے",
-        "Taken Loans": "لیے گئے قرضے",
-        "All Status": "تمام حیثیتیں",
-        "Active Loans": "فعال قرضے",
-        "Closed Loans": "مکمل قرضے",
-        "Overdue Loans": "ادائیگی میں تاخیر",
-        "Apply": "لگو کریں",
-        "Search by name or note...": "نام یا نوٹ سے تلاش کریں...",
-        "Add New Loan": "نیا قرض شامل کریں",
-        "Person/Shop Name": "شخص یا دکان کا نام",
-        "Amount": "رقم",
-        "Loan Type": "قرض کی قسم",
-        "Date": "تاریخ",
-        "Due Date": "واجب الادا تاریخ",
-        "Status": "حیثیت",
-        "Note (Optional)": "نوٹ (اختیاری)",
-        "Add Loan": "قرض شامل کریں",
-        "Loan Records": "قرض کا ریکارڈ",
-        "Export PDF": "پی ڈی ایف برآمد کریں",
-        "Name": "نام",
-        "Type": "قسم",
-        "Due Date": "واجب الادا تاریخ",
-        "Note": "نوٹ",
-        "Actions": "اعمال",
-        "No Loans Found": "کوئی قرض نہیں ملا",
-        "Try adjusting your search or add a new loan": "تلاش کو تبدیل کریں یا نیا قرض شامل کریں",
-        "Send WhatsApp Reminder": "واٹس ایپ یاددہانی بھیجیں",
-        "This message will be sent to the borrower/lender:": "یہ پیغام قرض لینے والے/قرض دینے والے کو بھیجا جائے گا:",
-        "Note: You'll need to select the contact manually in WhatsApp": "نوٹ: آپ کو رابطہ دستی طور پر واٹس ایپ میں منتخب کرنا ہوگا",
-        "Cancel": "منسوخ کریں",
-        "Open WhatsApp": "واٹس ایپ کھولیں",
-        "Dashboard": "ڈیش بورڈ",
-        "Loan": "قرض",
-        "Profile": "پروفائل",
-        "Active": "فعال",
-        "Closed": "مکمل",
-        "Overdue": "ادائیگی میں تاخیر",
-        "Given (You lent money)": "دیے گئے (آپ نے رقم قرض دی)",
-        "Taken (You borrowed money)": "لیے گئے (آپ نے رقم قرض لی)"
-      }
-    };
+  /* 🔹 DOM */
+  const $ = id => document.getElementById(id);
+  const emailIn   = $('email');
+  const pwIn      = $('password');
+  const toggleBtn = $('togglePassword');
+  const authBtn   = $('authBtn');
+  const spinner   = $('spinner');
+  const btnText   = $('btnText');
+  const remember  = $('remember');
+  const errBox    = $('errorMsg');
+  const forgotLnk = document.querySelector('.forgot-password');
 
-    // Function to translate the page
-    function translatePage(lang) {
-      const dict = translations[lang];
-      if (!dict) return;
+  /* 🔹 helpers */
+  const mapAuthErr = c => ({
+    'auth/user-not-found'    :'Account not found',
+    'auth/wrong-password'    :'Incorrect password',
+    'auth/too-many-requests' :'Too many attempts – try later'
+  }[c] || 'Login failed – check connection.');
 
-      // Translate elements with data-translate attribute
-      document.querySelectorAll('[data-translate]').forEach(el => {
-        const key = el.getAttribute('data-translate');
-        if (dict[key]) {
-          el.innerHTML = dict[key];
-        }
-      });
+  const showErr = m => { errBox.textContent = m; errBox.style.display='block'; };
+  const hideErr = () => { errBox.style.display='none'; };
 
-      // Translate placeholders
-      document.querySelectorAll('[data-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-placeholder');
-        if (dict[key]) {
-          el.setAttribute('placeholder', dict[key]);
-        }
-      });
-    }
-
-    // Function to apply user settings
-    function applySettings(settings) {
-      // Apply dark mode
-      if (settings.darkMode) {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
-
-      // Apply language
-      document.body.classList.remove('urdu-mode');
-      if (settings.language === 'ur') {
-        document.body.classList.add('urdu-mode');
-        translatePage('ur');
-      }
-    }
-
-   function fetchUserSettings(userId) {
-  return db.collection("users").doc(userId).get().then(doc => {
-    if (doc.exists) {
-      const data = doc.data();
-      return data.settings || { darkMode: false, language: 'en' }; // fallback
-    } else {
-      // Create user doc with default settings
-      const defaultSettings = { darkMode: false, language: 'en' };
-      return db.collection("users").doc(userId).set({ settings: defaultSettings }).then(() => defaultSettings);
-    }
-  }).catch(error => {
-    console.error("Error getting settings:", error);
-    return { darkMode: false, language: 'en' };
+  /* 🔹 password eye */
+  toggleBtn.addEventListener('click', () => {
+    const t = pwIn.type === 'password' ? 'text' : 'password';
+    pwIn.type = t;
+    toggleBtn.innerHTML = t === 'password'
+        ? '<i class="fas fa-eye"></i>'
+        : '<i class="fas fa-eye-slash"></i>';
   });
-}
 
+  /* 🔹 remember‑email only */
+  if (localStorage.rememberEmail) {
+    emailIn.value = localStorage.rememberEmail;
+    remember.checked = true;
+  }
 
-    let loans = [];
-    let editingLoanId = null;
-    let selectedLoanForWhatsapp = null;
+  /* 🔹 sign‑in */
+  authBtn.addEventListener('click', async e => {
+    e.preventDefault();
+    hideErr();
 
-    // DOM Elements
-    const loansTableBody = document.getElementById('loansTableBody');
-    const mobileLoanList = document.getElementById('mobileLoanList');
-    const addLoanBtn = document.getElementById('addLoanBtn');
-    const searchInput = document.getElementById('searchInput');
-    const typeFilter = document.getElementById('typeFilter');
-    const statusFilter = document.getElementById('statusFilter');
-    const applyFilters = document.getElementById('applyFilters');
-    const fabButton = document.getElementById('fabButton');
-    const loanModal = document.getElementById('loanModal');
-    const closeModal = document.getElementById('closeModal');
-    const exportPdfBtn = document.getElementById('exportPdfBtn');
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-    const whatsappModal = document.getElementById('whatsappModal');
-    const closeWhatsappModal = document.getElementById('closeWhatsappModal');
-    const cancelWhatsapp = document.getElementById('cancelWhatsapp');
-    const sendWhatsapp = document.getElementById('sendWhatsapp');
-    const whatsappMessage = document.getElementById('whatsappMessage');
+    const email = emailIn.value.trim();
+    const pw    = pwIn.value;
+    if (!email || !pw) { showErr('Email & password required'); return; }
 
-    function formatCurrency(amount) {
-      return 'RS ' + amount.toLocaleString('en-IN');
+    btnText.textContent = 'Signing in…';
+    spinner.style.display='inline-block';
+    authBtn.disabled = true;
+
+    if (remember.checked)  localStorage.rememberEmail = email;
+    else                   localStorage.removeItem('rememberEmail');
+
+    try {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      await auth.signInWithEmailAndPassword(email, pw);
+      location.href = 'profile.html';
+    } catch (err) {
+      showErr(mapAuthErr(err.code));
+      authBtn.disabled=false;
+      btnText.textContent='Sign In';
+      spinner.style.display='none';
     }
+  });
 
-    function formatDate(dateString) {
-      if (!dateString) return '-';
-      return new Date(dateString).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  /* 🔹 forgot‑password */
+forgotLnk.addEventListener('click', async e => {
+
+    e.preventDefault();
+    const email = prompt('Enter your e‑mail to receive reset link:');
+    if (!email) return;
+    try {
+      await auth.sendPasswordResetEmail(email);
+      alert('Password‑reset email sent. Check your inbox.');
+    } catch (err) {
+      alert(mapAuthErr(err.code));
     }
+  });
 
-    function getStatusBadge(status) {
-      switch (status) {
-        case 'active':
-          return '<span class="status-badge status-active"><i class="fas fa-circle-notch"></i> Active</span>';
-        case 'closed':
-          return '<span class="status-badge status-closed"><i class="fas fa-check-circle"></i> Closed</span>';
-        case 'overdue':
-          return '<span class="status-badge status-overdue"><i class="fas fa-exclamation-circle"></i> Overdue</span>';
-        default:
-          return '<span class="status-badge">-</span>';
-      }
+  /* 🔹 auto‑redirect if already logged in */
+  auth.onAuthStateChanged(u => {
+    if (u && location.pathname.includes('login.html')) {
+      location.href = 'profile.html';
     }
+  });
 
-    function renderLoans(loansToRender) {
-      // Render desktop table
-      renderTable(loansToRender);
-      
-      // Render mobile list
-      renderMobileList(loansToRender);
-    }
+});
+</script>
 
-    function renderTable(loansToRender) {
-      loansTableBody.innerHTML = '';
 
-      if (loansToRender.length === 0) {
-        loansTableBody.innerHTML = `
-          <tr><td colspan="8">
-            <div class="empty-state">
-              <i class="fas fa-file-invoice-dollar"></i>
-              <h3 data-translate="No Loans Found">No Loans Found</h3>
-              <p data-translate="Try adjusting your search or add a new loan">Try adjusting your search or add a new loan</p>
-            </div>
-          </td></tr>`;
-        return;
-      }
-
-      loansToRender.forEach(loan => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${loan.name}</td>
-          <td>${formatCurrency(loan.amount)}</td>
-          <td class="${loan.type === 'given' ? 'type-given' : 'type-taken'}">
-            <i class="fas fa-${loan.type === 'given' ? 'arrow-up' : 'arrow-down'}"></i>
-            ${loan.type === 'given' ? 'Given' : 'Taken'}
-          </td>
-          <td>${formatDate(loan.date)}</td>
-          <td>${formatDate(loan.dueDate)}</td>
-          <td>${getStatusBadge(loan.status)}</td>
-          <td>${loan.note}</td>
-          <td class="action-cell">
-            <button class="action-btn whatsapp-btn" data-id="${loan.id}" title="Send WhatsApp reminder">
-              <i class="fab fa-whatsapp"></i>
-            </button>
-            <button class="action-btn edit-btn" data-id="${loan.id}" title="Edit">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="action-btn delete-btn" data-id="${loan.id}" title="Delete">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>`;
-
-        loansTableBody.appendChild(row);
-
-        row.querySelector('.edit-btn').addEventListener('click', () => editLoan(loan.id));
-        row.querySelector('.delete-btn').addEventListener('click', () => deleteLoan(loan.id));
-        row.querySelector('.whatsapp-btn').addEventListener('click', () => openWhatsappModal(loan));
-      });
-    }
-
-    function renderMobileList(loansToRender) {
-      mobileLoanList.innerHTML = '';
-
-      if (loansToRender.length === 0) {
-        mobileLoanList.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <h3 data-translate="No Loans Found">No Loans Found</h3>
-            <p data-translate="Try adjusting your search or add a new loan">Try adjusting your search or add a new loan</p>
-          </div>`;
-        return;
-      }
-
-      loansToRender.forEach(loan => {
-        const item = document.createElement('div');
-        item.className = 'loan-item';
-        item.innerHTML = `
-          <div class="loan-header">
-            <div class="loan-name">${loan.name}</div>
-            <div class="loan-amount">${formatCurrency(loan.amount)}</div>
-          </div>
-          <div class="loan-details">
-            <div>
-              <span class="detail-label" data-translate="Type:">Type:</span>
-              <span class="loan-type ${loan.type === 'given' ? 'type-given-bg' : 'type-taken-bg'}">
-                ${loan.type === 'given' ? 'Given' : 'Taken'}
-              </span>
-            </div>
-            <div>
-              <span class="detail-label" data-translate="Date:">Date:</span> ${formatDate(loan.date)}
-            </div>
-            <div>
-              <span class="detail-label" data-translate="Due:">Due:</span> ${loan.dueDate ? formatDate(loan.dueDate) : '-'}
-            </div>
-            <div>
-              <span class="detail-label" data-translate="Status:">Status:</span> ${getStatusBadge(loan.status)}
-            </div>
-          </div>
-          <div class="loan-actions">
-            <button class="action-btn whatsapp-btn" data-id="${loan.id}" title="Send WhatsApp reminder">
-              <i class="fab fa-whatsapp"></i>
-            </button>
-            <button class="action-btn edit-btn" data-id="${loan.id}" title="Edit">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="action-btn delete-btn" data-id="${loan.id}" title="Delete">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>`;
-
-        mobileLoanList.appendChild(item);
-
-        item.querySelector('.edit-btn').addEventListener('click', () => editLoan(loan.id));
-        item.querySelector('.delete-btn').addEventListener('click', () => deleteLoan(loan.id));
-        item.querySelector('.whatsapp-btn').addEventListener('click', () => openWhatsappModal(loan));
-      });
-    }
-
-    function openWhatsappModal(loan) {
-      selectedLoanForWhatsapp = loan;
-      
-      // Generate default message
-      let message = `Hi ${loan.name},\n\n`;
-      message += `This is a reminder about the loan of *RS${loan.amount.toLocaleString('en-IN')}* `;
-      message += loan.type === 'given' ? 'that you owe me.' : 'that I owe you.';
-      message += `\n\n*Loan Details:*\n`;
-      message += `- Date: ${formatDate(loan.date)}\n`;
-      if (loan.dueDate) {
-        message += `- Due Date: ${formatDate(loan.dueDate)}\n`;
-      }
-      message += `- Status: ${loan.status.charAt(0).toUpperCase() + loan.status.slice(1)}\n`;
-      if (loan.note && loan.note !== 'No note') {
-        message += `- Note: ${loan.note}\n`;
-      }
-      message += `\nPlease let me know if you have any questions.`;
-      
-      whatsappMessage.value = message;
-      whatsappModal.style.display = 'flex';
-    }
-
-    function sendWhatsappMessage() {
-      if (!selectedLoanForWhatsapp) return;
-      
-      const message = encodeURIComponent(whatsappMessage.value);
-      window.open(`https://wa.me/?text=${message}`, '_blank');
-      whatsappModal.style.display = 'none';
-    }
-
-    function deleteLoan(loanId) {
-      const user = auth.currentUser;
-      if (!user) return alert("Login first");
-
-      const confirmDelete = confirm("Are you sure you want to delete this loan?");
-      if (!confirmDelete) return;
-
-      db.collection("users").doc(user.uid)
-        .collection("loans").doc(loanId)
-        .delete()
-        .then(() => showToast("Loan deleted successfully!"))
-        .catch(err => alert("Error deleting loan: " + err.message));
-    }
-
-    function editLoan(loanId) {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const loan = loans.find(l => l.id === loanId);
-      if (!loan) return alert("Loan not found");
-
-      editingLoanId = loanId;
-
-      // Pre-fill the form
-      document.getElementById('loanName').value = loan.name;
-      document.getElementById('loanAmount').value = loan.amount;
-      document.getElementById('loanType').value = loan.type;
-      document.getElementById('loanDate').value = loan.date;
-      document.getElementById('dueDate').value = loan.dueDate;
-      document.getElementById('loanStatus').value = loan.status;
-      document.getElementById('loanNote').value = loan.note;
-
-      addLoanBtn.innerHTML = '<i class="fas fa-save"></i> Update Loan';
-
-      // Show modal (if on mobile)
-      if (window.innerWidth < 768) {
-        loanModal.style.display = 'flex';
-      }
-    }
-
-    function filterLoans() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const typeValue = typeFilter.value;
-      const statusValue = statusFilter.value;
-
-      const filtered = loans.filter(loan => {
-        const matchesSearch = loan.name.toLowerCase().includes(searchTerm) || loan.note.toLowerCase().includes(searchTerm);
-        const matchesType = typeValue === 'all' || loan.type === typeValue;
-        const matchesStatus = statusValue === 'all' || loan.status === statusValue;
-        return matchesSearch && matchesType && matchesStatus;
-      });
-
-      renderLoans(filtered);
-    }
-
-    function showToast(message) {
-      toastMessage.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function addNewLoan() {
-      const user = auth.currentUser;
-      if (!user) return alert("Login first.");
-
-      const name = document.getElementById('loanName').value.trim();
-      const amount = parseFloat(document.getElementById('loanAmount').value);
-      const type = document.getElementById('loanType').value;
-      const date = document.getElementById('loanDate').value;
-      const dueDate = document.getElementById('dueDate').value;
-      const status = document.getElementById('loanStatus').value;
-      const note = document.getElementById('loanNote').value.trim() || 'No note';
-
-      if (!name || isNaN(amount)) return alert("Enter valid name and amount.");
-
-      if (editingLoanId) {
-        // EDIT MODE
-        db.collection("users").doc(user.uid)
-          .collection("loans").doc(editingLoanId)
-          .update({ name, amount, type, date, dueDate, status, note })
-          .then(() => {
-            showToast("Loan updated successfully!");
-            editingLoanId = null;
-            addLoanBtn.innerHTML = '<i class="fas fa-plus"></i> Add Loan';
-            document.getElementById('loanForm').reset();
-            document.getElementById('loanDate').valueAsDate = new Date();
-            loanModal.style.display = 'none';
-          })
-          .catch(err => alert("Error updating loan: " + err.message));
-      } else {
-        // ADD MODE
-        db.collection("users").doc(user.uid).collection("loans").add({
-          name, amount, type, date, dueDate, status, note,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
-          showToast("Loan added successfully!");
-          document.getElementById('loanForm').reset();
-          document.getElementById('loanDate').valueAsDate = new Date();
-          loanModal.style.display = 'none';
-        }).catch(err => alert("Error: " + err.message));
-      }
-    }
-
-    function fetchLoans() {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      db.collection("users").doc(user.uid)
-        .collection("loans")
-        .orderBy("createdAt", "desc")
-        .onSnapshot(snapshot => {
-          loans = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          renderLoans(loans);
-          updateStats(loans);
-        });
-    }
-
-    function updateStats(loans) {
-      const totalGiven = loans.filter(l => l.type === 'given').reduce((sum, l) => sum + l.amount, 0);
-      const totalTaken = loans.filter(l => l.type === 'taken').reduce((sum, l) => sum + l.amount, 0);
-      const netBalance = totalGiven - totalTaken;
-
-      document.getElementById('totalGiven').textContent = formatCurrency(totalGiven);
-      document.getElementById('totalTaken').textContent = formatCurrency(totalTaken);
-      document.getElementById('netBalance').textContent = formatCurrency(netBalance);
-
-      // Optional: Monthly trend calculation
-      const now = new Date();
-      const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-
-      const lastMonthGiven = loans.filter(l => l.type === 'given' && new Date(l.date) >= lastMonth)
-                                  .reduce((sum, l) => sum + l.amount, 0);
-
-      const lastMonthTaken = loans.filter(l => l.type === 'taken' && new Date(l.date) >= lastMonth)
-                                  .reduce((sum, l) => sum + l.amount, 0);
-
-      const givenTrend = totalGiven ? Math.round((lastMonthGiven / totalGiven) * 100) : 0;
-      const takenTrend = totalTaken ? Math.round((lastMonthTaken / totalTaken) * 100) : 0;
-      const balanceTrend = netBalance ? Math.round(((lastMonthGiven - lastMonthTaken) / netBalance) * 100) : 0;
-
-      document.getElementById('givenTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${givenTrend}% from last month`;
-      document.getElementById('takenTrend').innerHTML = `<i class="fas fa-arrow-down"></i> ${takenTrend}% from last month`;
-      document.getElementById('balanceTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${balanceTrend}% from last month`;
-    }
-
-    function exportToPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF('p', 'pt', 'a4');
-
-      doc.setFontSize(18).text('EasyKharcha - Loan Report', 40, 40);
-      doc.setFontSize(12).setTextColor(100).text(`Generated: ${new Date().toLocaleDateString()}`, 40, 60);
-
-      const totalGiven = loans.filter(l => l.type === 'given').reduce((sum, l) => sum + l.amount, 0);
-      const totalTaken = loans.filter(l => l.type === 'taken').reduce((sum, l) => sum + l.amount, 0);
-      const netBalance = totalGiven - totalTaken;
-
-      doc.setFontSize(14).setTextColor(0).text('Summary', 40, 90);
-      doc.setFontSize(12).text(`Total Given: RS${totalGiven.toLocaleString('en-IN')}`, 50, 115);
-      doc.text(`Total Taken: RS${totalTaken.toLocaleString('en-IN')}`, 50, 135);
-      doc.text(`Net Balance: RS${netBalance.toLocaleString('en-IN')}`, 50, 155);
-
-      doc.setTextColor(255).setFillColor(37, 99, 235).rect(40, 180, 520, 20, 'F');
-      doc.text('Name', 45, 193);
-      doc.text('Amount', 200, 193);
-      doc.text('Type', 300, 193);
-      doc.text('Date', 350, 193);
-      doc.text('Status', 450, 193);
-
-      doc.setTextColor(0);
-      let y = 210;
-      loans.forEach((loan, i) => {
-        if (y > 700) { doc.addPage(); y = 40; }
-        doc.setFontSize(10);
-        doc.text(loan.name, 45, y);
-        doc.text(`RS${loan.amount.toLocaleString('en-IN')}`, 200, y);
-        doc.text(loan.type === 'given' ? 'Given' : 'Taken', 300, y);
-        doc.text(formatDate(loan.date), 350, y);
-        doc.text(loan.status.charAt(0).toUpperCase() + loan.status.slice(1), 450, y);
-        y += 20;
-      });
-
-      doc.save(`EasyKharcha-Loans-${new Date().toISOString().slice(0, 10)}.pdf`);
-    }
-
-    function init() {
-      const today = new Date();
-      document.getElementById('loanDate').valueAsDate = today;
-
-      const dueDate = new Date();
-      dueDate.setDate(today.getDate() + 30);
-      document.getElementById('dueDate').valueAsDate = dueDate;
-
-      // Event Listeners
-      addLoanBtn.addEventListener('click', addNewLoan);
-      searchInput.addEventListener('input', filterLoans);
-      applyFilters.addEventListener('click', filterLoans);
-      exportPdfBtn.addEventListener('click', exportToPDF);
-      fabButton.addEventListener('click', () => loanModal.style.display = 'flex');
-      closeModal.addEventListener('click', () => loanModal.style.display = 'none');
-      window.addEventListener('click', e => {
-        if (e.target === loanModal) loanModal.style.display = 'none';
-      });
-      
-      closeWhatsappModal.addEventListener('click', () => whatsappModal.style.display = 'none');
-      cancelWhatsapp.addEventListener('click', () => whatsappModal.style.display = 'none');
-      sendWhatsapp.addEventListener('click', sendWhatsappMessage);
-      window.addEventListener('click', e => {
-        if (e.target === whatsappModal) whatsappModal.style.display = 'none';
-      });
-
-      fabButton.addEventListener('click', () => {
-        if (window.innerWidth < 768) {
-          loanModal.style.display = 'flex';
-        } else {
-          document.getElementById('loanForm').scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-
-      // Check auth state
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          // First fetch user settings
-          fetchUserSettings(user.uid)
-            .then(settings => {
-              // Apply settings to the page
-              applySettings(settings);
-              // Then fetch loans
-              fetchLoans();
-            })
-            .catch(error => {
-              console.error("Error loading settings:", error);
-              // Proceed with default settings
-              applySettings({ darkMode: false, language: 'en' });
-              fetchLoans();
-            });
-        } else {
-          alert("Please log in to access your loans.");
-          window.location.href = "login.html";
-        }
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
 </body>
 </html>
