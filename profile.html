@@ -583,6 +583,24 @@
                 height: 120px;
             }
         }
+.btn-sales {
+  background-color: #004225; /* dark green - sales theme */
+  color: #fff;
+  padding: 12px 150px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-sales i {
+  margin-right: 8px;
+}
+
+.btn-sales:hover {
+  background-color: #006d3d; /* lighter green on hover */
+}
 
         /* Dark Mode Styles */
         body.dark-mode {
@@ -966,6 +984,13 @@
                 </li>
             </ul>
         </div>
+       <div class="settings-section">
+  <button id="openSalesPageBtn" class="btn-sales">
+    <i class="fas fa-chart-line"></i> Sales Management
+  </button>
+</div>
+
+
         
         <div class="settings-section">
             <button id="startMiningBtn" class="btn-mining">
@@ -1580,7 +1605,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             initEvents();
         });
-        
+        document.getElementById("openSalesPageBtn").addEventListener("click", function () {
+    window.location.href = "sales.html";
+});
+
     </script>
 </body>
 </html>
