@@ -2525,6 +2525,29 @@ document.addEventListener('DOMContentLoaded', () => {
   hideBudgetModal();
 });
 
+//  Fetch and store in sessionStorage (or localStorage)
+db.collection("users").doc(uid).get().then(doc => {
+  const userData = doc.data();
+  sessionStorage.setItem("userData", JSON.stringify(userData));
+  renderUser(userData); // Function to show data in UI
+});
+// 🔄 Try to load from cache first
+let cachedUser = sessionStorage.getItem("userData");
+if (cachedUser) {
+  renderUser(JSON.parse(cachedUser));
+} else {
+  // No cache found — fetch from Firestore
+  db.collection("users").doc(uid).get().then(doc => {
+    const userData = doc.data();
+    sessionStorage.setItem("userData", JSON.stringify(userData));
+    renderUser(userData);
+  });
+}
+// After profile update
+sessionStorage.removeItem("userData"); // Remove old cache
+if (!sessionStorage.getItem("userData")) {
+  document.getElementById("loader").style.display = "block";
+}
 
   </script>
   
