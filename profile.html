@@ -851,6 +851,63 @@
         .setting-item:active {
             background: rgba(67, 97, 238, 0.08);
         }
+ .feedback-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.feedback-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  position: relative;
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.feedback-card h2, .feedback-card h3 {
+  color: #004225;
+  margin-bottom: 15px;
+}
+
+.feedback-card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.feedback-card a {
+  color: #d4af37;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
     </style>
 </head>
 <body>
@@ -863,6 +920,27 @@
             <div class="spinner"></div>
             <div class="loading-text">Loading your settings...</div>
         </div>
+      <!-- Feedback Fullscreen Overlay -->
+<div id="feedbackOverlay" class="feedback-overlay">
+  <div class="feedback-card">
+    <button id="closeFeedbackBtn" class="close-btn">✖</button>
+    <h2>📣 We Value Your Feedback</h2>
+    <p>
+      This app is still new and may have some bugs. <br>
+      Please don’t leave a negative review without giving us a chance to improve. <br>
+      Contact us at <a href="mailto:support@yourdomain.com">suppor8easykharcha@gmail.com</a> first. Thank you! 🙏
+    </p>
+    <hr>
+    <h3>📢 ہم آپ کی رائے کو اہمیت دیتے ہیں</h3>
+    <p>
+      یہ ایپ ابھی نئی ہے، اس میں کچھ مسائل ہو سکتے ہیں۔ <br>
+      برائے مہربانی منفی ریویو دینے سے پہلے ہمیں موقع دیں کہ ہم بہتری لائیں۔ <br>
+      رابطہ کریں: <a href="mailto:support@yourdomain.com">suppor8easykharcha@gmail.com</a> شکریہ! 💌
+    </p>
+  </div>
+</div>
+
+
 
         <div class="profile-card">
             <div class="profile-img-container">
@@ -1608,7 +1686,45 @@
         document.getElementById("openSalesPageBtn").addEventListener("click", function () {
     window.location.href = "sales.html";
 });
+//  Fetch and store in sessionStorage (or localStorage)
+db.collection("users").doc(uid).get().then(doc => {
+  const userData = doc.data();
+  sessionStorage.setItem("userData", JSON.stringify(userData));
+  renderUser(userData); // Function to show data in UI
+});
+// 🔄 Try to load from cache first
+let cachedUser = sessionStorage.getItem("userData");
+if (cachedUser) {
+  renderUser(JSON.parse(cachedUser));
+} else {
+  // No cache found — fetch from Firestore
+  db.collection("users").doc(uid).get().then(doc => {
+    const userData = doc.data();
+    sessionStorage.setItem("userData", JSON.stringify(userData));
+    renderUser(userData);
+  });
+}
+// After profile update
+sessionStorage.removeItem("userData"); // Remove old cache
 
     </script>
+    <script>
+  window.addEventListener('load', function () {
+    const overlayShown = localStorage.getItem('feedbackOverlayShown');
+
+    // Show only once
+    if (!overlayShown) {
+      document.getElementById('feedbackOverlay').style.display = 'flex';
+
+      document.getElementById('closeFeedbackBtn').addEventListener('click', function () {
+        document.getElementById('feedbackOverlay').style.display = 'none';
+        localStorage.setItem('feedbackOverlayShown', 'true');
+      });
+    }
+  });
+  localStorage.removeItem('feedbackOverlayShown');
+
+</script>
+
 </body>
 </html>
