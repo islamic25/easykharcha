@@ -1260,6 +1260,35 @@
       background: #f1f5f9;
       color: var(--text);
     }
+
+    /* NEW STYLES FOR FORM TOGGLE FUNCTIONALITY */
+    .form-card {
+      transition: all 0.3s ease;
+      max-height: 1000px;
+      opacity: 1;
+      overflow: hidden;
+    }
+    
+    .form-card.hidden {
+      max-height: 0;
+      opacity: 0;
+      padding: 0;
+      margin: 0;
+      border: none;
+      overflow: hidden;
+    }
+    
+    @media (min-width: 769px) {
+      .form-card.hidden {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .form-card {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1335,7 +1364,8 @@
     </div>
     
     <div class="content-grid">
-      <div class="card">
+      <!-- Form card with hidden class by default -->
+      <div class="card form-card hidden">
         <div class="card-header">
           <h2 class="card-title"><i class="fas fa-plus-circle"></i> <span data-translate="Add New Loan">Add New Loan</span></h2>
         </div>
@@ -1453,7 +1483,57 @@
       </div>
       <div class="modal-body">
         <form class="loan-form" id="mobileLoanForm">
-          <!-- Same form fields as desktop version -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobileLoanName"><i class="fas fa-user"></i> <span data-translate="Person/Shop Name">Person/Shop Name</span></label>
+              <input type="text" id="mobileLoanName" placeholder="Enter name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="mobileLoanAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Amount">Amount</span></label>
+              <input type="number" id="mobileLoanAmount" placeholder="Enter amount" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobileLoanType"><i class="fas fa-exchange-alt"></i> <span data-translate="Loan Type">Loan Type</span></label>
+              <select id="mobileLoanType">
+                <option value="given" data-translate="Given (You lent money)">Given (You lent money)</option>
+                <option value="taken" data-translate="Taken (You borrowed money)">Taken (You borrowed money)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="mobileLoanDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
+              <input type="date" id="mobileLoanDate" value="2023-10-15">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobileDueDate"><i class="fas fa-calendar-check"></i> <span data-translate="Due Date">Due Date</span></label>
+              <input type="date" id="mobileDueDate">
+            </div>
+            
+            <div class="form-group">
+              <label for="mobileLoanStatus"><i class="fas fa-info-circle"></i> <span data-translate="Status">Status</span></label>
+              <select id="mobileLoanStatus">
+                <option value="active" data-translate="Active">Active</option>
+                <option value="closed" data-translate="Closed">Closed</option>
+                <option value="overdue" data-translate="Overdue">Overdue</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="mobileLoanNote"><i class="fas fa-sticky-note"></i> <span data-translate="Note (Optional)">Note (Optional)</span></label>
+            <textarea id="mobileLoanNote" placeholder="Add any details about this loan..." rows="3"></textarea>
+          </div>
+          
+          <button type="button" id="mobileAddLoanBtn">
+            <i class="fas fa-plus"></i> <span data-translate="Add Loan">Add Loan</span>
+          </button>
         </form>
       </div>
     </div>
@@ -1630,6 +1710,7 @@
     const loansTableBody = document.getElementById('loansTableBody');
     const mobileLoanList = document.getElementById('mobileLoanList');
     const addLoanBtn = document.getElementById('addLoanBtn');
+    const mobileAddLoanBtn = document.getElementById('mobileAddLoanBtn');
     const searchInput = document.getElementById('searchInput');
     const typeFilter = document.getElementById('typeFilter');
     const statusFilter = document.getElementById('statusFilter');
@@ -1645,6 +1726,7 @@
     const cancelWhatsapp = document.getElementById('cancelWhatsapp');
     const sendWhatsapp = document.getElementById('sendWhatsapp');
     const whatsappMessage = document.getElementById('whatsappMessage');
+    const formCard = document.querySelector('.form-card');
 
     function formatCurrency(amount) {
       return 'RS ' + amount.toLocaleString('en-IN');
@@ -1844,10 +1926,24 @@
       document.getElementById('loanStatus').value = loan.status;
       document.getElementById('loanNote').value = loan.note;
 
-      addLoanBtn.innerHTML = '<i class="fas fa-save"></i> Update Loan';
+      // Pre-fill mobile form
+      document.getElementById('mobileLoanName').value = loan.name;
+      document.getElementById('mobileLoanAmount').value = loan.amount;
+      document.getElementById('mobileLoanType').value = loan.type;
+      document.getElementById('mobileLoanDate').value = loan.date;
+      document.getElementById('mobileDueDate').value = loan.dueDate;
+      document.getElementById('mobileLoanStatus').value = loan.status;
+      document.getElementById('mobileLoanNote').value = loan.note;
 
-      // Show modal (if on mobile)
-      if (window.innerWidth < 768) {
+      // Update button text
+      addLoanBtn.innerHTML = '<i class="fas fa-save"></i> Update Loan';
+      document.getElementById('mobileAddLoanBtn').innerHTML = '<i class="fas fa-save"></i> Update Loan';
+
+      // Show form
+      if (window.innerWidth >= 768) {
+        formCard.classList.remove('hidden');
+        formCard.scrollIntoView({ behavior: 'smooth' });
+      } else {
         loanModal.style.display = 'flex';
       }
     }
@@ -1877,13 +1973,25 @@
       const user = auth.currentUser;
       if (!user) return alert("Login first.");
 
-      const name = document.getElementById('loanName').value.trim();
-      const amount = parseFloat(document.getElementById('loanAmount').value);
-      const type = document.getElementById('loanType').value;
-      const date = document.getElementById('loanDate').value;
-      const dueDate = document.getElementById('dueDate').value;
-      const status = document.getElementById('loanStatus').value;
-      const note = document.getElementById('loanNote').value.trim() || 'No note';
+      let name, amount, type, date, dueDate, status, note;
+
+      if (window.innerWidth >= 768) {
+        name = document.getElementById('loanName').value.trim();
+        amount = parseFloat(document.getElementById('loanAmount').value);
+        type = document.getElementById('loanType').value;
+        date = document.getElementById('loanDate').value;
+        dueDate = document.getElementById('dueDate').value;
+        status = document.getElementById('loanStatus').value;
+        note = document.getElementById('loanNote').value.trim() || 'No note';
+      } else {
+        name = document.getElementById('mobileLoanName').value.trim();
+        amount = parseFloat(document.getElementById('mobileLoanAmount').value);
+        type = document.getElementById('mobileLoanType').value;
+        date = document.getElementById('mobileLoanDate').value;
+        dueDate = document.getElementById('mobileDueDate').value;
+        status = document.getElementById('mobileLoanStatus').value;
+        note = document.getElementById('mobileLoanNote').value.trim() || 'No note';
+      }
 
       if (!name || isNaN(amount)) return alert("Enter valid name and amount.");
 
@@ -1895,10 +2003,13 @@
           .then(() => {
             showToast("Loan updated successfully!");
             editingLoanId = null;
+            
+            // Reset button text
             addLoanBtn.innerHTML = '<i class="fas fa-plus"></i> Add Loan';
-            document.getElementById('loanForm').reset();
-            document.getElementById('loanDate').valueAsDate = new Date();
-            loanModal.style.display = 'none';
+            document.getElementById('mobileAddLoanBtn').innerHTML = '<i class="fas fa-plus"></i> Add Loan';
+            
+            // Hide form
+            hideForm();
           })
           .catch(err => alert("Error updating loan: " + err.message));
       } else {
@@ -1908,10 +2019,16 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         }).then(() => {
           showToast("Loan added successfully!");
-          document.getElementById('loanForm').reset();
-          document.getElementById('loanDate').valueAsDate = new Date();
-          loanModal.style.display = 'none';
+          hideForm();
         }).catch(err => alert("Error: " + err.message));
+      }
+    }
+    
+    function hideForm() {
+      if (window.innerWidth >= 768) {
+        formCard.classList.add('hidden');
+      } else {
+        loanModal.style.display = 'none';
       }
     }
 
@@ -1999,17 +2116,29 @@
     function init() {
       const today = new Date();
       document.getElementById('loanDate').valueAsDate = today;
+      document.getElementById('mobileLoanDate').valueAsDate = today;
 
       const dueDate = new Date();
       dueDate.setDate(today.getDate() + 30);
       document.getElementById('dueDate').valueAsDate = dueDate;
+      document.getElementById('mobileDueDate').valueAsDate = dueDate;
 
       // Event Listeners
       addLoanBtn.addEventListener('click', addNewLoan);
+      mobileAddLoanBtn.addEventListener('click', addNewLoan);
       searchInput.addEventListener('input', filterLoans);
       applyFilters.addEventListener('click', filterLoans);
       exportPdfBtn.addEventListener('click', exportToPDF);
-      fabButton.addEventListener('click', () => loanModal.style.display = 'flex');
+      
+      fabButton.addEventListener('click', function() {
+        if (window.innerWidth < 768) {
+          loanModal.style.display = 'flex';
+        } else {
+          formCard.classList.remove('hidden');
+          formCard.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+      
       closeModal.addEventListener('click', () => loanModal.style.display = 'none');
       window.addEventListener('click', e => {
         if (e.target === loanModal) loanModal.style.display = 'none';
@@ -2020,14 +2149,6 @@
       sendWhatsapp.addEventListener('click', sendWhatsappMessage);
       window.addEventListener('click', e => {
         if (e.target === whatsappModal) whatsappModal.style.display = 'none';
-      });
-
-      fabButton.addEventListener('click', () => {
-        if (window.innerWidth < 768) {
-          loanModal.style.display = 'flex';
-        } else {
-          document.getElementById('loanForm').scrollIntoView({ behavior: 'smooth' });
-        }
       });
 
       // Check auth state
