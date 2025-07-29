@@ -1,165 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Terms & Conditions | YOUR APP NAME</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --primary:#004225;
-      --secondary:#f4f1ea;
-      --accent:#d4af37;
-      --text:#1a1a1a;
-    }
-
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif;}
-
-    body{
-      background:var(--secondary);
-      color:var(--text);
-      line-height:1.7;
-    }
-
-    header{
-      background:var(--primary);
-      color:#fff;
-      padding:1rem 1.5rem;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    header a{
-      color:#fff;
-      text-decoration:none;
-      font-weight:600;
-      margin-left:1rem;
-      transition:opacity .2s;
-    }
-
-    header a:hover{opacity:.8;}
-
-    main{
-      max-width:960px;
-      margin:2.5rem auto;
-      background:#fff;
-      padding:2rem 2.5rem;
-      border-radius:12px;
-      box-shadow:0 2px 10px rgba(0,0,0,.05);
-    }
-
-    h1{
-      font-size:2rem;
-      margin-bottom:.75rem;
-      color:var(--primary);
-    }
-
-    h2{
-      font-size:1.25rem;
-      margin:1.5rem 0 .5rem;
-      color:var(--primary);
-    }
-
-    p,li{margin:.5rem 0;}
-
-    ul{padding-left:1.25rem;}
-
-    footer{
-      text-align:center;
-      margin:3rem 0 1rem;
-      font-size:.9rem;
-      color:#666;
-    }
-
-    .highlight{color:var(--accent);font-weight:600;}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - EasyKharcha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6de5;
+            --secondary: #8e44ad;
+            --accent: #2ecc71;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --gray: #95a5a6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo i {
+            font-size: 40px;
+            color: var(--primary);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 25px 0 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background: #f0f5ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            margin: 20px 0;
+        }
+        
+        .contact-box {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .contact-box h3 {
+            color: var(--dark);
+            margin-top: 0;
+        }
+        
+        .contact-email {
+            display: inline-block;
+            background: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: var(--secondary);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--dark);
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .last-updated {
+            background: var(--warning);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 25px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+        
+        .prohibited-list {
+            background: #fff8f8;
+            border-left: 4px solid var(--danger);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+        
+        .prohibited-list li {
+            color: #555;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-
-  <header>
-    <div><span style="font-weight:700;">YOUR APP NAME</span></div>
-    <nav>
-      <a href="terms.html" style="text-decoration:underline;">Terms&nbsp;&amp;&nbsp;Conditions</a>
-      <a href="privacy.html">Privacy&nbsp;Policy</a>
-    </nav>
-  </header>
-
-  <main>
-    <h1>Terms &amp; Conditions</h1>
-    <p><em>Last updated: <!-- TODO: insert date, e.g. July 16 2025 --></em></p>
-
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing or using <span class="highlight">YOUR APP NAME</span> (“Service”), you agree to be bound by these Terms & Conditions (“Terms”). If you do not agree, please uninstall the app and discontinue use.</p>
-
-    <h2>2. Description of Service</h2>
-    <p>The Service allows users to earn virtual coins (“Coins”) through simulated mining and a referral invite program. Coins may be converted to rewards or withdrawals as described in Section 7.</p>
-
-    <h2>3. Eligibility</h2>
-    <p>You must be at least 13 years old and capable of forming a binding contract in your jurisdiction.</p>
-
-    <h2>4. Account Registration & Security</h2>
-    <ul>
-      <li>You agree to provide accurate and complete information during registration.</li>
-      <li>You are responsible for maintaining the confidentiality of your Firebase-authenticated account.</li>
-      <li>Multiple accounts, bots, or fraudulent referrals are strictly prohibited and may result in termination (Section 10).</li>
-    </ul>
-
-    <h2>5. Invite & Referral Program</h2>
-    <ul>
-      <li>You may share your referral link to invite new users.</li>
-      <li>Coins awarded for referrals are provisional until we verify the legitimacy of the invited account.</li>
-      <li>We reserve the right to adjust or revoke Coins credited through abuse or fraudulent activity.</li>
-    </ul>
-
-    <h2>6. Mining & Coin Balance</h2>
-    <ul>
-      <li>Mining rates can change at any time for system balance.</li>
-      <li>Offline-earnings calculations run when you reopen the app; any attempt to tamper with local timers is a violation.</li>
-    </ul>
-
-    <h2>7. Withdrawals & Rewards</h2>
-    <ul>
-      <li>A minimum balance and verified account may be required before requesting withdrawal.</li>
-      <li>Withdrawal requests are subject to manual review and may take up to <!-- TODO: e.g. “3 business days” --> to process.</li>
-      <li>We do not guarantee continuous availability of any specific reward or payout method.</li>
-    </ul>
-
-    <h2>8. Prohibited Conduct</h2>
-    <ul>
-      <li>Reverse engineering or interfering with the Service.</li>
-      <li>Submitting false, misleading, or inaccurate information.</li>
-      <li>Using automated scripts to collect data or interact with the Service.</li>
-    </ul>
-
-    <h2>9. Intellectual Property</h2>
-    <p>All content, trademarks, and code are the property of <span class="highlight">YOUR COMPANY NAME</span> unless otherwise stated. You may not reproduce or redistribute without our permission.</p>
-
-    <h2>10. Termination</h2>
-    <p>We may suspend or terminate your account at any time, without notice, for conduct that we believe violates these Terms or is otherwise harmful.</p>
-
-    <h2>11. Disclaimer of Warranties</h2>
-    <p>The Service is provided “as is” and “as available,” without warranties of any kind. Mining rates and earnings projections are estimates and not guaranteed.</p>
-
-    <h2>12. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by law, <span class="highlight">YOUR COMPANY NAME</span> shall not be liable for indirect, incidental, or consequential damages arising out of your use of the Service.</p>
-
-    <h2>13. Governing Law</h2>
-    <p>These Terms are governed by the laws of <!-- TODO: insert your jurisdiction, e.g. “Pakistan” --> without regard to conflict of law principles.</p>
-
-    <h2>14. Changes to Terms</h2>
-    <p>We may modify these Terms at any time. Revised Terms will be effective when posted. Continued use after changes constitutes acceptance.</p>
-
-    <h2>15. Contact Information</h2>
-    <p>If you have questions about these Terms, please email us at <a href="mailto:YOUR‑SUPPORT‑EMAIL">YOUR‑SUPPORT‑EMAIL</a>.</p>
-  </main>
-
-  <footer>
-    © <!-- TODO: current year --> YOUR COMPANY NAME. All rights reserved.
-  </footer>
-
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <h1>EasyKharcha</h1>
+            <p>Terms and Conditions of Use</p>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <p><strong>Last Updated: July 29, 2025</strong></p>
+                <p>Welcome to EasyKharcha! These Terms and Conditions ("Terms") govern your use of the EasyKharcha mobile application ("App") and related services. By accessing or using our App, you agree to be bound by these Terms.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-check-circle"></i> Acceptance of Terms</h2>
+                <p>By downloading, installing, or using EasyKharcha, you confirm that you accept these Terms and agree to comply with them. If you do not agree to these Terms, you must not use our App.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-info-circle"></i> Description of Service</h2>
+                <p>EasyKharcha is a personal finance application that helps users:</p>
+                <ul>
+                    <li>Track income and expenses</li>
+                    <li>Manage personal budgets</li>
+                    <li>Categorize financial transactions</li>
+                    <li>Generate spending reports and insights</li>
+                    <li>Optionally participate in our referral program</li>
+                </ul>
+                <p>The App is provided for personal, non-commercial use only.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-user-shield"></i> User Registration and Account Security</h2>
+                <p>To access certain features, you may need to create an account. You agree to:</p>
+                <ul>
+                    <li>Provide accurate and complete registration information</li>
+                    <li>Maintain the security of your account credentials</li>
+                    <li>Promptly update any changes to your information</li>
+                    <li>Accept responsibility for all activities under your account</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-ban"></i> Acceptable Use and Restrictions</h2>
+                <p>You agree to use EasyKharcha only for lawful purposes and in accordance with these Terms. You must not:</p>
+                
+                <div class="prohibited-list">
+                    <ul>
+                        <li><span class="badge badge-danger">Prohibited</span> Use the App for any fraudulent or illegal activities</li>
+                        <li><span class="badge badge-danger">Prohibited</span> Attempt to gain unauthorized access to our systems or other accounts</li>
+                        <li><span class="badge badge-danger">Prohibited</span> Reverse engineer, decompile, or disassemble any part of the App</li>
+                        <li><span class="badge badge-danger">Prohibited</span> Use automated systems (bots, scrapers, etc.) to access the App</li>
+                        <li><span class="badge badge-danger">Prohibited</span> Abuse our referral system through fraudulent means</li>
+                        <li><span class="badge badge-danger">Prohibited</span> Transmit viruses or any malicious code</li>
+                        <li><span class="badge badge-danger">Prohibited</span> Harass, threaten, or harm other users</li>
+                    </ul>
+                </div>
+                
+                <p>Any violation of these restrictions may result in immediate termination of your account.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-database"></i> Data Responsibility</h2>
+                <h3>Your Data</h3>
+                <p>You retain ownership of all personal and financial data you enter into EasyKharcha. We do not claim ownership of your data.</p>
+                
+                <h3>Data Accuracy</h3>
+                <p>You are solely responsible for the accuracy and completeness of the data you enter into the App. EasyKharcha is not responsible for any errors or omissions in your financial records.</p>
+                
+                <h3>Data Security</h3>
+                <p>We implement industry-standard security measures to protect your data. However, no electronic transmission or storage is 100% secure. You acknowledge this inherent risk and agree to take reasonable precautions with your account credentials.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-copyright"></i> Intellectual Property</h2>
+                <p>All rights, title, and interest in and to the EasyKharcha App, including all intellectual property rights, are and will remain the exclusive property of EasyKharcha and its licensors.</p>
+                <p>You are granted a limited, non-exclusive, non-transferable license to use the App for personal, non-commercial purposes in accordance with these Terms.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-user-slash"></i> Account Suspension and Termination</h2>
+                <p>We reserve the right to suspend or terminate your access to EasyKharcha at our sole discretion, without notice, for conduct that we believe:</p>
+                <ul>
+                    <li>Violates these Terms</li>
+                    <li>Violates applicable laws or regulations</li>
+                    <li>Is harmful to other users, us, or third parties</li>
+                    <li>Constitutes fraudulent or abusive activity</li>
+                </ul>
+                <p>You may terminate your account at any time by contacting us or through account settings.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-exclamation-triangle"></i> Disclaimers</h2>
+                
+                <div class="highlight">
+                    <h3><i class="fas fa-comment-medical"></i> No Financial Advice</h3>
+                    <p>EasyKharcha provides a tool for tracking personal finances but does <strong>not</strong> provide financial, investment, tax, or legal advice. The information presented should not be construed as professional advice. Always consult qualified professionals for advice regarding your specific financial situation.</p>
+                </div>
+                
+                <h3>Service "As Is"</h3>
+                <p>The App is provided "as is" without warranties of any kind, either express or implied. We do not warrant that the App will be uninterrupted, secure, or error-free.</p>
+                
+                <h3>Third-Party Services</h3>
+                <p>EasyKharcha may integrate with third-party services. We are not responsible for the content or practices of these services.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-balance-scale"></i> Limitation of Liability</h2>
+                <p>To the maximum extent permitted by law, EasyKharcha shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from:</p>
+                <ul>
+                    <li>Your use or inability to use the App</li>
+                    <li>Any unauthorized access to or use of our servers and/or any personal information stored therein</li>
+                    <li>Any errors or omissions in any content</li>
+                    <li>Any decisions made based on information provided by the App</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-sync-alt"></i> Changes to Terms</h2>
+                <p>We reserve the right to modify these Terms at any time. We will provide notice of significant changes through the App or via email. Your continued use of EasyKharcha after such changes constitutes your acceptance of the new Terms.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-gavel"></i> Governing Law</h2>
+                <p>These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law principles.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-envelope"></i> Contact Information</h2>
+                <p>For any questions, concerns, or notices regarding these Terms, please contact us at:</p>
+                
+                <div class="contact-box">
+                    <h3><i class="fas fa-headset"></i> EasyKharcha Support</h3>
+                    <a href="mailto:support@easykharcha.com" class="contact-email">
+                        <i class="fas fa-envelope"></i> suppo8easykharchat@gmail.com
+                    </a>
+                    <p>We typically respond within 1-2 business days</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 EasyKharcha. All rights reserved.</p>
+            <div class="last-updated">
+                <i class="fas fa-history"></i> Last Updated: July 29, 2025
+            </div>
+        </footer>
+    </div>
 </body>
 </html>
