@@ -151,6 +151,12 @@
             gap: 20px;
         }
         
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
         /* Stats Grid */
         .stats-grid {
             display: grid;
@@ -285,6 +291,82 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
+        .video-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .video-card:hover .video-overlay {
+            opacity: 1;
+        }
+        
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .video-desc {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
         .referral-link {
             display: flex;
             background: rgba(255, 255, 255, 0.05);
@@ -325,6 +407,172 @@
         .notification.show {
             transform: translateX(0);
         }
+        
+        /* Video Modal */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .video-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .reward-badge {
+            background: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Claim button */
+        .claim-video-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        
+        .claim-video-btn:disabled {
+            background: #7a7a7a;
+            cursor: not-allowed;
+        }
+        
+        .claim-video-btn:hover:not(:disabled) {
+            background: #e04e00;
+        }
+        
+        .video-completed {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 2;
+        }
+     
+.banner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #004225f2;
+  color: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.banner-content {
+  background-color: #f4f1ea;
+  color: #000;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  font-family: 'Cairo', sans-serif;
+  position: relative;
+}
+
+.contact-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #d4af37;
+  color: #000;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+}
+
     </style>
 </head>
 <body>
@@ -333,6 +581,41 @@
         <div class="loading-content">
             <div class="spinner"></div>
             <p class="mt-4 text-lg">Loading your mining data...</p>
+        </div>
+    </div>
+
+<<div id="rateBanner" class="banner-overlay" style="display: none;">
+  <div class="banner-content">
+    <button id="closeRateBanner" class="close-btn">✖</button>
+    <h2>🌟 Rate & Earn 10,000 Coins!</h2>
+    <p>Give us a 5-star rating and get <strong>10,000 coins</strong> in your wallet instantly!</p>
+    <p dir="rtl" lang="ur" style="font-family: 'Noto Nastaliq Urdu', serif;">
+      🌟 ہمیں 5 اسٹار ریٹنگ دیں اور <strong>فوراً 10,000 کوائنز</strong> حاصل کریں!
+    </p>
+    <button id="rateNowBtn" class="contact-btn">⭐ Rate Now / ابھی ریویو کریں</button>
+  </div>
+</div>
+
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <div class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="video-container">
+                <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="modal-footer">
+                <div class="reward-badge">
+                    <i class="fas fa-coins"></i>
+                    Earn 10,000 coins
+                </div>
+                <button class="claim-video-btn" id="claimVideoBtn" disabled>
+                    <i class="fas fa-check-circle"></i>
+                    Claim Reward
+                </button>
+            </div>
         </div>
     </div>
 
@@ -384,6 +667,10 @@
                 <button class="tab-btn" data-target="tasks-section">
                     <i class="fas fa-tasks"></i>
                     <span>Daily Tasks</span>
+                </button>
+                <button class="tab-btn" data-target="extra-tasks-section">
+                    <i class="fab fa-youtube"></i>
+                    <span>Video Rewards</span>
                 </button>
                 <button class="tab-btn" data-target="referral-section">
                     <i class="fas fa-user-friends"></i>
@@ -496,6 +783,20 @@
                     </div>
                 </div>
             </div>
+            
+        </section>
+        
+        <!-- NEW: Extra Tasks Section -->
+        <section id="extra-tasks-section" class="section card">
+            <h2 class="section-title">
+                <i class="fab fa-youtube"></i>
+                Video Rewards
+            </h2>
+            <p class="text-gray-400 mb-6">Watch these exclusive UFC videos to earn massive coin rewards! Each video can be watched only once.</p>
+            
+            <div class="video-grid" id="videoGrid">
+                <!-- Video cards will be generated here -->
+            </div>
         </section>
         
         <!-- Referral Section -->
@@ -593,6 +894,12 @@
         const viewAllBtn = document.getElementById('viewAllBtn');
         const tabButtons = document.querySelectorAll('.tab-btn');
         const sections = document.querySelectorAll('.section');
+        const videoGrid = document.getElementById('videoGrid');
+        const videoModal = document.getElementById('videoModal');
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const closeModal = document.getElementById('closeModal');
+        const claimVideoBtn = document.getElementById('claimVideoBtn');
+        const videoModalElement = document.getElementById('videoModal');
 
         // Game state
         let gameState = {
@@ -612,8 +919,41 @@
                 upgradeTask: { target: 5, progress: 0, claimed: false },
                 referralTask: { target: 3, progress: 0, claimed: false }
             },
-            referralCode: ''
+            referralCode: '',
+            // NEW: Track watched videos
+            watchedVideos: []
         };
+
+        // Video data
+        const videos = [
+            {
+                id: 'ufc300',
+                title: 'UFC 300: Main Event Highlights',
+                desc: 'Watch the most exciting moments from UFC 300',
+                videoId: 'dQw4w9WgXcQ',
+                duration: '3:45',
+                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+                reward: 10000
+            },
+            {
+                id: 'ko-compilation',
+                title: 'Best UFC Knockouts of 2024',
+                desc: 'The most brutal knockouts from this year',
+                videoId: 'dQw4w9WgXcQ',
+                duration: '5:22',
+                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+                reward: 10000
+            },
+            {
+                id: 'behind-scenes',
+                title: 'Behind the Scenes: UFC Training Camp',
+                desc: 'Exclusive look at fighter preparations',
+                videoId: 'dQw4w9WgXcQ',
+                duration: '7:18',
+                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+                reward: 10000
+            }
+        ];
 
         // Format numbers for display
         const fmt = n => (n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : Math.floor(n));
@@ -643,7 +983,8 @@
                         gameState = {
                             ...gameState,
                             ...userData,
-                            lastUpdated: userData.lastUpdated?.toDate() || new Date()
+                            lastUpdated: userData.lastUpdated?.toDate() || new Date(),
+                            watchedVideos: userData.watchedVideos || []
                         };
                         
                         // Update UI
@@ -671,6 +1012,9 @@
                     // Setup event listeners
                     setupEventListeners(userRef);
                     
+                    // Render video cards
+                    renderVideoCards();
+                    
                 } catch (error) {
                     console.error("Error loading user data:", error);
                     showNotification("Error loading data. Please try again.");
@@ -679,6 +1023,90 @@
                     loadingOverlay.style.display = 'none';
                 }
             });
+        }
+
+        // Render video cards
+        function renderVideoCards() {
+            videoGrid.innerHTML = '';
+            
+            videos.forEach(video => {
+                const isWatched = gameState.watchedVideos.includes(video.id);
+                
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                card.innerHTML = `
+                    <div class="video-thumbnail" style="background-image: url(${video.thumbnail})">
+                        ${isWatched ? '<div class="video-completed">Watched</div>' : ''}
+                        <div class="video-overlay">
+                            <div class="play-btn">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="video-duration">${video.duration}</div>
+                    </div>
+                    <div class="video-title">${video.title}</div>
+                    <div class="video-desc">${video.desc}</div>
+                    <div class="task-reward flex justify-between items-center">
+                        <div class="reward-value text-yellow-400 font-bold flex items-center gap-2">
+                            <i class="fas fa-coins"></i> ${fmt(video.reward)} coins
+                        </div>
+                        <button class="claim-btn bg-green-500 text-white border-none py-2 px-4 rounded-full cursor-pointer font-semibold transition-all hover:bg-green-600 hover:translate-y-[-2px] ${isWatched ? 'bg-gray-600 hover:bg-gray-600 cursor-not-allowed' : ''}" 
+                                data-video="${video.id}" ${isWatched ? 'disabled' : ''}>
+                            ${isWatched ? 'Claimed' : 'Watch & Earn'}
+                        </button>
+                    </div>
+                `;
+                
+                videoGrid.appendChild(card);
+                
+                // Add click event to watch button
+                const watchBtn = card.querySelector('.play-btn');
+                if (watchBtn && !isWatched) {
+                    watchBtn.addEventListener('click', () => openVideo(video));
+                }
+            });
+        }
+
+        // Open video in modal
+        function openVideo(video) {
+            youtubePlayer.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1`;
+            videoModal.classList.add('active');
+            currentVideo = video;
+            
+            // Reset claim button
+            claimVideoBtn.disabled = true;
+            claimVideoBtn.textContent = 'Watch to unlock reward';
+            
+            // Start progress tracking
+            startVideoProgressTracking();
+        }
+
+        // Start video progress tracking
+        function startVideoProgressTracking() {
+            // This would normally use the YouTube API to track actual progress
+            // For simplicity, we'll simulate progress with a timer
+            
+            // Reset timer if exists
+            if (videoTimer) clearInterval(videoTimer);
+            
+            let progress = 0;
+            videoTimer = setInterval(() => {
+                progress += 10;
+                if (progress >= 100) {
+                    clearInterval(videoTimer);
+                    claimVideoBtn.disabled = false;
+                    claimVideoBtn.innerHTML = '<i class="fas fa-check-circle"></i> Claim Reward';
+                }
+            }, 1000);
+        }
+        
+        // Close video modal
+        function closeVideoModal() {
+            videoModal.classList.remove('active');
+            youtubePlayer.src = '';
+            
+            // Clear timer
+            if (videoTimer) clearInterval(videoTimer);
         }
 
         // Generate referral code
@@ -707,6 +1135,7 @@
                     const data = doc.data();
                     gameState = { ...gameState, ...data };
                     updateUI();
+                    renderVideoCards();
                 }
             });
             
@@ -811,9 +1240,59 @@
             document.querySelectorAll('.claim-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const task = btn.getAttribute('data-task');
-                    claimTask(task, userRef);
+                    if (task === 'video') {
+                        const videoId = btn.getAttribute('data-video');
+                        claimVideoReward(videoId, userRef);
+                    } else {
+                        claimTask(task, userRef);
+                    }
                 });
             });
+            
+            // Close modal button
+            closeModal.addEventListener('click', closeVideoModal);
+            
+            // Claim video reward button
+            claimVideoBtn.addEventListener('click', () => {
+                if (currentVideo) {
+                    claimVideoReward(currentVideo.id, userRef);
+                    closeVideoModal();
+                }
+            });
+            
+            // Close modal when clicking outside
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    closeVideoModal();
+                }
+            });
+        }
+
+        // Claim video reward
+        function claimVideoReward(videoId, userRef) {
+            if (gameState.watchedVideos.includes(videoId)) {
+                showNotification('You have already claimed this reward!');
+                return;
+            }
+            
+            const video = videos.find(v => v.id === videoId);
+            if (!video) return;
+            
+            gameState.totalCoins += video.reward;
+            gameState.watchedVideos.push(videoId);
+            
+            // Update UI
+            updateUI();
+            renderVideoCards();
+            
+            // Update in Firebase
+            userRef.update({
+                totalCoins: gameState.totalCoins,
+                watchedVideos: firebase.firestore.FieldValue.arrayUnion(videoId),
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            showNotification(`You earned ${fmt(video.reward)} coins for watching the video!`);
         }
 
         // Buy upgrade
@@ -927,6 +1406,11 @@
             // Update task buttons
             document.querySelectorAll('.claim-btn').forEach(btn => {
                 const task = btn.getAttribute('data-task');
+                if (task === 'video') {
+                    // Video buttons are handled in renderVideoCards
+                    return;
+                }
+                
                 const taskKey = task + 'Task';
                 const taskData = gameState.tasks[taskKey];
                 
@@ -973,8 +1457,65 @@
             }, 3000);
         }
 
+        // Global variables for video tracking
+        let currentVideo = null;
+        let videoTimer = null;
+
         // Initialize the game when DOM is loaded
         document.addEventListener('DOMContentLoaded', initGame);
+        
     </script>
+  
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const banner = document.getElementById("rateBanner");
+    const closeBtn = document.getElementById("closeRateBanner");
+    const rateNowBtn = document.getElementById("rateNowBtn");
+
+    // Always show banner on page load
+    banner.style.display = "flex";
+
+    // Close banner
+    closeBtn.addEventListener("click", function () {
+      banner.style.display = "none";
+    });
+
+    // When user clicks "Rate Now"
+    rateNowBtn.addEventListener("click", async () => {
+      const user = firebase.auth().currentUser;
+
+      if (!user) {
+        alert("Please login first.");
+        return;
+      }
+
+      const userRef = firebase.firestore().collection("users").doc(user.uid);
+      const doc = await userRef.get();
+
+      if (!doc.exists) {
+        alert("User data not found.");
+        return;
+      }
+
+      const data = doc.data();
+
+      if (data.hasRated) {
+        alert("✅ You already received 10,000 coins. Thank you!");
+      } else {
+        await userRef.update({
+          balance: firebase.firestore.FieldValue.increment(10000),
+          hasRated: true
+        });
+        alert("🎉 Thank you for rating! 10,000 coins added to your wallet.");
+      }
+
+      // Open Play Store
+      window.open("https://play.google.com/store/apps/details?id=com.example.easykharcha", "_blank");
+    });
+  });
+</script>
+
+
+
 </body>
 </html>
