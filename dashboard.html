@@ -1601,6 +1601,29 @@
       <button id="saveBudgetBtn" class="btn-primary" data-translate="save_budget">Save Budget</button>
     </div>
   </div>
+<!-- Hidden PDF Content -->
+<div id="pdfContent" style="display: none; padding: 20px; font-family: sans-serif;">
+  <h2 style="text-align: center;">EasyKharcha - Summary Report</h2>
+  <div style="margin-bottom: 20px;">
+    <p><strong>Total Income:</strong> <span id="pdfTotalIncome">--</span></p>
+    <p><strong>Total Expense:</strong> <span id="pdfTotalExpense">--</span></p>
+    <p><strong>Total Balance:</strong> <span id="pdfTotalBalance">--</span></p>
+  </div>
+
+  <h3>Recent Transactions</h3>
+  <table style="width: 100%; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="6">
+    <thead style="background: #f1f1f1;">
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount (RS)</th>
+      </tr>
+    </thead>
+    <tbody id="pdfTransactionTable"></tbody>
+  </table>
+</div>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -2455,62 +2478,76 @@
       });
     }
     
-    // PDF Download Function
-    function downloadPDF() {
-      // This is a placeholder for PDF download functionality
-      // Actual implementation would use html2pdf.js
-      alert("PDF download functionality would be implemented here with html2pdf.js");
-    }
-    // Updated PDF Download Function
-    function downloadPDF() {
-      // Show generating notification
-      showNotification(translations[currentLanguage].generating_pdf, "info");
-      
-      // Get the element to print
-      const element = document.querySelector('.container');
-      
-      // Clone the element so we can modify it for printing
-      const clone = element.cloneNode(true);
-      
-      // Remove elements not needed in PDF
-      clone.querySelector('.add-transaction-btn')?.remove();
-      clone.querySelector('.logout-btn')?.remove();
-      clone.querySelector('.download-pdf-btn')?.remove();
-      
-      // Create a temporary container for PDF generation
-      const tempContainer = document.createElement('div');
-      tempContainer.style.position = 'absolute';
-      tempContainer.style.left = '-9999px';
-      tempContainer.appendChild(clone);
-      document.body.appendChild(tempContainer);
-      
-      // Set options for PDF generation
-      const opt = {
-        margin: 10,
-        filename: 'EasyKharcha_Report.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-          scale: 2,
-          useCORS: true,
-          logging: false
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      
-      // Generate and save the PDF
-      html2pdf()
-        .set(opt)
-        .from(tempContainer)
-        .save()
-        .then(() => {
-          showNotification(translations[currentLanguage].pdf_downloaded, "success");
-          tempContainer.remove();
-        })
-        .catch(error => {
-          showNotification(translations[currentLanguage].pdf_error + error.message, "error");
-          tempContainer.remove();
-        });
-    }
+   function downloadPDF() {
+  showNotification(translations[currentLanguage].generating_pdf, "info");
+
+  // Calculate totals
+  let totalIncome = 0;
+  let totalExpense = 0;
+
+  transactions.forEach(tx => {
+    const amount = Number(tx.amount || 0);
+    if (tx.type === "income") totalIncome += amount;
+    else if (tx.type === "expense") totalExpense += amount;
+  });
+
+  const totalBalance = totalIncome - totalExpense;
+
+  // Fill summary values
+  document.getElementById('pdfTotalIncome').textContent = `RS${totalIncome.toLocaleString()}`;
+  document.getElementById('pdfTotalExpense').textContent = `RS${totalExpense.toLocaleString()}`;
+  document.getElementById('pdfTotalBalance').textContent = `RS${totalBalance.toLocaleString()}`;
+
+  // Prepare recent transactions
+  const tableBody = document.getElementById('pdfTransactionTable');
+  tableBody.innerHTML = '';
+
+  const recentTransactions = transactions
+    .map(tx => ({
+      ...tx,
+      date: tx.date?.toDate ? tx.date.toDate() : new Date(tx.date),
+      amount: Number(tx.amount || 0)
+    }))
+    .sort((a, b) => b.date - a.date)
+    .slice(0, 5);
+
+  recentTransactions.forEach(tx => {
+    const date = tx.date.toLocaleDateString();
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${date}</td>
+      <td>${tx.description || tx.category || ''}</td>
+      <td>${tx.category || ''}</td>
+      <td>${tx.type || ''}</td>
+      <td>RS${tx.amount.toLocaleString()}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+
+  // Generate PDF
+  const pdfElement = document.getElementById('pdfContent');
+  pdfElement.style.display = 'block';
+
+  const opt = {
+    margin: 10,
+    filename: 'EasyKharcha_Report.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(pdfElement).save()
+    .then(() => {
+      showNotification(translations[currentLanguage].pdf_downloaded || "PDF downloaded successfully!", "success");
+      pdfElement.style.display = 'none';
+    })
+    .catch(error => {
+      showNotification((translations[currentLanguage].pdf_error || "PDF error: ") + error.message, "error");
+      pdfElement.style.display = 'none';
+    });
+}
+
+
     
     // Add translations for PDF functionality
     translations.en.generating_pdf = "Generating PDF...";
