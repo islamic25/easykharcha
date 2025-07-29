@@ -6,19 +6,8 @@
     <title>My Profile - Expense Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
     <style>
-        /* Mobile-specific fixes */
-        * {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            touch-action: manipulation;
-        }
-        
-        /* Base Styles */
+        /* Optimized CSS with critical styles only */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -41,26 +30,36 @@
             --text-secondary-dark: #aaa;
         }
 
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f5f7fa;
             color: var(--dark);
             line-height: 1.6;
-            padding: 0;
-            margin: 0;
             min-height: 100vh;
             padding-bottom: 80px;
             transition: background-color 0.3s ease;
         }
 
-        /* Improved Container */
         .container {
             max-width: 100%;
             padding: 0 16px;
-            padding-top: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .container.loaded {
+            opacity: 1;
         }
 
-        /* Enhanced Header */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
@@ -82,7 +81,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Improved Profile Card */
         .profile-card {
             background: var(--surface);
             border-radius: 20px;
@@ -92,6 +90,7 @@
             text-align: center;
             transition: all 0.3s ease;
             border: 1px solid var(--border);
+            animation: fadeIn 0.3s ease-out;
         }
 
         .profile-img-container {
@@ -129,11 +128,6 @@
             z-index: 2;
         }
 
-        .upload-btn:hover {
-            background: var(--primary-dark);
-            transform: scale(1.05);
-        }
-
         .profile-name {
             font-size: 1.4rem;
             font-weight: 600;
@@ -147,7 +141,6 @@
             font-size: 0.9rem;
         }
 
-        /* Enhanced Settings Section */
         .settings-section {
             background: var(--surface);
             border-radius: 18px;
@@ -156,6 +149,7 @@
             margin-bottom: 20px;
             overflow: hidden;
             border: 1px solid var(--border);
+            animation: fadeIn 0.4s ease-out;
         }
 
         .section-title {
@@ -184,10 +178,6 @@
 
         .setting-item:last-child {
             border-bottom: none;
-        }
-
-        .setting-item:hover {
-            background-color: #f8f9fa;
         }
 
         .setting-icon {
@@ -224,14 +214,6 @@
             text-overflow: ellipsis;
         }
 
-        .setting-action {
-            color: var(--gray);
-            font-size: 18px;
-            margin-left: 8px;
-            flex-shrink: 0;
-        }
-
-        /* Enhanced Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -282,12 +264,6 @@
             background: rgba(67, 97, 238, 0.1);
         }
 
-        .bottom-nav-link.active i {
-            color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        /* Editable Fields */
         .editable-field {
             display: flex;
             align-items: center;
@@ -300,7 +276,6 @@
         .editable-input {
             border: none;
             background: transparent;
-            font-size: 1rem;
             font-weight: 500;
             width: 70%;
             padding: 5px;
@@ -308,11 +283,6 @@
             text-align: center;
             font-size: 16px;
             color: var(--text-primary);
-        }
-
-        .editable-input:focus {
-            outline: none;
-            border-bottom: 1px solid var(--primary);
         }
 
         .edit-icon {
@@ -324,11 +294,6 @@
             padding: 8px;
         }
 
-        .edit-icon:hover {
-            opacity: 1;
-        }
-
-        /* Toggle Switch - Enhanced */
         .toggle-switch {
             position: relative;
             display: inline-block;
@@ -375,7 +340,6 @@
             transform: translateX(26px);
         }
 
-        /* Action Buttons - Enhanced */
         .action-buttons {
             display: flex;
             gap: 12px;
@@ -406,20 +370,10 @@
             box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
         }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
         .btn-outline {
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: rgba(67, 97, 238, 0.1);
-            transform: translateY(-2px);
         }
 
         .btn-danger {
@@ -428,12 +382,6 @@
             box-shadow: 0 4px 10px rgba(239, 71, 111, 0.25);
         }
 
-        .btn-danger:hover {
-            background: #d93b5f;
-            transform: translateY(-2px);
-        }
-
-        /* Modal Styles - Enhanced */
         .modal {
             display: none;
             position: fixed;
@@ -465,14 +413,8 @@
         }
 
         @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .modal-header {
@@ -505,11 +447,6 @@
             border-radius: 50%;
         }
 
-        .close-btn:hover {
-            color: var(--primary);
-            background: rgba(0,0,0,0.05);
-        }
-
         .modal-body {
             margin-bottom: 20px;
             padding: 10px 0;
@@ -523,7 +460,6 @@
             border-top: 1px solid var(--border);
         }
 
-        /* Language Modal */
         .language-option {
             display: flex;
             align-items: center;
@@ -535,130 +471,6 @@
             border: 1px solid var(--border);
         }
 
-        .language-option:hover {
-            background: #f8f9fa;
-            border-color: var(--primary);
-        }
-
-        .language-option.active {
-            background: rgba(67, 97, 238, 0.1);
-            border-color: var(--primary);
-        }
-
-        .language-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            background: #f0f2f5;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .language-name {
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        /* Responsive Design */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-            
-            .header {
-                padding: 22px 16px;
-            }
-            
-            .header h1 {
-                font-size: 1.6rem;
-            }
-            
-            .profile-img {
-                width: 120px;
-                height: 120px;
-            }
-        }
-.btn-sales {
-  background-color: #004225; /* dark green - sales theme */
-  color: #fff;
-  padding: 12px 150px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.btn-sales i {
-  margin-right: 8px;
-}
-
-.btn-sales:hover {
-  background-color: #006d3d; /* lighter green on hover */
-}
-
-        /* Dark Mode Styles */
-        body.dark-mode {
-            background-color: #121212;
-            color: #e0e0e0;
-            --surface: var(--surface-dark);
-            --border: var(--border-dark);
-            --text-primary: var(--text-primary-dark);
-            --text-secondary: var(--text-secondary-dark);
-        }
-
-        body.dark-mode .profile-card,
-        body.dark-mode .settings-section,
-        body.dark-mode .bottom-nav,
-        body.dark-mode .modal-content {
-            background-color: var(--surface-dark);
-            border-color: #333;
-        }
-
-        body.dark-mode .section-title {
-            background-color: #252525;
-            border-bottom: 1px solid #333;
-        }
-
-        body.dark-mode .setting-item {
-            border-bottom: 1px solid #333;
-        }
-
-        body.dark-mode .setting-item:hover {
-            background-color: #252525;
-        }
-
-        body.dark-mode .setting-desc {
-            color: var(--text-secondary-dark);
-        }
-
-        body.dark-mode .editable-input {
-            color: var(--text-primary-dark);
-            border-bottom: 1px dashed #555;
-        }
-
-        body.dark-mode .language-option {
-            border: 1px solid #333;
-        }
-
-        body.dark-mode .language-option:hover {
-            background: #252525;
-        }
-
-        body.dark-mode .language-option.active {
-            background: rgba(67, 97, 238, 0.2);
-        }
-
-        body.dark-mode .language-icon {
-            background: #1e1e1e;
-        }
-
-        /* Toast Notification */
         .toast {
             position: fixed;
             bottom: 90px;
@@ -694,21 +506,6 @@
             transition: opacity 0.3s ease;
         }
 
-        .dark-mode .loading-overlay {
-            background-color: #121212;
-        }
-
-        .loading-text {
-            margin-top: 16px;
-            font-size: 1rem;
-            color: var(--dark);
-        }
-
-        .dark-mode .loading-text {
-            color: #e0e0e0;
-        }
-
-        /* Spinner */
         .spinner {
             width: 50px;
             height: 50px;
@@ -719,24 +516,12 @@
         }
 
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
         
-        .container {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .container.loaded {
-            opacity: 1;
-        }
-
-        /* Touch feedback */
-        .btn:active, .setting-item:active, .bottom-nav-link:active {
-            transform: scale(0.97);
-            opacity: 0.9;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .btn-mining {
@@ -757,161 +542,153 @@
             font-size: 1rem;
         }
         
-        .btn-mining:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 66, 37, 0.3);
-        }
-        
-        .btn-mining i {
-            font-size: 1.2rem;
-        }
-        
-        /* Animation for settings */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .settings-section {
-            animation: fadeIn 0.4s ease-out;
-        }
-        
-        .profile-card {
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        /* Improved PIN Input */
-        #pinInput {
-            width: 80%;
-            margin: 20px auto;
-            padding: 15px;
-            font-size: 1.8rem;
-            text-align: center;
-            border: 2px solid #eaeaea;
-            border-radius: 12px;
-            background: #f9f9f9;
-            letter-spacing: 10px;
-            font-weight: bold;
-        }
-        
-        .dark-mode #pinInput {
-            background: #252525;
-            border-color: #333;
+        .btn-sales {
+            background-color: #004225;
             color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-sales i {
+            margin-right: 8px;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+            --surface: var(--surface-dark);
+            --border: var(--border-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+        }
+
+        body.dark-mode .profile-card,
+        body.dark-mode .settings-section,
+        body.dark-mode .bottom-nav,
+        body.dark-mode .modal-content {
+            background-color: var(--surface-dark);
+            border-color: #333;
+        }
+
+        body.dark-mode .section-title {
+            background-color: #252525;
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .setting-item {
+            border-bottom: 1px solid #333;
+        }
+
+        body.dark-mode .editable-input {
+            color: var(--text-primary-dark);
+            border-bottom: 1px dashed #555;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .header {
+                padding: 22px 16px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .btn-sales {
+                padding: 12px 30px;
+            }
         }
         
-        /* Badge for settings */
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-left: 8px;
-            background: var(--primary);
-            color: white;
+        /* Mobile-specific button adjustments */
+        @media (max-width: 480px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .btn-sales {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .btn-mining {
+                padding: 12px;
+                font-size: 15px;
+            }
         }
-        
-        /* Improved language options */
-        .language-option {
-            align-items: center;
-        }
-        
-        /* Enhanced delete modal */
-        .warning-box {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(239, 71, 111, 0.08);
-            border-radius: 12px;
-            border-left: 4px solid var(--danger);
-        }
-        
-        .warning-box ul {
-            margin-top: 10px;
-            padding-left: 20px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        
-        .warning-box li {
-            margin-bottom: 6px;
-        }
-        
-        /* Improved loading overlay */
-        .loading-overlay {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(4px);
-        }
-        
-        .dark-mode .loading-overlay {
-            background: rgba(18, 18, 18, 0.95);
-        }
-        
-        /* Active state for settings items */
-        .setting-item:active {
-            background: rgba(67, 97, 238, 0.08);
-        }
- .feedback-overlay {
+        .banner-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #004225f2; /* dark green overlay */
+  color: #fff;
   z-index: 9999;
-  display: none;
-  justify-content: center;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.feedback-card {
-  background: #fff;
+.banner-content {
+  background-color: #f4f1ea;
+  color: #000;
+  border-radius: 20px;
   padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
   text-align: center;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
   font-family: 'Cairo', sans-serif;
   position: relative;
-  box-shadow: 0 0 30px rgba(0,0,0,0.3);
-  animation: fadeIn 0.5s ease-in-out;
 }
 
-.feedback-card h2, .feedback-card h3 {
-  color: #004225;
-  margin-bottom: 15px;
-}
-
-.feedback-card p {
-  font-size: 16px;
-  margin-bottom: 10px;
-  line-height: 1.6;
-}
-
-.feedback-card a {
-  color: #d4af37;
+.contact-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #d4af37;
+  color: #000;
+  text-decoration: none;
+  border-radius: 10px;
   font-weight: bold;
-  text-decoration: underline;
 }
 
 .close-btn {
   position: absolute;
   top: 10px;
   right: 15px;
-  font-size: 20px;
-  background: none;
+  background: transparent;
   border: none;
+  font-size: 24px;
   cursor: pointer;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  color: #000;
 }
 
     </style>
 </head>
 <body>
-    
     <div class="container">
         <div class="header">
             <h1>My Profile</h1>
@@ -920,31 +697,24 @@
             <div class="spinner"></div>
             <div class="loading-text">Loading your settings...</div>
         </div>
-      <!-- Feedback Fullscreen Overlay -->
-<div id="feedbackOverlay" class="feedback-overlay">
-  <div class="feedback-card">
-    <button id="closeFeedbackBtn" class="close-btn">✖</button>
-    <h2>📣 We Value Your Feedback</h2>
-    <p>
-      This app is still new and may have some bugs. <br>
-      Please don’t leave a negative review without giving us a chance to improve. <br>
-      Contact us at <a href="mailto:support@yourdomain.com">suppor8easykharcha@gmail.com</a> first. Thank you! 🙏
+<div id="appBanner" class="banner-overlay" style="display: none;">
+  <div class="banner-content">
+    <button id="closeBanner" class="close-btn">✖</button>
+    <h2>📢 Welcome to EasyKharcha!</h2>
+    <p style="margin-top: 10px;">
+      This app is newly launched. If you face any issues, please <strong>contact us before leaving a review</strong>. We value your opinion!
     </p>
-    <hr>
-    <h3>📢 ہم آپ کی رائے کو اہمیت دیتے ہیں</h3>
-    <p>
-      یہ ایپ ابھی نئی ہے، اس میں کچھ مسائل ہو سکتے ہیں۔ <br>
-      برائے مہربانی منفی ریویو دینے سے پہلے ہمیں موقع دیں کہ ہم بہتری لائیں۔ <br>
-      رابطہ کریں: <a href="mailto:support@yourdomain.com">suppor8easykharcha@gmail.com</a> شکریہ! 💌
+    <p dir="rtl" lang="ur" style="font-family: 'Noto Nastaliq Urdu', serif; margin-top: 10px;">
+      📢 یہ ایپ نئی لانچ ہوئی ہے۔ اگر کوئی مسئلہ درپیش ہو تو براہ کرم ریویو دینے سے پہلے ہم سے رابطہ کریں۔ <strong>ہم آپ کی رائے کا احترام کرتے ہیں۔</strong>
     </p>
+   <a href="mailto:supporteasykharcha@gmail.com?subject=App Feedback / مسئلہ">📨 Contact Us / ہم سے رابطہ کریں</a>
+
   </div>
 </div>
 
-
-
         <div class="profile-card">
             <div class="profile-img-container">
-                <img src="https://ui-avatars.com/api/?name=John+Doe&background=4361ee&color=fff" alt="Profile" class="profile-img" id="profileImage">
+                <img src="https://ui-avatars.com/api/?name=John+Doe&background=4361ee&color=fff" alt="Profile" class="profile-img" id="profileImage" loading="lazy">
                 <div class="upload-btn" id="uploadBtn">
                     <i class="fas fa-camera"></i>
                 </div>
@@ -1062,13 +832,12 @@
                 </li>
             </ul>
         </div>
-       <div class="settings-section">
-  <button id="openSalesPageBtn" class="btn-sales">
-    <i class="fas fa-chart-line"></i> Sales Management
-  </button>
-</div>
-
-
+       
+        <div class="settings-section">
+            <button id="openSalesPageBtn" class="btn-sales">
+                <i class="fas fa-chart-line"></i> Sales Management
+            </button>
+        </div>
         
         <div class="settings-section">
             <button id="startMiningBtn" class="btn-mining">
@@ -1138,7 +907,6 @@
     </div>
     
     <nav class="bottom-nav">
-        </a>
         <a href="profile.html" class="bottom-nav-link">
             <i class="fas fa-user-circle"></i><span>Profile</span>
         </a>
@@ -1202,12 +970,11 @@
 
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
-    
     <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
     <script>
         // Firebase configuration
         const firebaseConfig = {
@@ -1253,10 +1020,29 @@
         const pinInput = document.getElementById('pinInput');
         const pinModalMsg = document.getElementById('pinModalMsg');
         const startMiningBtn = document.getElementById('startMiningBtn');
+        const openSalesPageBtn = document.getElementById('openSalesPageBtn');
 
         let userData = null;
         let savedPIN = null;
- 
+        let userDocRef = null;
+        let unsubscribe = null;
+
+        // Cache user data to minimize Firebase reads
+        function getUserCacheKey(uid) {
+            return `userData-${uid}`;
+        }
+
+        function cacheUserData(uid, data) {
+            const cacheKey = getUserCacheKey(uid);
+            sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        }
+
+        function getCachedUserData(uid) {
+            const cacheKey = getUserCacheKey(uid);
+            const cachedData = sessionStorage.getItem(cacheKey);
+            return cachedData ? JSON.parse(cachedData) : null;
+        }
+
         // Translations
         const translations = {
             en: {
@@ -1302,113 +1088,21 @@
             fullNameInput.value = userData.fullName || "User";
             userEmail.textContent = userData.email || "Not set";
             userPhone.textContent = userData.phoneNumber || "Not provided";
-            profileImage.src = userData.profileImage;
+            profileImage.src = userData.profileImage || "https://ui-avatars.com/api/?name=User&background=4361ee&color=fff";
 
             // Apply toggle states
-            darkModeToggle.checked = userData.settings.darkMode;
-            securityLockToggle.checked = userData.settings.securityLock;
-            reminderToggle.checked = userData.settings.reminders;
+            darkModeToggle.checked = userData.settings.darkMode || false;
+            securityLockToggle.checked = userData.settings.securityLock || false;
+            reminderToggle.checked = userData.settings.reminders || true;
 
             // Language display
             currentLanguage.textContent = 
                 userData.settings.language === 'ur' ? "اردو (Urdu)" : "English";
-        }
-
-        async function applySettings() {
-            const lang = userData.settings.language || 'en';
-
-            // Apply translations
-            applyLanguage(lang);
-            currentLanguage.textContent = 
-                lang === 'ur' ? "اردو (Urdu)" : "English";
-
-            // Apply dark mode visually
+                
+            // Apply dark mode
             document.body.classList.toggle('dark-mode', userData.settings.darkMode);
-
-            // Save updated settings to Firestore
-            try {
-                await db.collection("users").doc(userData.uid).update({
-                    settings: userData.settings
-                });
-            } catch (e) {
-                console.error("Failed to save settings:", e);
-            }
         }
 
-        auth.onAuthStateChanged(async (user) => {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            const container = document.querySelector('.container');
-
-            try {
-                if (user) {
-                    const uid = user.uid;
-                    const docRef = db.collection("users").doc(uid);
-                    let doc = await docRef.get();
-
-                    // Create default document if missing
-                    if (!doc.exists) {
-                        const defaultData = {
-                            fullName: user.displayName || "User",
-                            email: user.email,
-                            phoneNumber: user.phoneNumber || "Not provided",
-                            profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
-                            settings: {
-                                darkMode: false,
-                                language: 'en',
-                                securityLock: false,
-                                reminders: true
-                            }
-                        };
-
-                        await docRef.set(defaultData);
-                        doc = { exists: true, data: () => defaultData };
-                    }
-
-                    userData = doc.data();
-                    userData.uid = uid;
-                    localStorage.setItem('userData', JSON.stringify(userData));
-
-                    // Set defaults if missing
-                    userData.fullName ||= user.displayName || "User";
-                    userData.email ||= user.email;
-                    userData.phoneNumber ||= "Not provided";
-                    userData.profileImage ||= `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.fullName)}&background=4361ee&color=fff`;
-
-                    if (!userData.settings) {
-                        userData.settings = {
-                            darkMode: false,
-                            language: 'en',
-                            securityLock: false,
-                            reminders: true
-                        };
-                    }
-
-                    savedPIN = userData.pin || null;
-
-                    // Dark mode before load
-                    if (userData.settings.darkMode) {
-                        document.body.classList.add('dark-mode');
-                    }
-
-                    initializeUI();
-                    await applySettings();
-
-                    // Hide loading overlay
-                    loadingOverlay.classList.add('fade-out');
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                        container.classList.add('loaded');
-                    }, 300);
-                } else {
-                    window.location.href = "login.html";
-                }
-            } catch (error) {
-                console.error("Auth load error:", error);
-                loadingOverlay.innerHTML = `<div style="color:red;">Failed to load profile. Please refresh.</div>`;
-            }
-        });
-
-        // Apply language translations
         function applyLanguage(lang) {
             const t = translations[lang] || translations.en;
             
@@ -1477,6 +1171,89 @@
             }, duration);
         }
 
+        // Initialize Firebase listener
+        function setupFirebaseListener(uid) {
+            if (unsubscribe) unsubscribe(); // Unsubscribe from previous listener
+            
+            userDocRef = db.collection("users").doc(uid);
+            
+            // Listen for real-time updates
+            unsubscribe = userDocRef.onSnapshot(doc => {
+                if (doc.exists) {
+                    const newData = doc.data();
+                    userData = {...newData, uid};
+                    cacheUserData(uid, userData);
+                    initializeUI();
+                }
+            }, error => {
+                console.error("Error listening to user data:", error);
+            });
+        }
+
+        auth.onAuthStateChanged(async (user) => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const container = document.querySelector('.container');
+
+            try {
+                if (user) {
+                    const uid = user.uid;
+                    
+                    // Check cache first
+                    const cachedUser = getCachedUserData(uid);
+                    if (cachedUser) {
+                        userData = cachedUser;
+                        initializeUI();
+                        container.classList.add('loaded');
+                        loadingOverlay.style.display = 'none';
+                    }
+                    
+                    // Always get fresh data from Firebase
+                    const docRef = db.collection("users").doc(uid);
+                    const doc = await docRef.get();
+                    
+                    if (doc.exists) {
+                        userData = {...doc.data(), uid};
+                        cacheUserData(uid, userData);
+                        initializeUI();
+                        
+                        // Set up real-time listener
+                        setupFirebaseListener(uid);
+                    } else {
+                        // Create default document if missing
+                        const defaultData = {
+                            fullName: user.displayName || "User",
+                            email: user.email,
+                            phoneNumber: user.phoneNumber || "Not provided",
+                            profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
+                            settings: {
+                                darkMode: false,
+                                language: 'en',
+                                securityLock: false,
+                                reminders: true
+                            }
+                        };
+
+                        await docRef.set(defaultData);
+                        userData = {...defaultData, uid};
+                        cacheUserData(uid, userData);
+                        initializeUI();
+                    }
+
+                    // Hide loading overlay
+                    loadingOverlay.classList.add('fade-out');
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        container.classList.add('loaded');
+                    }, 300);
+                } else {
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("Auth load error:", error);
+                loadingOverlay.innerHTML = `<div style="color:red;">Failed to load profile. Please refresh.</div>`;
+            }
+        });
+
         // Initialize events
         function initEvents() {
             // Edit name button
@@ -1485,35 +1262,44 @@
                 fullNameInput.select();
             });
 
-            // Save button
-            saveBtn.addEventListener('click', async () => {
+            // Save button with debounce
+            let saveTimeout = null;
+            saveBtn.addEventListener('click', () => {
                 if (!userData) return;
 
                 userData.fullName = fullNameInput.value;
-
-                try {
-                    // Show saving state
-                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving';
-                    saveBtn.disabled = true;
-                    
-                    await db.collection("users").doc(userData.uid).update({
-                        fullName: userData.fullName,
-                        settings: userData.settings
-                    });
-                    
-                    showToast(translations[userData.settings.language].saveSuccess);
-                } catch (error) {
-                    console.error("Error saving user data:", error);
-                    showToast("Failed to save changes.");
-                } finally {
-                    // Reset button state
-                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
-                    saveBtn.disabled = false;
-                }
+                
+                // Clear any pending save
+                if (saveTimeout) clearTimeout(saveTimeout);
+                
+                // Show saving state
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving';
+                saveBtn.disabled = true;
+                
+                // Debounce the save operation
+                saveTimeout = setTimeout(async () => {
+                    try {
+                        await db.collection("users").doc(userData.uid).update({
+                            fullName: userData.fullName,
+                            settings: userData.settings
+                        });
+                        
+                        cacheUserData(userData.uid, userData);
+                        showToast(translations[userData.settings.language].saveSuccess);
+                    } catch (error) {
+                        console.error("Error saving user data:", error);
+                        showToast("Failed to save changes.");
+                    } finally {
+                        // Reset button state
+                        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
+                        saveBtn.disabled = false;
+                    }
+                }, 300);
             });
 
             // Logout button
             logoutBtn.addEventListener('click', () => {
+                if (unsubscribe) unsubscribe();
                 auth.signOut().then(() => {
                     window.location.href = 'login.html';
                 }).catch((error) => {
@@ -1529,7 +1315,6 @@
                 const file = e.target.files[0];
                 if (!file) return;
                 
-                // Simulate upload
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     profileImage.src = e.target.result;
@@ -1553,14 +1338,10 @@
                 userData.settings.securityLock = this.checked;
 
                 if (this.checked) {
-                    // Prompt to set a PIN
                     openPinModal(true);
                 } else {
                     db.collection("users").doc(userData.uid).update({
-                        settings: {
-                            ...userData.settings,
-                            securityLock: false
-                        },
+                        "settings.securityLock": false,
                         pin: firebase.firestore.FieldValue.delete()
                     });
                     savedPIN = null;
@@ -1615,7 +1396,8 @@
 
             // Support item
             supportItem.addEventListener('click', () => {
-                window.location.href = 'mailto:support@easykharcha.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
+               window.location.href = 'mailto:suppor8easykharcha@gmail.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
+;
             });
 
             // Language options
@@ -1623,14 +1405,13 @@
                 option.addEventListener('click', () => {
                     const lang = option.getAttribute('data-lang');
                     userData.settings.language = lang;
-                    applySettings();
+                    applyLanguage(lang);
                     languageModal.classList.remove('active');
                     showToast(lang === 'en' ? 
                         translations.en.languageSelected : 
                         translations.ur.languageSelected
                     );
                     
-                    // Update active state
                     languageOptions.forEach(opt => opt.classList.remove('active'));
                     option.classList.add('active');
                 });
@@ -1639,6 +1420,11 @@
             // Mining button
             startMiningBtn.addEventListener('click', () => {
                 window.location.href = 'mining.html';
+            });
+            
+            // Sales button
+            openSalesPageBtn.addEventListener('click', () => {
+                window.location.href = 'sales.html';
             });
         }
 
@@ -1683,48 +1469,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             initEvents();
         });
-        document.getElementById("openSalesPageBtn").addEventListener("click", function () {
-    window.location.href = "sales.html";
-});
-//  Fetch and store in sessionStorage (or localStorage)
-db.collection("users").doc(uid).get().then(doc => {
-  const userData = doc.data();
-  sessionStorage.setItem("userData", JSON.stringify(userData));
-  renderUser(userData); // Function to show data in UI
-});
-// 🔄 Try to load from cache first
-let cachedUser = sessionStorage.getItem("userData");
-if (cachedUser) {
-  renderUser(JSON.parse(cachedUser));
-} else {
-  // No cache found — fetch from Firestore
-  db.collection("users").doc(uid).get().then(doc => {
-    const userData = doc.data();
-    sessionStorage.setItem("userData", JSON.stringify(userData));
-    renderUser(userData);
-  });
-}
-// After profile update
-sessionStorage.removeItem("userData"); // Remove old cache
-
     </script>
-    <script>
-  window.addEventListener('load', function () {
-    const overlayShown = localStorage.getItem('feedbackOverlayShown');
+   <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const banner = document.getElementById("appBanner");
+    const closeBtn = document.getElementById("closeBanner");
 
-    // Show only once
-    if (!overlayShown) {
-      document.getElementById('feedbackOverlay').style.display = 'flex';
+    // Har dafa banner dikhai de
+    banner.style.display = "flex";
 
-      document.getElementById('closeFeedbackBtn').addEventListener('click', function () {
-        document.getElementById('feedbackOverlay').style.display = 'none';
-        localStorage.setItem('feedbackOverlayShown', 'true');
-      });
-    }
+    closeBtn.addEventListener("click", function () {
+      banner.style.display = "none";
+    });
   });
-  localStorage.removeItem('feedbackOverlayShown');
-
 </script>
+
 
 </body>
 </html>
