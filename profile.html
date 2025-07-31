@@ -695,7 +695,7 @@
 
 .invoice-box {
   background-color: #ffffff;
-  padding: 40px;
+  padding: 100px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -723,6 +723,12 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
+.invoice-center-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
 
     </style>
 </head>
@@ -805,18 +811,22 @@
                         <i class="fas fa-edit"></i>
                     </div>
                 </li>
-                <li class="setting-item">
-                    <div class="setting-icon">
-                       
-                    </div>
-                    
-                    <div class="setting-action">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="securityLockToggle">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </li>
+              <li class="setting-item">
+  <div class="setting-icon">
+    <i class="fas fa-lock"></i>
+  </div>
+  <div class="setting-content">
+    <div class="setting-title">Security Lock</div>
+    <div class="setting-desc">Enable PIN or biometric lock</div>
+  </div>
+  <div class="setting-action">
+    <label class="toggle-switch">
+      <input type="checkbox" id="securityLockToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+</li>
+
             </ul>
         </div>
 
@@ -874,11 +884,14 @@
             </button>
         </div>
         
-       <div class="settings-section">
-  <button id="goToInvoiceBtn" class="btn-invoice">
-    <i class="fas fa-file-invoice-dollar"></i> Invoice Maker
-  </button>
+      <div class="settings-section">
+  <div class="invoice-center-wrapper">
+    <button id="goToInvoiceBtn" class="btn-invoice">
+      <i class="fas fa-file-invoice-dollar"></i> Invoice Maker
+    </button>
+  </div>
 </div>
+
 
         <div class="settings-section">
             <button id="startMiningBtn" class="btn-mining">
