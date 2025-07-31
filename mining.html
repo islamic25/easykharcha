@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UFC Coin Mining | EasyKharcha</title>
+    <title>Coin Mining App | EasyKharcha</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a1f2d;
@@ -22,7 +25,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
         
         body {
@@ -45,6 +48,10 @@
                         radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0) 40%);
             pointer-events: none;
             z-index: -1;
+        }
+        
+        .mining-font {
+            font-family: 'Orbitron', sans-serif;
         }
         
         /* Tab Navigation */
@@ -312,84 +319,6 @@
             background-position: center;
         }
         
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .video-card:hover .video-overlay {
-            opacity: 1;
-        }
-        
-        .play-btn {
-            width: 60px;
-            height: 60px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .video-duration {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
-        .video-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-        }
-        
-        .video-desc {
-            color: #a0a0a0;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        
-        .referral-link {
-            display: flex;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 15px;
-        }
-        
-        .leaderboard-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            transition: background 0.3s;
-        }
-        
         .notification {
             position: fixed;
             top: 20px;
@@ -406,86 +335,6 @@
         
         .notification.show {
             transform: translateX(0);
-        }
-        
-        /* Video Modal */
-        .video-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        
-        .video-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .modal-content {
-            width: 90%;
-            max-width: 800px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 20px;
-        }
-        
-        .video-container {
-            position: relative;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-        }
-        
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .modal-footer {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .reward-badge {
-            background: var(--accent);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         
         /* Claim button */
@@ -523,59 +372,224 @@
             font-size: 12px;
             z-index: 2;
         }
-     
-.banner-overlay {
+        
+        .coin-animation {
+            position: absolute;
+            font-size: 24px;
+            opacity: 1;
+            animation: coinFloat 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes coinFloat {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x-end), var(--y-end));
+                opacity: 0;
+            }
+        }
+        
+        .mining-animation {
+            animation: miningPulse 0.5s ease-in-out;
+        }
+        
+        @keyframes miningPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        
+        .coin-btn {
+            transition: transform 0.2s;
+        }
+        
+        .coin-btn:active {
+            animation: miningPulse 0.5s ease-in-out;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: background 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .leaderboard-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .rank-badge {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .rank-1 {
+            background: linear-gradient(145deg, #ffd700, #c5a600);
+            color: #000;
+        }
+        
+        .rank-2 {
+            background: linear-gradient(145deg, #c0c0c0, #a0a0a0);
+            color: #000;
+        }
+        
+        .rank-3 {
+            background: linear-gradient(145deg, #cd7f32, #a6672a);
+            color: #fff;
+        }
+        
+        .rank-other {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .mining-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .mining-particle {
+            position: absolute;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+            }
+            100% {
+                transform: translateY(-100px) translateX(20px);
+            }
+        }
+     .rating-banner {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #004225f2;
-  color: #fff;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.banner-content {
-  background-color: #f4f1ea;
-  color: #000;
-  border-radius: 20px;
-  padding: 30px;
-  text-align: center;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  display: none;
+  direction: rtl;
   font-family: 'Cairo', sans-serif;
-  position: relative;
 }
 
-.contact-btn {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #d4af37;
-  color: #000;
-  text-decoration: none;
-  border-radius: 10px;
+.banner-overlay {
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.banner-box {
+  background: #ffffff10;
+  border: 1px solid #ffffff20;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  color: #fff;
+  max-width: 360px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.banner-box h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.banner-box .coins-text {
+  font-size: 28px;
+  color: gold;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 
-.close-btn {
+.banner-box p {
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: #e0e0e0;
+}
+
+.banner-box .stars i {
+  color: gold;
+  font-size: 20px;
+  margin: 0 2px;
+}
+
+.rate-now {
+  background: linear-gradient(135deg, #ffd700, #f4c430);
+  color: #004225;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.3s ease;
+}
+
+.rate-now:hover {
+  transform: scale(1.05);
+}
+
+.coin-emoji {
+  font-size: 32px;
+  margin-bottom: 10px;
+  animation: pulse 1s infinite;
+}
+
+.close-banner {
   position: absolute;
   top: 10px;
-  right: 15px;
+  left: 15px;
   background: transparent;
-  border: none;
+  color: #fff;
   font-size: 24px;
+  border: none;
   cursor: pointer;
-  color: #000;
 }
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);}
+  50% { transform: scale(1.1);}
+}
+
 
     </style>
 </head>
 <body>
+    <div class="mining-background" id="miningBackground"></div>
+    
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-content">
@@ -583,47 +597,29 @@
             <p class="mt-4 text-lg">Loading your mining data...</p>
         </div>
     </div>
-
-<<div id="rateBanner" class="banner-overlay" style="display: none;">
-  <div class="banner-content">
-    <button id="closeRateBanner" class="close-btn">✖</button>
-    <h2>🌟 Rate & Earn 10,000 Coins!</h2>
-    <p>Give us a 5-star rating and get <strong>10,000 coins</strong> in your wallet instantly!</p>
-    <p dir="rtl" lang="ur" style="font-family: 'Noto Nastaliq Urdu', serif;">
-      🌟 ہمیں 5 اسٹار ریٹنگ دیں اور <strong>فوراً 10,000 کوائنز</strong> حاصل کریں!
-    </p>
-    <button id="rateNowBtn" class="contact-btn">⭐ Rate Now / ابھی ریویو کریں</button>
+    <div id="ratingBanner" class="rating-banner">
+  <div class="banner-overlay">
+    <div class="banner-box">
+      <button class="close-banner" onclick="hideRatingBanner()">×</button>
+      <div class="coin-emoji">🪙✨</div>
+      <h2>ایپ کو ریٹ کریں اور حاصل کریں</h2>
+      <h1 class="coins-text">5000 کوائنز 🎁</h1>
+      <p>آپ کی رائے ہمارے لیے قیمتی ہے!</p>
+      <div class="stars">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+      </div>
+      <button class="rate-now" onclick="rateNow()">ابھی ریٹ کریں</button>
+    </div>
   </div>
 </div>
 
 
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
-        <div class="modal-content">
-            <div class="close-modal" id="closeModal">
-                <i class="fas fa-times"></i>
-            </div>
-            <div class="video-container">
-                <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="modal-footer">
-                <div class="reward-badge">
-                    <i class="fas fa-coins"></i>
-                    Earn 10,000 coins
-                </div>
-                <button class="claim-video-btn" id="claimVideoBtn" disabled>
-                    <i class="fas fa-check-circle"></i>
-                    Claim Reward
-                </button>
-            </div>
-        </div>
-    </div>
 
     <div class="container max-w-6xl mx-auto">
         <header class="flex justify-between items-center py-4 mb-6 border-b border-gray-700">
             <div class="logo flex items-center gap-3">
-                <div class="logo-icon text-3xl text-orange-500">🪙</div>
-                <h1 class="text-2xl font-bold bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">UFC Coin Mining</h1>
+                <div class="logo-icon text-3xl text-orange-500">⛏️</div>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent mining-font">Coin Mining App</h1>
             </div>
             <div class="user-info flex items-center gap-4">
                 <div class="user-avatar w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center font-bold border-2 border-orange-500" id="userAvatar">U</div>
@@ -631,12 +627,14 @@
             </div>
         </header>
         
-        <section class="mining-section flex flex-col items-center mb-8">
-            <h2 class="mining-title text-2xl mb-5 text-center">Tap to Mine UFC Coins</h2>
-            <div class="coin-btn w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-8 border-yellow-700 flex items-center justify-center cursor-pointer relative shadow-xl animate-pulse" id="coinBtn">
-                <div class="coin-icon text-6xl md:text-7xl text-yellow-800">🪙</div>
-            </div>
-        </section>
+      <section class="mining-section flex flex-col items-center mb-8">
+  <h2 class="mining-title text-2xl mb-5 text-center mining-font">Tap to Mine Coins</h2>
+
+  <!-- Coin Button -->
+  <div class="coin-btn w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-8 border-yellow-700 flex items-center justify-center cursor-pointer relative shadow-xl animate-pulse" id="coinBtn">
+    <div class="coin-icon text-6xl md:text-7xl text-yellow-800">🪙</div>
+  </div>
+</section>
         
         <section class="stats-grid mb-8">
             <div class="stat-card">
@@ -743,7 +741,7 @@
                         <div class="task-icon text-orange-500 text-xl">👆</div>
                         <div class="task-title font-semibold">Tap Master</div>
                     </div>
-                    <p class="task-desc text-gray-400 mb-4">Tap the UFC Coin 100 times</p>
+                    <p class="task-desc text-gray-400 mb-4">Tap the Coin 100 times</p>
                     <div class="task-progress h-2 bg-gray-700 rounded mb-4">
                         <div class="progress-bar h-full bg-orange-500 rounded" id="tapProgress" style="width: 0%"></div>
                     </div>
@@ -786,16 +784,22 @@
             
         </section>
         
-        <!-- NEW: Extra Tasks Section -->
+        <!-- Video Rewards Section -->
         <section id="extra-tasks-section" class="section card">
             <h2 class="section-title">
                 <i class="fab fa-youtube"></i>
                 Video Rewards
             </h2>
-            <p class="text-gray-400 mb-6">Watch these exclusive UFC videos to earn massive coin rewards! Each video can be watched only once.</p>
+            <p class="text-gray-400 mb-6">Watch videos to earn coin rewards! Each video can be watched only once.</p>
             
             <div class="video-grid" id="videoGrid">
-                <!-- Video cards will be generated here -->
+                <div class="text-center py-8">
+                   <!-- ✅ Watch & Earn Button -->
+<button onclick="showRewardAd()" style="padding: 10px 20px; background: #004225; color: white; border: none; border-radius: 8px;">
+  🎥 Watch Ad & Earn 5k Coins
+</button>
+
+                </div>
             </div>
         </section>
         
@@ -807,7 +811,7 @@
             </h2>
             <div class="referral-content">
                 <div class="referral-text">
-                    <p class="text-gray-300 mb-4">Invite your friends to join UFC Coin Mining using your unique referral link. You'll earn 10% of their mining profits!</p>
+                    <p class="text-gray-300 mb-4">Invite your friends to join Coin Mining using your unique referral link. You'll earn 10% of their mining profits!</p>
                     <div class="referral-stats bg-orange-500/10 py-2 px-4 rounded-lg flex items-center gap-3">
                         <span>Referred Users:</span>
                         <strong id="referralCountStat" class="text-lg">0</strong>
@@ -831,7 +835,7 @@
             </div>
             <div class="leaderboard-list" id="leaderboardList">
                 <div class="leaderboard-item">
-                    <div class="rank w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center font-bold mr-4">1</div>
+                    <div class="rank-badge rank-1">1</div>
                     <div class="player-info flex-1">
                         <div class="player-name">Loading...</div>
                     </div>
@@ -895,11 +899,6 @@
         const tabButtons = document.querySelectorAll('.tab-btn');
         const sections = document.querySelectorAll('.section');
         const videoGrid = document.getElementById('videoGrid');
-        const videoModal = document.getElementById('videoModal');
-        const youtubePlayer = document.getElementById('youtubePlayer');
-        const closeModal = document.getElementById('closeModal');
-        const claimVideoBtn = document.getElementById('claimVideoBtn');
-        const videoModalElement = document.getElementById('videoModal');
 
         // Game state
         let gameState = {
@@ -920,46 +919,16 @@
                 referralTask: { target: 3, progress: 0, claimed: false }
             },
             referralCode: '',
-            // NEW: Track watched videos
             watchedVideos: []
         };
-
-        // Video data
-        const videos = [
-            {
-                id: 'ufc300',
-                title: 'UFC 300: Main Event Highlights',
-                desc: 'Watch the most exciting moments from UFC 300',
-                videoId: 'dQw4w9WgXcQ',
-                duration: '3:45',
-                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-                reward: 10000
-            },
-            {
-                id: 'ko-compilation',
-                title: 'Best UFC Knockouts of 2024',
-                desc: 'The most brutal knockouts from this year',
-                videoId: 'dQw4w9WgXcQ',
-                duration: '5:22',
-                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-                reward: 10000
-            },
-            {
-                id: 'behind-scenes',
-                title: 'Behind the Scenes: UFC Training Camp',
-                desc: 'Exclusive look at fighter preparations',
-                videoId: 'dQw4w9WgXcQ',
-                duration: '7:18',
-                thumbnail: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
-                reward: 10000
-            }
-        ];
 
         // Format numbers for display
         const fmt = n => (n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : Math.floor(n));
 
         // Initialize game
         function initGame() {
+            createMiningParticles();
+            
             auth.onAuthStateChanged(async user => {
                 if (!user) { 
                     window.location.href = 'login.html'; 
@@ -994,7 +963,7 @@
                         referralLink.value = `${window.location.origin}/?ref=${gameState.referralCode}`;
                         
                         // Credit offline earnings
-                        creditOfflineEarnings();
+                        creditOfflineEarnings(userRef);
                         
                         // Setup realtime listeners
                         setupRealtimeListeners(userRef);
@@ -1012,101 +981,42 @@
                     // Setup event listeners
                     setupEventListeners(userRef);
                     
-                    // Render video cards
-                    renderVideoCards();
-                    
                 } catch (error) {
                     console.error("Error loading user data:", error);
                     showNotification("Error loading data. Please try again.");
                 } finally {
                     // Hide loading overlay
-                    loadingOverlay.style.display = 'none';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 1000);
                 }
             });
         }
 
-        // Render video cards
-        function renderVideoCards() {
-            videoGrid.innerHTML = '';
+        // Create mining particles
+        function createMiningParticles() {
+            const container = document.getElementById('miningBackground');
+            container.innerHTML = '';
             
-            videos.forEach(video => {
-                const isWatched = gameState.watchedVideos.includes(video.id);
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'mining-particle';
                 
-                const card = document.createElement('div');
-                card.className = 'video-card';
-                card.innerHTML = `
-                    <div class="video-thumbnail" style="background-image: url(${video.thumbnail})">
-                        ${isWatched ? '<div class="video-completed">Watched</div>' : ''}
-                        <div class="video-overlay">
-                            <div class="play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="video-duration">${video.duration}</div>
-                    </div>
-                    <div class="video-title">${video.title}</div>
-                    <div class="video-desc">${video.desc}</div>
-                    <div class="task-reward flex justify-between items-center">
-                        <div class="reward-value text-yellow-400 font-bold flex items-center gap-2">
-                            <i class="fas fa-coins"></i> ${fmt(video.reward)} coins
-                        </div>
-                        <button class="claim-btn bg-green-500 text-white border-none py-2 px-4 rounded-full cursor-pointer font-semibold transition-all hover:bg-green-600 hover:translate-y-[-2px] ${isWatched ? 'bg-gray-600 hover:bg-gray-600 cursor-not-allowed' : ''}" 
-                                data-video="${video.id}" ${isWatched ? 'disabled' : ''}>
-                            ${isWatched ? 'Claimed' : 'Watch & Earn'}
-                        </button>
-                    </div>
-                `;
+                // Random size
+                const size = Math.random() * 8 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
                 
-                videoGrid.appendChild(card);
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
                 
-                // Add click event to watch button
-                const watchBtn = card.querySelector('.play-btn');
-                if (watchBtn && !isWatched) {
-                    watchBtn.addEventListener('click', () => openVideo(video));
-                }
-            });
-        }
-
-        // Open video in modal
-        function openVideo(video) {
-            youtubePlayer.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1`;
-            videoModal.classList.add('active');
-            currentVideo = video;
-            
-            // Reset claim button
-            claimVideoBtn.disabled = true;
-            claimVideoBtn.textContent = 'Watch to unlock reward';
-            
-            // Start progress tracking
-            startVideoProgressTracking();
-        }
-
-        // Start video progress tracking
-        function startVideoProgressTracking() {
-            // This would normally use the YouTube API to track actual progress
-            // For simplicity, we'll simulate progress with a timer
-            
-            // Reset timer if exists
-            if (videoTimer) clearInterval(videoTimer);
-            
-            let progress = 0;
-            videoTimer = setInterval(() => {
-                progress += 10;
-                if (progress >= 100) {
-                    clearInterval(videoTimer);
-                    claimVideoBtn.disabled = false;
-                    claimVideoBtn.innerHTML = '<i class="fas fa-check-circle"></i> Claim Reward';
-                }
-            }, 1000);
-        }
-        
-        // Close video modal
-        function closeVideoModal() {
-            videoModal.classList.remove('active');
-            youtubePlayer.src = '';
-            
-            // Clear timer
-            if (videoTimer) clearInterval(videoTimer);
+                // Random animation duration
+                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
         }
 
         // Generate referral code
@@ -1116,14 +1026,26 @@
             ).join('');
         }
 
-        // Credit offline earnings
-        function creditOfflineEarnings() {
+        // Fixed creditOfflineEarnings function
+        function creditOfflineEarnings(userRef) {
             const hours = (Date.now() - gameState.lastUpdated.getTime()) / 3600000;
             if (hours > 0 && gameState.autoMinerLevel) {
-                const earned = gameState.autoMinerLevel * 10 * gameState.multiplier * hours;
+                const earned = Math.floor(gameState.autoMinerLevel * 10 * gameState.multiplier * hours);
                 gameState.totalCoins += earned;
-                showNotification(`Earned ${fmt(earned)} coins while offline!`);
+                
+                // Update UI immediately
                 updateUI();
+                
+                // Update Firestore with new coins and timestamp
+                userRef.update({
+                    totalCoins: gameState.totalCoins,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    showNotification(`Earned ${fmt(earned)} coins while offline!`);
+                }).catch(error => {
+                    console.error("Error updating offline earnings:", error);
+                    showNotification("Failed to credit offline earnings");
+                });
             }
         }
 
@@ -1135,7 +1057,6 @@
                     const data = doc.data();
                     gameState = { ...gameState, ...data };
                     updateUI();
-                    renderVideoCards();
                 }
             });
             
@@ -1149,16 +1070,14 @@
                     
                     snapshot.forEach(doc => {
                         const user = doc.data();
-                        const rankClass = rank === 1 ? 'bg-gradient-to-b from-yellow-500 to-yellow-700 text-black' : 
-                                         rank === 2 ? 'bg-gradient-to-b from-gray-300 to-gray-500' : 
-                                         rank === 3 ? 'bg-gradient-to-b from-yellow-700 to-yellow-900' : 'bg-gray-700';
+                        const rankClass = `rank-${rank <= 3 ? rank : 'other'}`;
                         
                         const item = document.createElement('div');
                         item.className = 'leaderboard-item';
                         item.innerHTML = `
-                            <div class="rank w-8 h-8 rounded-full ${rankClass} flex items-center justify-center font-bold mr-4">${rank}</div>
+                            <div class="rank-badge ${rankClass}">${rank}</div>
                             <div class="player-info flex-1">
-                                <div class="player-name font-semibold">${user.displayName || 'Anonymous'}</div>
+                                <div class="player-name">${user.displayName || 'Anonymous'}</div>
                             </div>
                             <div class="player-coins text-yellow-400 font-bold">${fmt(user.totalCoins || 0)}</div>
                         `;
@@ -1240,59 +1159,9 @@
             document.querySelectorAll('.claim-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const task = btn.getAttribute('data-task');
-                    if (task === 'video') {
-                        const videoId = btn.getAttribute('data-video');
-                        claimVideoReward(videoId, userRef);
-                    } else {
-                        claimTask(task, userRef);
-                    }
+                    claimTask(task, userRef);
                 });
             });
-            
-            // Close modal button
-            closeModal.addEventListener('click', closeVideoModal);
-            
-            // Claim video reward button
-            claimVideoBtn.addEventListener('click', () => {
-                if (currentVideo) {
-                    claimVideoReward(currentVideo.id, userRef);
-                    closeVideoModal();
-                }
-            });
-            
-            // Close modal when clicking outside
-            videoModal.addEventListener('click', (e) => {
-                if (e.target === videoModal) {
-                    closeVideoModal();
-                }
-            });
-        }
-
-        // Claim video reward
-        function claimVideoReward(videoId, userRef) {
-            if (gameState.watchedVideos.includes(videoId)) {
-                showNotification('You have already claimed this reward!');
-                return;
-            }
-            
-            const video = videos.find(v => v.id === videoId);
-            if (!video) return;
-            
-            gameState.totalCoins += video.reward;
-            gameState.watchedVideos.push(videoId);
-            
-            // Update UI
-            updateUI();
-            renderVideoCards();
-            
-            // Update in Firebase
-            userRef.update({
-                totalCoins: gameState.totalCoins,
-                watchedVideos: firebase.firestore.FieldValue.arrayUnion(videoId),
-                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            
-            showNotification(`You earned ${fmt(video.reward)} coins for watching the video!`);
         }
 
         // Buy upgrade
@@ -1406,11 +1275,6 @@
             // Update task buttons
             document.querySelectorAll('.claim-btn').forEach(btn => {
                 const task = btn.getAttribute('data-task');
-                if (task === 'video') {
-                    // Video buttons are handled in renderVideoCards
-                    return;
-                }
-                
                 const taskKey = task + 'Task';
                 const taskData = gameState.tasks[taskKey];
                 
@@ -1427,24 +1291,27 @@
         // Create coin effect
         function createCoinEffect(amount) {
             const effect = document.createElement('div');
-            effect.className = 'absolute text-yellow-400 font-bold text-lg';
+            effect.className = 'coin-animation';
             effect.textContent = `+${fmt(amount)}`;
-            effect.style.left = `${Math.random() * 60 + 20}%`;
-            effect.style.top = '50%';
             
-            coinBtn.appendChild(effect);
+            // Random starting position around the coin
+            const coinRect = coinBtn.getBoundingClientRect();
+            const startX = coinRect.left + coinRect.width/2;
+            const startY = coinRect.top + coinRect.height/2;
             
-            // Animation
-            effect.animate([
-                { transform: 'translateY(0)', opacity: 1 },
-                { transform: 'translateY(-100px)', opacity: 0 }
-            ], {
-                duration: 1000,
-                easing: 'ease-out'
-            });
+            // Random end position (top of screen)
+            const endX = Math.random() * window.innerWidth;
+            const endY = -100;
+            
+            effect.style.left = `${startX}px`;
+            effect.style.top = `${startY}px`;
+            effect.style.setProperty('--x-end', `${endX - startX}px`);
+            effect.style.setProperty('--y-end', `${endY - startY}px`);
+            
+            document.body.appendChild(effect);
             
             // Remove after animation
-            setTimeout(() => effect.remove(), 1000);
+            setTimeout(() => effect.remove(), 1500);
         }
 
         // Show notification
@@ -1457,64 +1324,89 @@
             }, 3000);
         }
 
-        // Global variables for video tracking
-        let currentVideo = null;
-        let videoTimer = null;
-
         // Initialize the game when DOM is loaded
         document.addEventListener('DOMContentLoaded', initGame);
-        
     </script>
-  
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const banner = document.getElementById("rateBanner");
-    const closeBtn = document.getElementById("closeRateBanner");
-    const rateNowBtn = document.getElementById("rateNowBtn");
+    <script>
+ function rateNow() {
+  const user = firebase.auth().currentUser;
+  if (!user) return alert("Login First");
 
-    // Always show banner on page load
-    banner.style.display = "flex";
+  const userRef = firebase.firestore().collection("users").doc(user.uid);
 
-    // Close banner
-    closeBtn.addEventListener("click", function () {
-      banner.style.display = "none";
-    });
+  userRef.get().then(doc => {
+    const data = doc.data();
 
-    // When user clicks "Rate Now"
-    rateNowBtn.addEventListener("click", async () => {
-      const user = firebase.auth().currentUser;
+    if (data.completedTasks?.rateApp) {
+      alert("✅ آپ پہلے ہی اس کام کو مکمل کر چکے ہیں۔");
+      hideRatingBanner();
+      return;
+    }
 
-      if (!user) {
-        alert("Please login first.");
-        return;
-      }
+    const reward = 5000;
+    const newCoins = (data.totalCoins || 0) + reward;
 
-      const userRef = firebase.firestore().collection("users").doc(user.uid);
-      const doc = await userRef.get();
+    userRef.update({
+      totalCoins: newCoins,
+      "completedTasks.rateApp": true
+    }).then(() => {
+      // ✅ Update local gameState
+      gameState.totalCoins = newCoins;
+      if (!gameState.completedTasks) gameState.completedTasks = {};
+      gameState.completedTasks.rateApp = true;
 
-      if (!doc.exists) {
-        alert("User data not found.");
-        return;
-      }
+      // ✅ Update UI immediately
+      updateUI();
 
-      const data = doc.data();
-
-      if (data.hasRated) {
-        alert("✅ You already received 10,000 coins. Thank you!");
-      } else {
-        await userRef.update({
-          balance: firebase.firestore.FieldValue.increment(10000),
-          hasRated: true
-        });
-        alert("🎉 Thank you for rating! 10,000 coins added to your wallet.");
-      }
-
-      // Open Play Store
+      // ✅ Show banner, PlayStore link, etc.
+      alert(`🎉 آپ کو ${reward} کوائنز مل گئے!`);
+      hideRatingBanner();
       window.open("https://play.google.com/store/apps/details?id=com.example.easykharcha", "_blank");
     });
+  }).catch(err => {
+    console.error("Error updating rateApp task:", err);
   });
-</script>
+}
 
+</script>
+<script>
+  // ✅ This calls Android function (JavaScript Interface)
+  function showRewardAd() {
+    if (typeof Android !== "undefined" && Android.showRewardAd) {
+      Android.showRewardAd(); // Android will show the Ad
+    } else {
+      alert("Reward Ad not available right now.");
+    }
+  }
+</script>
+<script>
+document.getElementById("coinBtn").addEventListener("click", () => {
+    if (typeof Android !== "undefined" && Android.showInterstitialAndMine) {
+      Android.showInterstitialAndMine(); // ✅ ask Android to show ad first
+    } else {
+      mine(); // fallback for browser
+    }
+  });
+  </script>
+ <script>
+  // ✅ Only add listener if not already added
+  if (!window.miningListenerAdded) {
+    document.getElementById("coinBtn").addEventListener("click", () => {
+      if (typeof Android !== "undefined" && Android.showInterstitialAndMine) {
+        Android.showInterstitialAndMine();
+      } else {
+        mine();
+      }
+    });
+
+    window.miningListenerAdded = true; // ✅ prevent double setup
+  }
+
+  function mine() {
+    alert("⛏️ Mining started!");
+    // Add coin logic here
+  }
+</script>
 
 
 </body>
