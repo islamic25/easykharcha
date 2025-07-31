@@ -457,6 +457,47 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+/* ✅ Fullscreen overlay-style soft notice */
+#invoiceWarning {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  z-index: 9999;
+  font-family: 'Cairo', sans-serif;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ✅ Warning box styling */
+.warning-box {
+  background-color: #fff0e0;
+  color: #8a3600;
+  border: 2px solid #ffcc80;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.warning-box h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.warning-box p {
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ✅ Optional animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -10%); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
 
     </style>
 </head>
@@ -482,7 +523,16 @@
                     </button>
                 </div>
             </div>
-            
+            <div id="invoiceWarning">
+  <div class="warning-box">
+    <h3>⚠️ PC Only Access | صرف کمپیوٹر پر استعمال کریں</h3>
+    <p>
+      This invoice page works best on a <strong>PC or Laptop.visit to https://islamic25.github.io./easykharcha/</strong>. <br>
+      یہ انوائس صفحہ صرف <strong>لیپ ٹاپ یا کمپیوٹر</strong> پر درست کام کرتا ہے۔
+    </p>
+  </div>
+</div>
+
             <div class="invoice-container">
                 <div class="invoice-paper" id="invoiceContent">
                     <div class="invoice-header">
