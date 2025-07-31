@@ -1388,25 +1388,7 @@ document.getElementById("coinBtn").addEventListener("click", () => {
     }
   });
   </script>
- <script>
-  // ✅ Only add listener if not already added
-  if (!window.miningListenerAdded) {
-    document.getElementById("coinBtn").addEventListener("click", () => {
-      if (typeof Android !== "undefined" && Android.showInterstitialAndMine) {
-        Android.showInterstitialAndMine();
-      } else {
-        mine();
-      }
-    });
-
-    window.miningListenerAdded = true; // ✅ prevent double setup
-  }
-
-  function mine() {
-    alert("⛏️ Mining started!");
-    // Add coin logic here
-  }
-</script>
+ 
 
 
 </body>
