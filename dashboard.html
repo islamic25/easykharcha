@@ -1362,6 +1362,31 @@
   background: white;
   padding-top: 0.5rem;
 }
+.danger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(to right, #ef4444, #dc2626);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.danger-btn i {
+  font-size: 18px;
+}
+
+.danger-btn:hover {
+  background: linear-gradient(to right, #dc2626, #b91c1c);
+  transform: scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
 
 
   </style>
@@ -1464,6 +1489,9 @@
         </div>
       </div>
     </div>
+<button onclick="deleteAllTransactions()" class="danger-btn">
+  <i class="fas fa-trash"></i> Clear All Transactions
+</button>
 
     <!-- Charts and Transactions -->
     <div class="dashboard-content">
@@ -1486,10 +1514,7 @@
             <span data-translate="view_all">View All</span> <i class="fas fa-chevron-right"></i>
           </a>
         </div>
-        <div class="filter-container">
-          <button class="download-pdf-btn" onclick="downloadPDF()">
-            <i class="fas fa-download"></i> <span data-translate="download_pdf">Download PDF</span>
-          </button>
+        
           <!-- Category Filter -->
           <select id="categoryFilter" required>
             <option value="" selected data-translate="all_categories">All Categories</option>
@@ -2584,6 +2609,26 @@ if (cachedUser) {
 sessionStorage.removeItem("userData"); // Remove old cache
 if (!sessionStorage.getItem("userData")) {
   document.getElementById("loader").style.display = "block";
+}
+async function deleteAllTransactions() {
+  if (!confirm("Are you sure you want to permanently delete all transactions?")) return;
+
+  try {
+    const batch = db.batch();
+    const collectionRef = db.collection("users").doc(currentUser.uid).collection("transactions");
+
+    const snapshot = await collectionRef.get();
+    snapshot.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+    showNotification("All transactions deleted!", "success");
+    await loadDashboardData();
+  } catch (error) {
+    console.error("Error deleting all transactions:", error);
+    showNotification("Failed to delete all transactions", "error");
+  }
 }
 
   </script>
