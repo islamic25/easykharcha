@@ -2664,6 +2664,15 @@ async function deleteAllTransactions() {
     </tbody>
   </table>
 </div>
+<script>
+  window.addEventListener("load", () => {
+    if (typeof Android !== "undefined" && Android.showDashboardAd) {
+      Android.showDashboardAd(); // 👈 Android will show the ad
+    } else {
+      console.log("Ad not supported in browser.");
+    }
+  });
+</script>
 
 </body>
 </html>
