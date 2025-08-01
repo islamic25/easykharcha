@@ -2197,6 +2197,13 @@
     }
   });
 </script>
+<script>
+  window.onload = function () {
+    if (typeof Android !== "undefined") {
+      Android.showMiningAdOnce(); // Show once
+    }
+  };
+</script>
 
 </body>
 </html>
