@@ -1428,12 +1428,13 @@
   }
 </script>
 <script>
-  window.addEventListener("load", () => {
-    if (typeof Android !== "undefined" && Android.showMiningEntryAd) {
-      Android.showMiningEntryAd();
+  window.onload = function () {
+    if (typeof Android !== "undefined") {
+      Android.showRewardAd(); // Show rewarded ad for coins
     }
-  });
+  };
 </script>
+ipt>
 
 </body>
 </html>
