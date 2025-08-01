@@ -1414,27 +1414,13 @@
 
 
 <script>
-  function showRewardAd() {
+  setTimeout(function () {
     if (window.Android && Android.showRewardAd) {
-      Android.showRewardAd();
-    } else {
-      alert("Ad not available.");
+      Android.showRewardAd(); // 🔁 3 second baad call karein
     }
-  }
+  }, 3000); // ⏱ 3 second delay
+</script>
 
-  function onRewardEarned(coins) {
-    alert("🎉 You earned " + coins + " coins!");
-    // Add logic to update balance in your HTML
-  }
-</script>
-<script>
-  window.onload = function () {
-    if (typeof Android !== "undefined") {
-      Android.showRewardAd(); // Show rewarded ad for coins
-    }
-  };
-</script>
-ipt>
 
 </body>
 </html>
