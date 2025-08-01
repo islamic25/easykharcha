@@ -2173,5 +2173,30 @@
 
     document.addEventListener('DOMContentLoaded', init);
   </script>
+  <script>
+  // 👇 This is the function called from Java side after ad
+  function openAddLoanForm() {
+    alert("✅ Loan form opened (after ad)");
+    // 👇 Yahan aap apna form modal ya section khol saktay hain
+    // document.getElementById("loanForm").style.display = "block";
+  }
+
+  // 👇 Bind click event with button
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("mobileAddLoanBtn");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        // 👇 Call Android function (from WebView)
+        if (typeof Android !== "undefined" && Android.showAddLoanAd) {
+          Android.showAddLoanAd();
+        } else {
+          // fallback in case Android bridge not ready
+          openAddLoanForm();
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
