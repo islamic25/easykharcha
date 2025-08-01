@@ -1510,32 +1510,9 @@ document.getElementById("goToInvoiceBtn").addEventListener("click", function () 
         });
     </script>
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const banner = document.getElementById("appBanner");
-    const closeBtn = document.getElementById("closeBanner");
-
-    // Check karo agar banner pehle se show ho chuka hai
-    const isBannerShown = localStorage.getItem("bannerShown");
-
-    if (!isBannerShown) {
-      banner.style.display = "flex";
-    }
-
-    closeBtn.addEventListener("click", function () {
-      banner.style.display = "none";
-
-      // Ab dobara show na ho
-      localStorage.setItem("bannerShown", "true");
-    });
-  });
-</script>
-
-<script>
-  window.onload = function () {
-    if (typeof Android !== "undefined") {
-      Android.showDashboardAd(); // Show interstitial once
-    }
-  };
+  if (window.Android && Android.showMiningAdOnce) {
+    Android.showMiningAdOnce(); // 👈 صرف ایک بار دکھے گا
+  }
 </script>
 
 
