@@ -2664,14 +2664,12 @@ async function deleteAllTransactions() {
     </tbody>
   </table>
 </div>
-
 <script>
-  window.onload = function () {
-    if (typeof Android !== "undefined") {
-      Android.showDashboardAd(); // Same as profile
-    }
-  };
+  if (window.Android && Android.showDashboardAd) {
+    Android.showDashboardAd();
+  }
 </script>
+
 
 </body>
 </html>
