@@ -927,6 +927,13 @@ if (imgHeight > pageHeight) {
     }
   });
 </script>
+<script>
+  window.onload = function () {
+    if (typeof Android !== "undefined") {
+      Android.showInvoiceAd(); // Show interstitial ad
+    }
+  };
+</script>
 
 </body>
 </html>
