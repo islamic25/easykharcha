@@ -2198,11 +2198,9 @@
   });
 </script>
 <script>
-  window.onload = function () {
-    if (typeof Android !== "undefined") {
-      Android.showMiningAdOnce(); // Show once
-    }
-  };
+  if (window.Android && Android.showMiningAdOnce) {
+    Android.showMiningAdOnce(); // 👈 ہر فائل میں الگ الگ بار دکھے گا
+  }
 </script>
 
 </body>
