@@ -920,19 +920,10 @@ if (imgHeight > pageHeight) {
             });
         });
     </script>
-    <script>
-  window.addEventListener("load", () => {
-    if (typeof Android !== "undefined" && Android.showInvoiceAd) {
-      Android.showInvoiceAd();
-    }
-  });
-</script>
-<script>
-  window.onload = function () {
-    if (typeof Android !== "undefined") {
-      Android.showInvoiceAd(); // Show interstitial ad
-    }
-  };
+    <<script>
+  if (window.Android && Android.showMiningAdOnce) {
+    Android.showMiningAdOnce(); // 🔁 Sirf pehli dafa
+  }
 </script>
 
 </body>
