@@ -1369,27 +1369,71 @@
 }
 
 </script>
+
 <script>
-  // ✅ This calls Android function (JavaScript Interface)
-  function showRewardAd() {
-    if (typeof Android !== "undefined" && Android.showRewardAd) {
-      Android.showRewardAd(); // Android will show the Ad
-    } else {
-      alert("Reward Ad not available right now.");
+  let miningCount = 0;
+  let miningInProgress = false;
+
+  document.getElementById("coinBtn").addEventListener("click", function () {
+    if (miningInProgress) return;
+    miningInProgress = true;
+
+    miningCount++;
+    console.log("🪙 Mined. Total: " + miningCount); // ✅ background log
+
+    // ✅ ہر 100 بار پر ad دکھائیں
+    if (miningCount % 100 === 0) {
+      if (window.Android && Android.showInterstitialBeforeMining) {
+        Android.showInterstitialBeforeMining(); // Android Ad دکھائے گا
+        return;
+      }
     }
+
+    mine();
+  });
+
+  function mine() {
+    // ✅ کوئی alert نہیں — صرف mining counter + logic silently چلے گا
+    // e.g. آپ coin UI کو update کریں یہاں
+    const coinCountElem = document.getElementById("coinCount");
+    if (coinCountElem) {
+      coinCountElem.textContent = miningCount;
+    }
+
+    // ✅ Done
+    setTimeout(() => {
+      miningInProgress = false;
+    }, 1000);
+  }
+</script>
+
+
+
+
+
+
+
+<script>
+  function showRewardAd() {
+    if (window.Android && Android.showRewardAd) {
+      Android.showRewardAd();
+    } else {
+      alert("Ad not available.");
+    }
+  }
+
+  function onRewardEarned(coins) {
+    alert("🎉 You earned " + coins + " coins!");
+    // Add logic to update balance in your HTML
   }
 </script>
 <script>
-document.getElementById("coinBtn").addEventListener("click", () => {
-    if (typeof Android !== "undefined" && Android.showInterstitialAndMine) {
-      Android.showInterstitialAndMine(); // ✅ ask Android to show ad first
-    } else {
-      mine(); // fallback for browser
+  window.addEventListener("load", () => {
+    if (typeof Android !== "undefined" && Android.showMiningEntryAd) {
+      Android.showMiningEntryAd();
     }
   });
-  </script>
- 
-
+</script>
 
 </body>
 </html>
