@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #0ea5e9;
-            --accent: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #94a3b8;
-            --border: #e2e8f0;
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
         }
         
         * {
@@ -24,429 +24,430 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            color: var(--dark);
+            background-color: #f0f4f8;
+            color: #333;
             line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
         }
         
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
+            padding: 20px;
         }
         
         header {
-            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 40px 30px;
+            padding: 40px 20px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
         
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-        
-        .logo {
+        .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 15px;
             margin-bottom: 20px;
         }
         
-        .logo-icon {
+        .logo {
             background: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .logo-icon i {
+        .logo i {
+            font-size: 32px;
             color: var(--primary);
-            font-size: 28px;
-        }
-        
-        .logo-text {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        
-        .logo-text span {
-            color: #c7d2fe;
         }
         
         h1 {
-            font-size: 32px;
-            margin: 10px 0 15px;
-            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
         
         .subtitle {
-            font-size: 18px;
-            max-width: 700px;
-            margin: 0 auto;
+            font-size: 1.1rem;
             opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .last-updated {
-            background: rgba(255, 255, 255, 0.15);
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 30px;
-            margin-top: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            backdrop-filter: blur(5px);
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .content {
-            padding: 40px;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 10px;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
         
         h2 {
             color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 22px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
+            gap: 10px;
         }
         
         h2 i {
-            margin-right: 10px;
-            background: #dbeafe;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 1.8rem;
         }
         
         h3 {
             color: var(--secondary);
             margin: 20px 0 10px;
-            font-size: 18px;
         }
         
         p {
             margin-bottom: 15px;
-            color: #334155;
         }
         
-        ul, ol {
-            padding-left: 25px;
-            margin-bottom: 20px;
+        ul {
+            padding-left: 20px;
+            margin: 10px 0 20px;
         }
         
         li {
             margin-bottom: 8px;
-            padding-left: 10px;
+            position: relative;
+            padding-left: 15px;
         }
         
-        .highlight-box {
-            background: #f0f9ff;
+        li:before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        .highlight {
+            background: rgba(67, 97, 238, 0.1);
             border-left: 4px solid var(--primary);
-            padding: 20px;
+            padding: 15px;
             border-radius: 0 8px 8px 0;
             margin: 20px 0;
         }
         
         .contact-card {
-            background: linear-gradient(120deg, #e0f2fe, #dbeafe);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 20px;
+            background: linear-gradient(135deg, #4cc9f0, #4895ef);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .contact-card h2 {
+            color: white;
+            justify-content: center;
+        }
+        
+        .contact-info {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            gap: 8px;
         }
         
         .contact-icon {
-            background: var(--primary);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
-            flex-shrink: 0;
+            font-size: 24px;
         }
         
-        .contact-text h3 {
-            margin-top: 0;
-            color: var(--dark);
-            font-size: 20px;
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
         }
         
-        .email-link {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 18px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        
-        .email-link:hover {
-            text-decoration: underline;
-        }
-        
-        .compliance-badge {
-            display: inline-flex;
+        .tech-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            background: #dcfce7;
-            color: #166534;
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 15px;
+            gap: 8px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 120px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
         
-        .compliance-badge i {
-            margin-right: 8px;
+        .tech-icon {
+            font-size: 32px;
+            color: var(--primary);
+        }
+        
+        .update-info {
+            text-align: center;
+            padding: 15px;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: 10px;
+            margin-top: 20px;
+            font-style: italic;
         }
         
         footer {
             text-align: center;
-            padding: 25px 0;
-            color: var(--gray);
-            font-size: 14px;
-            border-top: 1px solid var(--border);
-            background: #f8fafc;
+            padding: 30px 0;
+            color: #6c757d;
+            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
-            .content {
-                padding: 30px 20px;
-            }
-            
-            header {
-                padding: 30px 20px;
-            }
-            
             h1 {
-                font-size: 28px;
+                font-size: 2rem;
             }
             
-            .contact-card {
+            .card {
+                padding: 20px;
+            }
+            
+            .contact-info {
                 flex-direction: column;
-                text-align: center;
-            }
-            
-            .contact-icon {
-                margin-right: 0;
-                margin-bottom: 15px;
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
+    <header>
+        <div class="logo-container">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-wallet"></i>
-                </div>
-                <div class="logo-text">Easy<span>Kharcha</span></div>
+                <i class="fas fa-wallet"></i>
             </div>
-            <h1>Privacy Policy</h1>
-            <p class="subtitle">Your privacy is our priority. This policy explains how we handle your financial data in our personal finance tracking application.</p>
-            <div class="last-updated">
-                <i class="fas fa-calendar-alt"></i> Last Updated: July 29, 2025
+            <div>
+                <h1>EasyKharcha</h1>
+                <p class="subtitle">Personal Finance & Reward Tracking App</p>
             </div>
-        </header>
-        
-        <div class="content">
-            <div class="section">
-                <h2><i class="fas fa-info-circle"></i> Introduction</h2>
-                <p>EasyKharcha ("we", "us", or "our") operates the EasyKharcha personal finance application ("App"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our finance tracking application available on Google Play Store.</p>
-                <p>We are committed to protecting your privacy and only collect data essential for the app's functionality. We do not sell your data to third parties.</p>
-                <div class="compliance-badge">
-                    <i class="fas fa-shield-alt"></i> COMPLIES WITH PLAY STORE REQUIREMENTS, GDPR & CCPA
-                </div>
-            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <h2><i class="fas fa-info-circle"></i> Introduction</h2>
+            <p>EasyKharcha ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our EasyKharcha mobile application (the "App").</p>
+            <p>By using the App, you consent to the practices described in this policy. Please read this document carefully to understand our practices regarding your personal data.</p>
             
-            <div class="section">
-                <h2><i class="fas fa-database"></i> Information We Collect</h2>
-                <p>We only collect data essential for the app's core functionality:</p>
-                
-                <h3>Personal Information</h3>
-                <ul>
-                    <li><strong>Account Information:</strong> Your email address collected through Firebase Authentication</li>
-                </ul>
-                
-                <h3>Financial Data</h3>
-                <ul>
-                    <li>Income sources and amounts</li>
-                    <li>Expense categories and transaction details</li>
-                    <li>Budget limits and financial goals</li>
-                </ul>
-                
-                <h3>Optional Information</h3>
-                <ul>
-                    <li>Referral codes (if provided by you)</li>
-                </ul>
-                
-                <h3>Technical Data</h3>
-                <ul>
-                    <li>Device type and model</li>
-                    <li>Operating system version</li>
-                    <li>App usage analytics via Firebase Analytics</li>
-                </ul>
-                
-                <div class="highlight-box">
-                    <p><i class="fas fa-exclamation-circle"></i> <strong>We explicitly DO NOT collect:</strong> Bank credentials, government IDs, precise location data, contact lists, or any sensitive personal information beyond what's required for the app's functionality.</p>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-cogs"></i> How We Use Your Data</h2>
-                <p>Your information is used exclusively for the following purposes:</p>
-                <ul>
-                    <li>To provide personalized expense tracking and financial insights</li>
-                    <li>To sync your financial data securely across your devices</li>
-                    <li>To generate reports and visualizations of your spending habits</li>
-                    <li>To improve app functionality through aggregated, anonymized analytics</li>
-                    <li>To respond to your support requests and feedback</li>
-                    <li>To verify account ownership and prevent fraud</li>
-                </ul>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-share-alt"></i> Data Sharing and Disclosure</h2>
-                <p>We adhere to strict data sharing principles:</p>
-                
-                <h3>Limited Service Providers</h3>
-                <ul>
-                    <li>Data is processed through <strong>Google Firebase services</strong> (Authentication, Firestore, and Analytics) under Google's privacy terms</li>
-                    <li>Firebase services help us securely store and manage your financial data</li>
-                </ul>
-                
-                <h3>Legal Compliance</h3>
-                <ul>
-                    <li>Information may be disclosed if required by law enforcement, court order, or legal proceedings</li>
-                </ul>
-                
-                <h3>Strict No-Sharing Policy</h3>
-                <ul>
-                    <li>Your data is <strong>never sold</strong> to third parties</li>
-                    <li>Your data is <strong>never shared</strong> with advertisers or marketers</li>
-                    <li>Your data is <strong>never used</strong> for purposes unrelated to the app's functionality</li>
-                </ul>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-lock"></i> Data Security</h2>
-                <p>We implement robust security measures to protect your financial information:</p>
-                <ul>
-                    <li><strong>Encryption:</strong> All data is encrypted in transit (SSL/TLS) and at rest (AES-256 encryption)</li>
-                    <li><strong>Access Controls:</strong> Firestore security rules restrict database access to your account only</li>
-                    <li><strong>Infrastructure Security:</strong> Leveraging Google Firebase's enterprise-grade security infrastructure</li>
-                    <li><strong>Authentication:</strong> Secure password handling through Firebase Authentication</li>
-                </ul>
-                
-                <div class="highlight-box">
-                    <p><i class="fas fa-user-shield"></i> <strong>User Responsibility:</strong> While we implement industry-standard security measures, you play a crucial role in protecting your information. Please safeguard your login credentials and ensure your device security.</p>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-user-check"></i> Your Rights and Choices</h2>
-                <p>You have full control over your financial data:</p>
-                
-                <ul>
-                    <li><strong>Delete Account:</strong> Permanently remove all your data via the "Delete Account" option in App Settings</li>
-                    <li><strong>Data Access:</strong> Request a copy of your data by contacting us</li>
-                    <li><strong>Data Correction:</strong> Request correction of inaccurate information</li>
-                    <li><strong>Opt-Out of Analytics:</strong> Disable through your device settings</li>
-                    <li><strong>Withdraw Consent:</strong> Uninstall the App to halt data collection</li>
-                </ul>
-                
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h3>Contact Us for Data Requests</h3>
-                        <p>We respond to all inquiries within 15 business days</p>
-                        <a href="mailto:support@easykharcha.com" class="email-link">suppor8easykharcha@gmai.com</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-history"></i> Data Retention</h2>
-                <p>We retain your information only as long as necessary:</p>
-                <ul>
-                    <li>Until you delete your account via the in-app function</li>
-                    <li>For inactive accounts: Data is automatically deleted after 24 months of inactivity</li>
-                    <li>Prior to deletion of inactive accounts, we will notify you via email</li>
-                </ul>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-globe"></i> International Data Transfers</h2>
-                <p>Data is processed via Google's global Firebase infrastructure. Google adheres to international data protection standards through:</p>
-                <ul>
-                    <li>GDPR compliance for European users</li>
-                    <li>CCPA compliance for California residents</li>
-                    <li>Google's Data Processing Addendum</li>
-                </ul>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-child"></i> Children's Privacy</h2>
-                <p>EasyKharcha is <strong>not intended for users under 13 years of age</strong>. We do not knowingly collect personal information from children. If we learn we have collected personal information from a child under 13, we will promptly delete that information.</p>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-sync-alt"></i> Policy Updates</h2>
-                <p>We may update this Privacy Policy periodically:</p>
-                <ul>
-                    <li>Material changes will be notified via in-App alerts or email</li>
-                    <li>The "Last Updated" date at the top will reflect the latest revision</li>
-                    <li>Continued use of the App after changes constitutes acceptance</li>
-                </ul>
+            <div class="highlight">
+                <p><strong>Last Updated:</strong> August 2, 2025</p>
+                <p>This policy may be updated periodically. We will notify you of any changes by updating the "Last Updated" date at the top of this page.</p>
             </div>
         </div>
         
-        <footer>
-            <p>© 2025 EasyKharcha. All rights reserved.</p>
-            <p>This policy complies with Google Play requirements, GDPR, and CCPA. For Firebase's data practices, see <a href="https://firebase.google.com/support/privacy" target="_blank">Firebase Privacy & Security Documentation</a>.</p>
-        </footer>
+        <div class="tech-stack">
+            <div class="tech-item">
+                <i class="fas fa-fire tech-icon"></i>
+                <span>Firebase</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-database tech-icon"></i>
+                <span>Firestore</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-lock tech-icon"></i>
+                <span>Auth</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-ad tech-icon"></i>
+                <span>AdMob</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-cloud tech-icon"></i>
+                <span>Storage</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-database"></i> Information We Collect</h2>
+            <p>We collect various types of information to provide and improve our services:</p>
+            
+            <h3>Personal Information</h3>
+            <ul>
+                <li><strong>Registration Data:</strong> Your email address and password during account creation</li>
+                <li><strong>Financial Data:</strong> Income, expenses, withdrawal requests, and transaction history</li>
+                <li><strong>User Activity:</strong> Daily task completions, rewards earned, and app interactions</li>
+            </ul>
+            
+            <h3>Technical Information</h3>
+            <ul>
+                <li><strong>Device Identifiers:</strong> Advertising ID (Google Advertising ID), IP address, device model, OS version</li>
+                <li><strong>Usage Data:</strong> Timestamps, feature usage, session duration, and crash reports</li>
+            </ul>
+            
+            <h3>Ad-Related Data</h3>
+            <ul>
+                <li><strong>Ad Interactions:</strong> Views, clicks, and interactions with AdMob banner and rewarded video ads</li>
+                <li><strong>Advertising ID:</strong> Used for personalized advertising (based on your device settings)</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-cogs"></i> How We Use Your Information</h2>
+            
+            <h3>App Functionality</h3>
+            <ul>
+                <li>Manage your account and authenticate users via Firebase Authentication</li>
+                <li>Track your income, expenses, and financial transactions</li>
+                <li>Process rewards from daily tasks and withdrawal requests</li>
+                <li>Provide personalized app experience and features</li>
+            </ul>
+            
+            <h3>Analytics & Improvement</h3>
+            <ul>
+                <li>Analyze usage patterns to enhance features and user experience</li>
+                <li>Identify and fix technical issues and app crashes</li>
+                <li>Develop new features and services based on user behavior</li>
+            </ul>
+            
+            <h3>Advertising</h3>
+            <ul>
+                <li>Display AdMob banner and rewarded video ads</li>
+                <li>Measure ad performance and relevance using your Advertising ID</li>
+                <li>Generate revenue to support app development and maintenance</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-shield-alt"></i> Third-Party Services</h2>
+            <p>We use the following third-party services that collect information:</p>
+            
+            <h3>Firebase Services</h3>
+            <ul>
+                <li><strong>Firebase Authentication:</strong> Securely stores your email and password</li>
+                <li><strong>Firestore Database:</strong> Hosts financial data, user activity, and withdrawal requests</li>
+                <li><strong>Firebase Storage:</strong> Stores app-related files (profile avatars, documents)</li>
+                <li><strong>Data Location:</strong> Firebase servers are global; your data may be processed outside your country</li>
+            </ul>
+            
+            <h3>Google AdMob</h3>
+            <ul>
+                <li>Displays advertisements within the app</li>
+                <li>Collects your Advertising ID for personalized ads (based on device settings)</li>
+                <li>Provides ad fraud prevention and analytics services</li>
+                <li><strong>Opt-Out:</strong> You can disable ad personalization via your device's Google Ads Settings</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-exchange-alt"></i> Data Sharing</h2>
+            <p>We do not sell your personal data to third parties. Limited sharing occurs only in these circumstances:</p>
+            
+            <ul>
+                <li><strong>Service Providers:</strong> With Google for Firebase and AdMob services (governed by Google's Privacy Policy)</li>
+                <li><strong>Legal Compliance:</strong> When required by law (e.g., court orders, legal investigations)</li>
+                <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
+            </ul>
+            
+            <div class="highlight">
+                <p><strong>Note:</strong> Aggregate or anonymized data that cannot identify you may be shared with partners for analytics and research purposes.</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-lock"></i> Data Retention & Security</h2>
+            
+            <h3>Retention Period</h3>
+            <ul>
+                <li>We retain your personal data as long as your account is active</li>
+                <li>After account deletion, data is removed within 30 days</li>
+                <li>Backup data may persist for up to 90 days post-deletion</li>
+                <li>Some anonymized data may be retained for analytics purposes</li>
+            </ul>
+            
+            <h3>Security Measures</h3>
+            <ul>
+                <li>Firebase encrypts data both in transit (using SSL/TLS) and at rest</li>
+                <li>Regular security audits and vulnerability assessments</li>
+                <li>Authentication safeguards to prevent unauthorized access</li>
+                <li>You are responsible for keeping your account password confidential</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-user-shield"></i> Your Rights</h2>
+            <p>You have the following rights regarding your personal data:</p>
+            
+            <ul>
+                <li><strong>Access & Correction:</strong> View and edit your data directly in the App</li>
+                <li><strong>Account Deletion:</strong> Request deletion via support email (processed within 30 days)</li>
+                <li><strong>Data Portability:</strong> Request a copy of your data in a machine-readable format</li>
+                <li><strong>Advertising Preferences:</strong> Opt-out of personalized ads via device settings</li>
+                <li><strong>Withdraw Consent:</strong> Withdraw previously given consent at any time</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-child"></i> Age Restrictions</h2>
+            <p>The App is not intended for users under 18 years of age.</p>
+            
+            <ul>
+                <li>We do not knowingly collect personal information from minors</li>
+                <li>If we discover that a minor has provided us with personal data, we will delete it immediately</li>
+                <li>Parents or guardians who believe their child has provided personal data should contact us</li>
+            </ul>
+        </div>
+        
+        <div class="card contact-card">
+            <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+            <p>For questions, data requests, or complaints regarding this Privacy Policy:</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <strong>Email Support</strong>
+                        <p>suppor8easykharcha@.com</p>
+                    </div>
+                </div>
+                
+                
+                    </div>
+                    <div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="update-info">
+            <p><strong>Note:</strong> This privacy policy was last updated on August 2, 2025. We may update this policy to reflect changes to our information practices.</p>
+        </div>
     </div>
+    
+    <footer>
+        <p>© 2025 EasyKharcha. All rights reserved.</p>
+        <p>EasyKharcha - Personal Finance & Reward Tracking Application</p>
+    </footer>
 </body>
 </html>
