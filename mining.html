@@ -1415,20 +1415,21 @@
 
 <script>
   function showAd() {
-    if (window.Android && Android.showRewardAd) {
+    if (window.Android && Android.isRewardAdReady()) {
       Android.showRewardAd();
+    } else {
+      console.log("⏳ Reward ad not ready yet");
     }
   }
 
-  // پہلی بار 3 سیکنڈ بعد call کرو
+  // ⏱ First call after 3 seconds
   setTimeout(() => {
     showAd();
 
-    // اس کے بعد ہر 60 سیکنڈ میں repeat کرو
-    setInterval(showAd, 60000); // 60000ms = 60 seconds
-  }, 3000); // 3000ms = 3 seconds
+    // 🔁 Then repeat every 60 seconds
+    setInterval(showAd, 60000);
+  }, 3000);
 </script>
-
 
 
 </body>
