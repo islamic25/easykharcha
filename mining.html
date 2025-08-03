@@ -1414,12 +1414,21 @@
 
 
 <script>
-  setTimeout(function () {
+  function showAd() {
     if (window.Android && Android.showRewardAd) {
-      Android.showRewardAd(); // 🔁 3 second baad call karein
+      Android.showRewardAd();
     }
-  }, 3000); // ⏱ 3 second delay
+  }
+
+  // پہلی بار 3 سیکنڈ بعد call کرو
+  setTimeout(() => {
+    showAd();
+
+    // اس کے بعد ہر 60 سیکنڈ میں repeat کرو
+    setInterval(showAd, 60000); // 60000ms = 60 seconds
+  }, 3000); // 3000ms = 3 seconds
 </script>
+
 
 
 </body>
