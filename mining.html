@@ -1371,15 +1371,23 @@
 <script>
   let adInterval;
 
-  // Auto mining ads every 60 seconds
+  // ✅ Step 1: Called every 60s for mining auto ads
   function tryShowAutoAd() {
-    if (typeof Android !== 'undefined' && Android.isAdLoaded && Android.isAdLoaded()) {
-      Android.showRewardAd();
-    } else {
-      console.log("Auto Ad not ready yet.");
+    if (typeof Android !== 'undefined' && Android.checkAdReady) {
+      Android.checkAdReady(); // Asks Android if ad is ready
     }
   }
 
+  // ✅ Step 2: Callback from Android
+  function onAdReady(ready) {
+    if (ready) {
+      Android.showRewardAd(); // Only show if ready
+    } else {
+      console.log("Reward ad not ready yet (auto)");
+    }
+  }
+
+  // ✅ Step 3: Start mining ads every 60 seconds
   function startMiningAds() {
     if (typeof Android !== 'undefined') {
       setTimeout(tryShowAutoAd, 3000); // First attempt after 3s
@@ -1387,22 +1395,40 @@
     }
   }
 
+  // ✅ Stop auto ads
   function stopMiningAds() {
     clearInterval(adInterval);
   }
 
-  // Manual ad via button
+  // ✅ Manual button click
   function showManualAd() {
-    if (typeof Android !== 'undefined' && Android.isAdLoaded && Android.isAdLoaded()) {
-      Android.showRewardAd();
+    if (typeof Android !== 'undefined' && Android.checkAdReady) {
+      Android.checkAdReady(); // Calls onAdReady()
     } else {
-      alert("Ad not ready yet, please try again later.");
+      alert("Ad not ready yet.");
     }
   }
 
-  window.addEventListener("load", startMiningAds);
+  // ✅ Optional reward earn feedback
+  function onRewardEarned(amount) {
+    alert("🎉 You earned " + amount + " coins!");
+    // Update UI or balance here
+  }
+
+  // ✅ Optional not-ready fallback
+  function onRewardAdNotReady() {
+    alert("Ad not ready, please try again in a moment.");
+  }
+
+  // ✅ Start mining when page loads
+ window.addEventListener("load", () => {
+  setTimeout(tryShowAutoAd, 3000); // 3s delay before first ad
+  startMiningAds();
+});
+
   window.addEventListener("beforeunload", stopMiningAds);
 </script>
+
 
 
 
