@@ -1371,64 +1371,29 @@
 </script>
 
 <script>
-  let miningCount = 0;
-  let miningInProgress = false;
+  let adInterval;
 
-  document.getElementById("coinBtn").addEventListener("click", function () {
-    if (miningInProgress) return;
-    miningInProgress = true;
-
-    miningCount++;
-    console.log("🪙 Mined. Total: " + miningCount); // ✅ background log
-
-    // ✅ ہر 100 بار پر ad دکھائیں
-    if (miningCount % 100 === 0) {
-      if (window.Android && Android.showInterstitialBeforeMining) {
-        Android.showInterstitialBeforeMining(); // Android Ad دکھائے گا
-        return;
-      }
-    }
-
-    mine();
-  });
-
-  function mine() {
-    // ✅ کوئی alert نہیں — صرف mining counter + logic silently چلے گا
-    // e.g. آپ coin UI کو update کریں یہاں
-    const coinCountElem = document.getElementById("coinCount");
-    if (coinCountElem) {
-      coinCountElem.textContent = miningCount;
-    }
-
-    // ✅ Done
-    setTimeout(() => {
-      miningInProgress = false;
-    }, 1000);
-  }
-</script>
-
-
-
-
-
-
-
-<script>
-  function showAd() {
-    if (window.Android && Android.isRewardAdReady()) {
+  function startMiningAds() {
+    if (typeof Android !== 'undefined' && Android.showRewardAd) {
+      // Immediately show one ad
       Android.showRewardAd();
-    } else {
-      console.log("⏳ Reward ad not ready yet");
+
+      // Then show every 60 seconds
+      adInterval = setInterval(() => {
+        Android.showRewardAd();
+      }, 60000); // 60000 ms = 60 seconds
     }
   }
 
-  // ⏱ First call after 3 seconds
-  setTimeout(() => {
-    showAd();
+  function stopMiningAds() {
+    clearInterval(adInterval);
+  }
 
-    // 🔁 Then repeat every 60 seconds
-    setInterval(showAd, 60000);
-  }, 3000);
+  // Start when page loads
+  window.addEventListener("load", startMiningAds);
+
+  // Optional: Stop ads when user leaves or navigates away
+  window.addEventListener("beforeunload", stopMiningAds);
 </script>
 
 
