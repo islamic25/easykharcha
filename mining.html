@@ -795,9 +795,7 @@
             <div class="video-grid" id="videoGrid">
                 <div class="text-center py-8">
                    <!-- ✅ Watch & Earn Button -->
-<button onclick="showRewardAd()" style="padding: 10px 20px; background: #004225; color: white; border: none; border-radius: 8px;">
-  🎥 Watch Ad & Earn 5k Coins
-</button>
+<button onclick="showManualAd()">🎥 Watch Ad and Earn</button>
 
                 </div>
             </div>
@@ -1373,15 +1371,19 @@
 <script>
   let adInterval;
 
-  function startMiningAds() {
-    if (typeof Android !== 'undefined' && Android.showRewardAd) {
-      // Immediately show one ad
+  // Auto mining ads every 60 seconds
+  function tryShowAutoAd() {
+    if (typeof Android !== 'undefined' && Android.isAdLoaded && Android.isAdLoaded()) {
       Android.showRewardAd();
+    } else {
+      console.log("Auto Ad not ready yet.");
+    }
+  }
 
-      // Then show every 60 seconds
-      adInterval = setInterval(() => {
-        Android.showRewardAd();
-      }, 60000); // 60000 ms = 60 seconds
+  function startMiningAds() {
+    if (typeof Android !== 'undefined') {
+      setTimeout(tryShowAutoAd, 3000); // First attempt after 3s
+      adInterval = setInterval(tryShowAutoAd, 60000); // Every 60s
     }
   }
 
@@ -1389,12 +1391,19 @@
     clearInterval(adInterval);
   }
 
-  // Start when page loads
-  window.addEventListener("load", startMiningAds);
+  // Manual ad via button
+  function showManualAd() {
+    if (typeof Android !== 'undefined' && Android.isAdLoaded && Android.isAdLoaded()) {
+      Android.showRewardAd();
+    } else {
+      alert("Ad not ready yet, please try again later.");
+    }
+  }
 
-  // Optional: Stop ads when user leaves or navigates away
+  window.addEventListener("load", startMiningAds);
   window.addEventListener("beforeunload", stopMiningAds);
 </script>
+
 
 
 </body>
