@@ -1368,37 +1368,6 @@
 
 <!-- ✅ Script Section -->
 <script>
-  let adInterval;
-
-  // Called every 60s to check if ad is ready (auto-mining)
-  function tryShowAutoAd() {
-    if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // triggers onAdReady()
-    }
-  }
-
-  // Called by Android when checkAdReady() returns
-  function onAdReady(ready) {
-    if (ready) {
-      Android.showRewardAd(); // ✅ Show only if ready
-    } else {
-      console.log("Reward ad not ready (auto)");
-    }
-  }
-
-  // Starts auto mining ads every 60 seconds
-  function startMiningAds() {
-    if (typeof Android !== 'undefined') {
-      setTimeout(tryShowAutoAd, 3000); // First ad check after 3s
-      adInterval = setInterval(tryShowAutoAd, 60000); // Every 60s
-    }
-  }
-
-  // Stop auto ads (if needed)
-  function stopMiningAds() {
-    clearInterval(adInterval);
-  }
-
   // Manual button click
   function showManualAd() {
     if (typeof Android !== 'undefined' && Android.checkAdReady) {
@@ -1408,24 +1377,27 @@
     }
   }
 
-  // Called by Android when reward earned
-  function onRewardEarned(amount) {
-    alert("🎉 You earned " + amount + " coins!");
-    // ✅ You can update user UI balance here
+  // Called by Android when ad check completes
+  function onAdReady(ready) {
+    if (ready) {
+      Android.showRewardAd(); // ✅ Show ad only if ready
+    } else {
+      alert("⚠️ Ad not ready. Try again shortly.");
+    }
   }
 
-  // If ad wasn't ready
+  // Called by Android when user earns reward
+  function onRewardEarned(amount) {
+    alert("🎉 You earned " + amount + " coins!");
+    // ✅ Update user balance in UI here
+  }
+
+  // Optional: Handle not-ready separately if needed
   function onRewardAdNotReady() {
     alert("⚠️ Ad not ready. Try again shortly.");
   }
-
-  // Start mining when page loads
-  window.addEventListener("load", () => {
-    startMiningAds();
-  });
-
-  window.addEventListener("beforeunload", stopMiningAds);
 </script>
+
 
 
 
