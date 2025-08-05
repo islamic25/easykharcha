@@ -792,13 +792,11 @@
             </h2>
             <p class="text-gray-400 mb-6">Watch videos to earn coin rewards! Each video can be watched only once.</p>
             
-            <div class="video-grid" id="videoGrid">
-                <div class="text-center py-8">
-                   <!-- ✅ Watch & Earn Button -->
-<button onclick="showManualAd()">🎥 Watch Ad and Earn</button>
-
-                </div>
-            </div>
+           <div class="video-grid" id="videoGrid">
+  <div class="text-center py-8">
+    <button onclick="showManualAd()">🎥 Watch Ad and Earn</button>
+  </div>
+</div>
         </section>
         
         <!-- Referral Section -->
@@ -1368,67 +1366,66 @@
 
 </script>
 
+<!-- ✅ Script Section -->
 <script>
   let adInterval;
 
-  // ✅ Step 1: Called every 60s for mining auto ads
+  // Called every 60s to check if ad is ready (auto-mining)
   function tryShowAutoAd() {
     if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // Asks Android if ad is ready
+      Android.checkAdReady(); // triggers onAdReady()
     }
   }
 
-  // ✅ Step 2: Callback from Android
+  // Called by Android when checkAdReady() returns
   function onAdReady(ready) {
     if (ready) {
-      Android.showRewardAd(); // Only show if ready
+      Android.showRewardAd(); // ✅ Show only if ready
     } else {
-      console.log("Reward ad not ready yet (auto)");
+      console.log("Reward ad not ready (auto)");
     }
   }
 
-  // ✅ Step 3: Start mining ads every 60 seconds
+  // Starts auto mining ads every 60 seconds
   function startMiningAds() {
     if (typeof Android !== 'undefined') {
-      setTimeout(tryShowAutoAd, 3000); // First attempt after 3s
+      setTimeout(tryShowAutoAd, 3000); // First ad check after 3s
       adInterval = setInterval(tryShowAutoAd, 60000); // Every 60s
     }
   }
 
-  // ✅ Stop auto ads
+  // Stop auto ads (if needed)
   function stopMiningAds() {
     clearInterval(adInterval);
   }
 
-  // ✅ Manual button click
+  // Manual button click
   function showManualAd() {
     if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // Calls onAdReady()
+      Android.checkAdReady(); // Check before showing
     } else {
-      alert("Ad not ready yet.");
+      alert("Ad system not ready.");
     }
   }
 
-  // ✅ Optional reward earn feedback
+  // Called by Android when reward earned
   function onRewardEarned(amount) {
     alert("🎉 You earned " + amount + " coins!");
-    // Update UI or balance here
+    // ✅ You can update user UI balance here
   }
 
-  // ✅ Optional not-ready fallback
+  // If ad wasn't ready
   function onRewardAdNotReady() {
-    alert("Ad not ready, please try again in a moment.");
+    alert("⚠️ Ad not ready. Try again shortly.");
   }
 
-  // ✅ Start mining when page loads
- window.addEventListener("load", () => {
-  setTimeout(tryShowAutoAd, 3000); // 3s delay before first ad
-  startMiningAds();
-});
+  // Start mining when page loads
+  window.addEventListener("load", () => {
+    startMiningAds();
+  });
 
   window.addEventListener("beforeunload", stopMiningAds);
 </script>
-
 
 
 
