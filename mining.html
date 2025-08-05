@@ -865,9 +865,32 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-
+  // Game state
+        let gameState = {
+            totalCoins: 0,
+             adViews: 0,
+            tapPower: 1,
+            autoMinerLevel: 0,
+            multiplier: 1,
+            referralCount: 0,
+            tapLevel: 1,
+            minerLevel: 0,
+            multiplierLevel: 1,
+            tapCount: 0,
+            upgradeCount: 0,
+            lastUpdated: new Date(),
+            tasks: {
+                tapTask: { target: 100, progress: 0, claimed: false },
+                upgradeTask: { target: 5, progress: 0, claimed: false },
+                referralTask: { target: 3, progress: 0, claimed: false }
+            },
+            referralCode: '',
+            watchedVideos: []
+        };
         // DOM Elements
-        document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
+        // ✅ Now it's safe to access
+document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
+
 
         const loadingOverlay = document.getElementById('loadingOverlay');
         const totalCoinsEl = document.getElementById('totalCoins');
@@ -899,27 +922,7 @@
         const sections = document.querySelectorAll('.section');
         const videoGrid = document.getElementById('videoGrid');
 
-        // Game state
-        let gameState = {
-            totalCoins: 0,
-            tapPower: 1,
-            autoMinerLevel: 0,
-            multiplier: 1,
-            referralCount: 0,
-            tapLevel: 1,
-            minerLevel: 0,
-            multiplierLevel: 1,
-            tapCount: 0,
-            upgradeCount: 0,
-            lastUpdated: new Date(),
-            tasks: {
-                tapTask: { target: 100, progress: 0, claimed: false },
-                upgradeTask: { target: 5, progress: 0, claimed: false },
-                referralTask: { target: 3, progress: 0, claimed: false }
-            },
-            referralCode: '',
-            watchedVideos: []
-        };
+      
 
         // Format numbers for display
         const fmt = n => (n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : Math.floor(n));
@@ -1372,25 +1375,25 @@
 <!-- ✅ Script Section -->
 <!-- ✅ Final Ad Integration Script with Firestore Count -->
 <script>
-  // ✅ Show Ad Button Click
+  // ✅ Step 1: Button Click → Check if ad ready
   function showManualAd() {
     if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // Android کو چیک کرنے کا کہیں گے کہ ad ready ہے؟
+      Android.checkAdReady(); // 🔄 Android will call onAdReady()
     } else {
       alert("⚠️ Ad system not ready.");
     }
   }
 
-  // ✅ Android call کرے گا ad ready ہونے کے بعد
+  // ✅ Step 2: Called by Android after checking
   function onAdReady(ready) {
     if (ready) {
-      Android.showRewardAd(); // اگر ready ہے تو show کر دو
+      Android.showRewardAd(); // ✅ Show only ONE rewarded ad
     } else {
-      alert("⚠️ Ad not ready yet. Try again shortly.");
+      alert("⚠️ Ad not ready. Try again later.");
     }
   }
 
-  // ✅ Android call کرے گا جب ad مکمل دیکھ لیا جائے
+  // ✅ Step 3: Called by Android when ad is completed
   function onRewardEarned() {
     const user = firebase.auth().currentUser;
     if (!user) {
@@ -1400,24 +1403,24 @@
 
     const userRef = firebase.firestore().collection("users").doc(user.uid);
 
-    // ✅ Firestore میں adViews +1 کریں
+    // ✅ Firestore update: adViews +1
     userRef.update({
       adViews: firebase.firestore.FieldValue.increment(1)
     }).then(() => {
-      alert("🎉 Ad watched! View counted.");
+      alert("🎉 Ad watched! +1 view");
 
-      // ✅ GameState بھی update کریں locally
+      // ✅ Update local state too
       gameState.adViews = (gameState.adViews || 0) + 1;
-      updateUI();
+      document.getElementById("adViewsCount").textContent = gameState.adViews;
     }).catch((error) => {
-      console.error("❌ Error updating ad view count:", error);
-      alert("❌ Failed to count ad view.");
+      console.error("❌ Error updating ad count:", error);
+      alert("❌ Failed to update ad count.");
     });
   }
 
-  // ✅ اگر ad show نہ ہو سکا
+  // ✅ Optional fallback
   function onRewardAdNotReady() {
-    alert("⚠️ Ad is not ready. Please try again later.");
+    alert("⚠️ Ad system not ready.");
   }
 </script>
 
