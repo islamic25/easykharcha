@@ -794,6 +794,7 @@
             
            <div class="video-grid" id="videoGrid">
   <div class="text-center py-8">
+    <p>📺 Ads Watched: <span id="adViewsCount">0</span></p>
     <button onclick="showManualAd()">🎥 Watch Ad and Earn</button>
   </div>
 </div>
@@ -866,6 +867,8 @@
         const db = firebase.firestore();
 
         // DOM Elements
+        document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
+
         const loadingOverlay = document.getElementById('loadingOverlay');
         const totalCoinsEl = document.getElementById('totalCoins');
         const tapPowerEl = document.getElementById('tapPower');
@@ -1367,37 +1370,56 @@
 </script>
 
 <!-- ✅ Script Section -->
+<!-- ✅ Final Ad Integration Script with Firestore Count -->
 <script>
-  // Manual button click
+  // ✅ Show Ad Button Click
   function showManualAd() {
     if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // Check before showing
+      Android.checkAdReady(); // Android کو چیک کرنے کا کہیں گے کہ ad ready ہے؟
     } else {
-      alert("Ad system not ready.");
+      alert("⚠️ Ad system not ready.");
     }
   }
 
-  // Called by Android when ad check completes
+  // ✅ Android call کرے گا ad ready ہونے کے بعد
   function onAdReady(ready) {
     if (ready) {
-      Android.showRewardAd(); // ✅ Show ad only if ready
+      Android.showRewardAd(); // اگر ready ہے تو show کر دو
     } else {
-      alert("⚠️ Ad not ready. Try again shortly.");
+      alert("⚠️ Ad not ready yet. Try again shortly.");
     }
   }
 
-  // Called by Android when user earns reward
-  function onRewardEarned(amount) {
-    alert("🎉 You earned " + amount + " coins!");
-    // ✅ Update user balance in UI here
+  // ✅ Android call کرے گا جب ad مکمل دیکھ لیا جائے
+  function onRewardEarned() {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      alert("⚠️ Please log in first.");
+      return;
+    }
+
+    const userRef = firebase.firestore().collection("users").doc(user.uid);
+
+    // ✅ Firestore میں adViews +1 کریں
+    userRef.update({
+      adViews: firebase.firestore.FieldValue.increment(1)
+    }).then(() => {
+      alert("🎉 Ad watched! View counted.");
+
+      // ✅ GameState بھی update کریں locally
+      gameState.adViews = (gameState.adViews || 0) + 1;
+      updateUI();
+    }).catch((error) => {
+      console.error("❌ Error updating ad view count:", error);
+      alert("❌ Failed to count ad view.");
+    });
   }
 
-  // Optional: Handle not-ready separately if needed
+  // ✅ اگر ad show نہ ہو سکا
   function onRewardAdNotReady() {
-    alert("⚠️ Ad not ready. Try again shortly.");
+    alert("⚠️ Ad is not ready. Please try again later.");
   }
 </script>
-
 
 
 
