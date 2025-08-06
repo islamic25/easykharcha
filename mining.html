@@ -969,16 +969,37 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                         
                         // Setup realtime listeners
                         setupRealtimeListeners(userRef);
-                    } else {
-                        // Create new user
-                        gameState.referralCode = generateReferralCode();
-                        await userRef.set({
-                            ...gameState,
-                            displayName: user.email,
-                            created: firebase.firestore.FieldValue.serverTimestamp(),
-                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    }
+                   } else {
+    // Create new user with default mining data
+    const defaultData = {
+        totalCoins: 0,
+        adViews: 0,
+        tapPower: 1,
+        autoMinerLevel: 0,
+        multiplier: 1,
+        referralCount: 0,
+        tapLevel: 1,
+        minerLevel: 0,
+        multiplierLevel: 1,
+        tapCount: 0,
+        upgradeCount: 0,
+        referralCode: generateReferralCode(),
+        watchedVideos: [],
+        displayName: user.email,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+        tasks: {
+            tapTask: { target: 100, progress: 0, claimed: false },
+            upgradeTask: { target: 5, progress: 0, claimed: false },
+            referralTask: { target: 3, progress: 0, claimed: false }
+        }
+    };
+
+    await userRef.set(defaultData);
+    gameState = { ...gameState, ...defaultData };
+    referralLink.value = `${window.location.origin}/?ref=${defaultData.referralCode}`;
+}
+
                     
                     // Setup event listeners
                     setupEventListeners(userRef);
