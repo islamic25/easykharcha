@@ -1375,53 +1375,69 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
 <!-- ✅ Script Section -->
 <!-- ✅ Final Ad Integration Script with Firestore Count -->
 <script>
-  // ✅ Step 1: Button Click → Check if ad ready
-  function showManualAd() {
+let adTimer = null;
+
+// ✅ Start auto-ad system when mining page is entered
+function startAutoAdLoop() {
+  if (adTimer) return; // already running
+
+  adTimer = setInterval(() => {
     if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // 🔄 Android will call onAdReady()
-    } else {
-      alert("⚠️ Ad system not ready.");
+      Android.checkAdReady(); // Android will call onAdReady()
     }
+  }, 120000); // 2 minutes = 120000ms
+}
+
+// ✅ Stop auto-ad when user leaves the page
+function stopAutoAdLoop() {
+  if (adTimer) {
+    clearInterval(adTimer);
+    adTimer = null;
   }
+}
 
-  // ✅ Step 2: Called by Android after checking
-  function onAdReady(ready) {
-    if (ready) {
-      Android.showRewardAd(); // ✅ Show only ONE rewarded ad
-    } else {
-      alert("⚠️ Ad not ready. Try again later.");
-    }
-  }
-
-  // ✅ Step 3: Called by Android when ad is completed
-  function onRewardEarned() {
-    const user = firebase.auth().currentUser;
-    if (!user) {
-      alert("⚠️ Please log in first.");
-      return;
-    }
-
-    const userRef = firebase.firestore().collection("users").doc(user.uid);
-
-    // ✅ Firestore update: adViews +1
-    userRef.update({
-      adViews: firebase.firestore.FieldValue.increment(1)
-    }).then(() => {
-      alert("🎉 Ad watched! +1 view");
-
-      // ✅ Update local state too
-      gameState.adViews = (gameState.adViews || 0) + 1;
-      document.getElementById("adViewsCount").textContent = gameState.adViews;
-    }).catch((error) => {
-      console.error("❌ Error updating ad count:", error);
-      alert("❌ Failed to update ad count.");
-    });
-  }
-
-  // ✅ Optional fallback
-  function onRewardAdNotReady() {
+// ✅ Button click handler (manual)
+function showManualAd() {
+  if (typeof Android !== 'undefined' && Android.checkAdReady) {
+    Android.checkAdReady();
+  } else {
     alert("⚠️ Ad system not ready.");
   }
+}
+
+// ✅ Android callback to JS after checking ad status
+function onAdReady(ready) {
+  if (ready) {
+    Android.showRewardAd();
+  } else {
+    console.log("Ad not ready yet");
+  }
+}
+
+// ✅ After full ad is watched
+function onRewardEarned() {
+  const user = firebase.auth().currentUser;
+  if (!user) return alert("Please login first");
+
+  const userRef = firebase.firestore().collection("users").doc(user.uid);
+  userRef.update({
+    adViews: firebase.firestore.FieldValue.increment(1)
+  }).then(() => {
+    alert("🎉 Ad watched! +1 view");
+    gameState.adViews = (gameState.adViews || 0) + 1;
+    document.getElementById("adViewsCount").textContent = gameState.adViews;
+  });
+}
+
+// ✅ Optional - when ad ends (used if needed)
+function onAdFinished() {
+  console.log("Ad finished and screen returned");
+}
+
+// ✅ Optional fallback
+function onRewardAdNotReady() {
+  console.log("Ad not ready fallback");
+}
 </script>
 
 
