@@ -483,108 +483,133 @@
                 transform: translateY(-100px) translateX(20px);
             }
         }
-     .rating-banner {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: 9999;
-  display: none;
-  direction: rtl;
-  font-family: 'Cairo', sans-serif;
-}
-
-.banner-overlay {
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.4s ease;
-}
-
-.banner-box {
-  background: #ffffff10;
-  border: 1px solid #ffffff20;
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  color: #fff;
-  max-width: 360px;
-  width: 90%;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.banner-box h2 {
-  font-size: 20px;
-  margin-bottom: 5px;
-}
-
-.banner-box .coins-text {
-  font-size: 28px;
-  color: gold;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.banner-box p {
-  font-size: 15px;
-  margin-bottom: 15px;
-  color: #e0e0e0;
-}
-
-.banner-box .stars i {
-  color: gold;
-  font-size: 20px;
-  margin: 0 2px;
-}
-
-.rate-now {
-  background: linear-gradient(135deg, #ffd700, #f4c430);
-  color: #004225;
-  border: none;
-  padding: 12px 24px;
-  font-size: 16px;
-  border-radius: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: transform 0.3s ease;
-}
-
-.rate-now:hover {
-  transform: scale(1.05);
-}
-
-.coin-emoji {
-  font-size: 32px;
-  margin-bottom: 10px;
-  animation: pulse 1s infinite;
-}
-
-.close-banner {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  background: transparent;
-  color: #fff;
-  font-size: 24px;
-  border: none;
-  cursor: pointer;
-}
-
-@keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.95);}
-  to {opacity: 1; transform: scale(1);}
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1);}
-  50% { transform: scale(1.1);}
-}
-
-
+        
+        .rating-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            display: none;
+        }
+        
+        .banner-overlay {
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .banner-box {
+            background: #ffffff10;
+            border: 1px solid #ffffff20;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            color: #fff;
+            max-width: 360px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .banner-box h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .banner-box .coins-text {
+            font-size: 28px;
+            color: gold;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .banner-box p {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .banner-box .stars i {
+            color: gold;
+            font-size: 20px;
+            margin: 0 2px;
+        }
+        
+        .rate-now {
+            background: linear-gradient(135deg, #ffd700, #f4c430);
+            color: #004225;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .rate-now:hover {
+            transform: scale(1.05);
+        }
+        
+        .coin-emoji {
+            font-size: 32px;
+            margin-bottom: 10px;
+            animation: pulse 1s infinite;
+        }
+        
+        .close-banner {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            background: transparent;
+            color: #fff;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        @keyframes fadeIn {
+            from {opacity: 0; transform: scale(0.95);}
+            to {opacity: 1; transform: scale(1);}
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.1);}
+        }
+        
+        .ad-btn {
+            background: linear-gradient(135deg, #ff5e14, #ff8c42);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px auto;
+            transition: transform 0.3s;
+        }
+        
+        .ad-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 94, 20, 0.3);
+        }
+        
+        .ad-btn i {
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
@@ -597,23 +622,22 @@
             <p class="mt-4 text-lg">Loading your mining data...</p>
         </div>
     </div>
+    
     <div id="ratingBanner" class="rating-banner">
-  <div class="banner-overlay">
-    <div class="banner-box">
-      <button class="close-banner" onclick="hideRatingBanner()">×</button>
-      <div class="coin-emoji">🪙✨</div>
-      <h2>ایپ کو ریٹ کریں اور حاصل کریں</h2>
-      <h1 class="coins-text">5000 کوائنز 🎁</h1>
-      <p>آپ کی رائے ہمارے لیے قیمتی ہے!</p>
-      <div class="stars">
-        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-      </div>
-      <button class="rate-now" onclick="rateNow()">ابھی ریٹ کریں</button>
+        <div class="banner-overlay">
+            <div class="banner-box">
+                <button class="close-banner" onclick="hideRatingBanner()">×</button>
+                <div class="coin-emoji">🪙✨</div>
+                <h2>Rate Our App & Earn</h2>
+                <h1 class="coins-text">5000 Coins 🎁</h1>
+                <p>Your feedback is valuable to us!</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <button class="rate-now" onclick="rateNow()">Rate Now</button>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-
-
 
     <div class="container max-w-6xl mx-auto">
         <header class="flex justify-between items-center py-4 mb-6 border-b border-gray-700">
@@ -627,14 +651,12 @@
             </div>
         </header>
         
-      <section class="mining-section flex flex-col items-center mb-8">
-  <h2 class="mining-title text-2xl mb-5 text-center mining-font">Tap to Mine Coins</h2>
-
-  <!-- Coin Button -->
-  <div class="coin-btn w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-8 border-yellow-700 flex items-center justify-center cursor-pointer relative shadow-xl animate-pulse" id="coinBtn">
-    <div class="coin-icon text-6xl md:text-7xl text-yellow-800">🪙</div>
-  </div>
-</section>
+        <section class="mining-section flex flex-col items-center mb-8">
+            <h2 class="mining-title text-2xl mb-5 text-center mining-font">Tap to Mine Coins</h2>
+            <div class="coin-btn w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-8 border-yellow-700 flex items-center justify-center cursor-pointer relative shadow-xl animate-pulse" id="coinBtn">
+                <div class="coin-icon text-6xl md:text-7xl text-yellow-800">🪙</div>
+            </div>
+        </section>
         
         <section class="stats-grid mb-8">
             <div class="stat-card">
@@ -781,7 +803,6 @@
                     </div>
                 </div>
             </div>
-            
         </section>
         
         <!-- Video Rewards Section -->
@@ -791,13 +812,15 @@
                 Video Rewards
             </h2>
             <p class="text-gray-400 mb-6">Watch videos to earn coin rewards! Each video can be watched only once.</p>
-            
-           <div class="video-grid" id="videoGrid">
-  <div class="text-center py-8">
-    <p>📺 Ads Watched: <span id="adViewsCount">0</span></p>
-    <button onclick="showManualAd()">🎥 Watch Ad and Earn</button>
-  </div>
-</div>
+            <div class="video-grid" id="videoGrid">
+                <div class="text-center py-4">
+                    <p class="text-xl mb-3">📺 Ads Watched: <span id="adViewsCount" class="text-yellow-400 font-bold">0</span></p>
+                    <button class="ad-btn" onclick="showManualAd()">
+                        <i class="fas fa-play-circle"></i>
+                        Watch Ad and Earn 100 Coins
+                    </button>
+                </div>
+            </div>
         </section>
         
         <!-- Referral Section -->
@@ -814,9 +837,9 @@
                         <strong id="referralCountStat" class="text-lg">0</strong>
                     </div>
                 </div>
-                <div class="referral-link mt-5">
-                    <input type="text" class="link-input w-full bg-transparent border-none py-3 px-4 text-gray-300" id="referralLink" value="Loading..." readonly>
-                    <button class="copy-btn bg-orange-500 text-white border-none py-3 px-6 cursor-pointer font-semibold transition-all hover:bg-orange-600" id="copyBtn">Copy</button>
+                <div class="referral-link mt-5 flex">
+                    <input type="text" class="link-input w-full bg-gray-800 border border-gray-700 py-3 px-4 text-gray-300 rounded-l-lg" id="referralLink" value="Loading..." readonly>
+                    <button class="copy-btn bg-orange-500 text-white border-none py-3 px-6 cursor-pointer font-semibold transition-all hover:bg-orange-600 rounded-r-lg" id="copyBtn">Copy</button>
                 </div>
             </div>
         </section>
@@ -865,10 +888,18 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-  // Game state
+        
+        // Default tasks structure
+        const defaultTasks = {
+            tapTask: { target: 100, progress: 0, claimed: false },
+            upgradeTask: { target: 5, progress: 0, claimed: false },
+            referralTask: { target: 3, progress: 0, claimed: false }
+        };
+
+        // Game state with proper initialization
         let gameState = {
             totalCoins: 0,
-             adViews: 0,
+            adViews: 0,
             tapPower: 1,
             autoMinerLevel: 0,
             multiplier: 1,
@@ -879,19 +910,12 @@
             tapCount: 0,
             upgradeCount: 0,
             lastUpdated: new Date(),
-            tasks: {
-                tapTask: { target: 100, progress: 0, claimed: false },
-                upgradeTask: { target: 5, progress: 0, claimed: false },
-                referralTask: { target: 3, progress: 0, claimed: false }
-            },
+            tasks: {...defaultTasks},
             referralCode: '',
             watchedVideos: []
         };
+
         // DOM Elements
-        // ✅ Now it's safe to access
-document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
-
-
         const loadingOverlay = document.getElementById('loadingOverlay');
         const totalCoinsEl = document.getElementById('totalCoins');
         const tapPowerEl = document.getElementById('tapPower');
@@ -921,8 +945,7 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
         const tabButtons = document.querySelectorAll('.tab-btn');
         const sections = document.querySelectorAll('.section');
         const videoGrid = document.getElementById('videoGrid');
-
-      
+        const adViewsCount = document.getElementById('adViewsCount');
 
         // Format numbers for display
         const fmt = n => (n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : Math.floor(n));
@@ -951,9 +974,23 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                     if (userDoc.exists) {
                         // Load user data
                         const userData = userDoc.data();
+                        
+                        // Ensure tasks structure is properly initialized
+                        const userTasks = userData.tasks || {};
+                        const mergedTasks = {};
+                        
+                        // Merge with default tasks
+                        for (const taskKey in defaultTasks) {
+                            mergedTasks[taskKey] = { 
+                                ...defaultTasks[taskKey], 
+                                ...(userTasks[taskKey] || {}) 
+                            };
+                        }
+                        
                         gameState = {
                             ...gameState,
                             ...userData,
+                            tasks: mergedTasks,
                             lastUpdated: userData.lastUpdated?.toDate() || new Date(),
                             watchedVideos: userData.watchedVideos || []
                         };
@@ -969,40 +1006,38 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                         
                         // Setup realtime listeners
                         setupRealtimeListeners(userRef);
-                   } else {
-    // Create new user with default mining data
-    const defaultData = {
-        totalCoins: 0,
-        adViews: 0,
-        tapPower: 1,
-        autoMinerLevel: 0,
-        multiplier: 1,
-        referralCount: 0,
-        tapLevel: 1,
-        minerLevel: 0,
-        multiplierLevel: 1,
-        tapCount: 0,
-        upgradeCount: 0,
-        referralCode: generateReferralCode(),
-        watchedVideos: [],
-        displayName: user.email,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-        tasks: {
-            tapTask: { target: 100, progress: 0, claimed: false },
-            upgradeTask: { target: 5, progress: 0, claimed: false },
-            referralTask: { target: 3, progress: 0, claimed: false }
-        }
-    };
+                    } else {
+                        // Create new user with default mining data
+                        const defaultData = {
+                            totalCoins: 0,
+                            adViews: 0,
+                            tapPower: 1,
+                            autoMinerLevel: 0,
+                            multiplier: 1,
+                            referralCount: 0,
+                            tapLevel: 1,
+                            minerLevel: 0,
+                            multiplierLevel: 1,
+                            tapCount: 0,
+                            upgradeCount: 0,
+                            referralCode: generateReferralCode(),
+                            watchedVideos: [],
+                            displayName: user.email,
+                            created: firebase.firestore.FieldValue.serverTimestamp(),
+                            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                            tasks: {...defaultTasks}
+                        };
 
-    await userRef.set(defaultData);
-    gameState = { ...gameState, ...defaultData };
-    referralLink.value = `${window.location.origin}/?ref=${defaultData.referralCode}`;
-}
-
+                        await userRef.set(defaultData);
+                        gameState = { ...gameState, ...defaultData };
+                        referralLink.value = `${window.location.origin}/?ref=${defaultData.referralCode}`;
+                    }
                     
                     // Setup event listeners
                     setupEventListeners(userRef);
+                    
+                    // Start auto ad loop
+                    startAutoAdLoop();
                     
                 } catch (error) {
                     console.error("Error loading user data:", error);
@@ -1079,6 +1114,12 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                 if (doc.exists) {
                     const data = doc.data();
                     gameState = { ...gameState, ...data };
+                    
+                    // Ensure tasks are properly structured
+                    if (!gameState.tasks || typeof gameState.tasks !== 'object') {
+                        gameState.tasks = {...defaultTasks};
+                    }
+                    
                     updateUI();
                 }
             });
@@ -1137,7 +1178,11 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                 const earned = gameState.tapPower * gameState.multiplier;
                 gameState.totalCoins += earned;
                 gameState.tapCount++;
-                gameState.tasks.tapTask.progress++;
+                
+                // Safely update tap task progress
+                if (gameState.tasks?.tapTask) {
+                    gameState.tasks.tapTask.progress++;
+                }
                 
                 // Update UI immediately
                 updateUI();
@@ -1149,9 +1194,14 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                 userRef.update({
                     totalCoins: gameState.totalCoins,
                     tapCount: gameState.tapCount,
-                    'tasks.tapTask.progress': gameState.tasks.tapTask.progress,
+                    ...(gameState.tasks?.tapTask && {'tasks.tapTask.progress': gameState.tasks.tapTask.progress}),
                     lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                
+                // Show rating banner after 10 taps
+                if (gameState.tapCount === 10) {
+                    showRatingBanner();
+                }
             });
             
             // Upgrade buttons
@@ -1198,7 +1248,11 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
             
             gameState.totalCoins -= cost;
             gameState.upgradeCount++;
-            gameState.tasks.upgradeTask.progress++;
+            
+            // Safely update upgrade task progress
+            if (gameState.tasks?.upgradeTask) {
+                gameState.tasks.upgradeTask.progress++;
+            }
             
             if (type === 'tap') {
                 gameState.tapLevel++;
@@ -1222,7 +1276,7 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                 autoMinerLevel: gameState.autoMinerLevel,
                 multiplier: gameState.multiplier,
                 upgradeCount: gameState.upgradeCount,
-                'tasks.upgradeTask.progress': gameState.tasks.upgradeTask.progress,
+                ...(gameState.tasks?.upgradeTask && {'tasks.upgradeTask.progress': gameState.tasks.upgradeTask.progress}),
                 lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
             });
             
@@ -1232,13 +1286,19 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
         // Claim task
         function claimTask(task, userRef) {
             const taskKey = task + 'Task';
+            const taskData = gameState.tasks?.[taskKey];
             
-            if (gameState.tasks[taskKey].claimed) {
+            if (!taskData) {
+                showNotification('Task data not available');
+                return;
+            }
+            
+            if (taskData.claimed) {
                 showNotification('Task already claimed!');
                 return;
             }
             
-            if (gameState.tasks[taskKey].progress < gameState.tasks[taskKey].target) {
+            if (taskData.progress < taskData.target) {
                 showNotification('Task not completed yet!');
                 return;
             }
@@ -1250,7 +1310,7 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
             else if (task === 'referral') reward = 300;
             
             gameState.totalCoins += reward;
-            gameState.tasks[taskKey].claimed = true;
+            taskData.claimed = true;
             
             // Update UI
             updateUI();
@@ -1277,7 +1337,7 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
             return Math.floor(baseCosts[type] * Math.pow(1.4, level));
         }
 
-        // Update UI
+        // Update UI - FIXED ERROR HANDLING
         function updateUI() {
             totalCoinsEl.textContent = fmt(gameState.totalCoins);
             tapPowerEl.textContent = fmt(gameState.tapPower * gameState.multiplier);
@@ -1289,17 +1349,25 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
             tapCostEl.textContent = fmt(getUpgradeCost('tap'));
             minerCostEl.textContent = fmt(getUpgradeCost('miner'));
             multiplierCostEl.textContent = fmt(getUpgradeCost('multiplier'));
+            adViewsCount.textContent = gameState.adViews || 0;
             
-            // Update progress bars
-            tapProgress.style.width = `${(gameState.tasks.tapTask.progress / gameState.tasks.tapTask.target) * 100}%`;
-            upgradeProgress.style.width = `${(gameState.tasks.upgradeTask.progress / gameState.tasks.upgradeTask.target) * 100}%`;
-            referralProgress.style.width = `${(gameState.tasks.referralTask.progress / gameState.tasks.referralTask.target) * 100}%`;
+            // Safely update progress bars with fallbacks
+            const tapTask = gameState.tasks?.tapTask || defaultTasks.tapTask;
+            const upgradeTask = gameState.tasks?.upgradeTask || defaultTasks.upgradeTask;
+            const referralTask = gameState.tasks?.referralTask || defaultTasks.referralTask;
+            
+            tapProgress.style.width = `${(tapTask.progress / tapTask.target) * 100}%`;
+            upgradeProgress.style.width = `${(upgradeTask.progress / upgradeTask.target) * 100}%`;
+            referralProgress.style.width = `${(referralTask.progress / referralTask.target) * 100}%`;
             
             // Update task buttons
             document.querySelectorAll('.claim-btn').forEach(btn => {
                 const task = btn.getAttribute('data-task');
-                const taskKey = task + 'Task';
-                const taskData = gameState.tasks[taskKey];
+                let taskData;
+                
+                if (task === 'tap') taskData = tapTask;
+                else if (task === 'upgrade') taskData = upgradeTask;
+                else if (task === 'referral') taskData = referralTask;
                 
                 if (taskData.claimed) {
                     btn.disabled = true;
@@ -1346,122 +1414,125 @@ document.getElementById("adViewsCount").textContent = gameState.adViews || 0;
                 notification.classList.remove('show');
             }, 3000);
         }
+        
+        // Show rating banner
+        function showRatingBanner() {
+            const ratingBanner = document.getElementById('ratingBanner');
+            ratingBanner.style.display = 'block';
+        }
+        
+        // Hide rating banner
+        function hideRatingBanner() {
+            const ratingBanner = document.getElementById('ratingBanner');
+            ratingBanner.style.display = 'none';
+        }
+        
+        // Rate now functionality
+        function rateNow() {
+            const user = auth.currentUser;
+            if (!user) return alert("Please login first");
+            
+            const userRef = db.collection('users').doc(user.uid);
+            
+            userRef.get().then(doc => {
+                const data = doc.data();
+                
+                if (data.completedTasks?.rateApp) {
+                    alert("You've already completed this task!");
+                    hideRatingBanner();
+                    return;
+                }
+                
+                const reward = 5000;
+                const newCoins = (data.totalCoins || 0) + reward;
+                
+                userRef.update({
+                    totalCoins: newCoins,
+                    "completedTasks.rateApp": true
+                }).then(() => {
+                    // Update local state
+                    gameState.totalCoins = newCoins;
+                    if (!gameState.completedTasks) gameState.completedTasks = {};
+                    gameState.completedTasks.rateApp = true;
+                    
+                    // Update UI
+                    updateUI();
+                    
+                    // Show success
+                    alert(`🎉 You earned ${reward} coins!`);
+                    hideRatingBanner();
+                    
+                    // Open Play Store
+                    window.open("https://play.google.com/store/apps/details?id=com.example.easykharcha", "_blank");
+                });
+            }).catch(err => {
+                console.error("Error updating rateApp task:", err);
+            });
+        }
+        
+        // Ad system functions
+        let adTimer = null;
+        
+        function startAutoAdLoop() {
+            if (adTimer) return; // already running
+            
+            adTimer = setInterval(() => {
+                if (typeof Android !== 'undefined' && Android.checkAdReady) {
+                    Android.checkAdReady(); // Android will call onAdReady()
+                }
+            }, 120000); // 2 minutes = 120000ms
+        }
+        
+        function stopAutoAdLoop() {
+            if (adTimer) {
+                clearInterval(adTimer);
+                adTimer = null;
+            }
+        }
+        
+        function showManualAd() {
+            if (typeof Android !== 'undefined' && Android.checkAdReady) {
+                Android.checkAdReady();
+            } else {
+                alert("⚠️ Ad system not ready.");
+            }
+        }
+        
+        function onAdReady(ready) {
+            if (ready) {
+                Android.showRewardAd();
+            } else {
+                console.log("Ad not ready yet");
+            }
+        }
+        
+        function onRewardEarned() {
+            const user = auth.currentUser;
+            if (!user) return alert("Please login first");
+            
+            const userRef = db.collection('users').doc(user.uid);
+            userRef.update({
+                adViews: firebase.firestore.FieldValue.increment(1)
+            }).then(() => {
+                gameState.adViews = (gameState.adViews || 0) + 1;
+                updateUI();
+                showNotification("🎉 Ad watched! +100 coins");
+            });
+        }
+        
+        function onAdFinished() {
+            console.log("Ad finished and screen returned");
+        }
+        
+        function onRewardAdNotReady() {
+            console.log("Ad not ready fallback");
+        }
 
         // Initialize the game when DOM is loaded
         document.addEventListener('DOMContentLoaded', initGame);
+        
+        // Stop ad loop when leaving page
+        window.addEventListener('beforeunload', stopAutoAdLoop);
     </script>
-    <script>
- function rateNow() {
-  const user = firebase.auth().currentUser;
-  if (!user) return alert("Login First");
-
-  const userRef = firebase.firestore().collection("users").doc(user.uid);
-
-  userRef.get().then(doc => {
-    const data = doc.data();
-
-    if (data.completedTasks?.rateApp) {
-      alert("✅ آپ پہلے ہی اس کام کو مکمل کر چکے ہیں۔");
-      hideRatingBanner();
-      return;
-    }
-
-    const reward = 5000;
-    const newCoins = (data.totalCoins || 0) + reward;
-
-    userRef.update({
-      totalCoins: newCoins,
-      "completedTasks.rateApp": true
-    }).then(() => {
-      // ✅ Update local gameState
-      gameState.totalCoins = newCoins;
-      if (!gameState.completedTasks) gameState.completedTasks = {};
-      gameState.completedTasks.rateApp = true;
-
-      // ✅ Update UI immediately
-      updateUI();
-
-      // ✅ Show banner, PlayStore link, etc.
-      alert(`🎉 آپ کو ${reward} کوائنز مل گئے!`);
-      hideRatingBanner();
-      window.open("https://play.google.com/store/apps/details?id=com.example.easykharcha", "_blank");
-    });
-  }).catch(err => {
-    console.error("Error updating rateApp task:", err);
-  });
-}
-
-</script>
-
-<!-- ✅ Script Section -->
-<!-- ✅ Final Ad Integration Script with Firestore Count -->
-<script>
-let adTimer = null;
-
-// ✅ Start auto-ad system when mining page is entered
-function startAutoAdLoop() {
-  if (adTimer) return; // already running
-
-  adTimer = setInterval(() => {
-    if (typeof Android !== 'undefined' && Android.checkAdReady) {
-      Android.checkAdReady(); // Android will call onAdReady()
-    }
-  }, 120000); // 2 minutes = 120000ms
-}
-
-// ✅ Stop auto-ad when user leaves the page
-function stopAutoAdLoop() {
-  if (adTimer) {
-    clearInterval(adTimer);
-    adTimer = null;
-  }
-}
-
-// ✅ Button click handler (manual)
-function showManualAd() {
-  if (typeof Android !== 'undefined' && Android.checkAdReady) {
-    Android.checkAdReady();
-  } else {
-    alert("⚠️ Ad system not ready.");
-  }
-}
-
-// ✅ Android callback to JS after checking ad status
-function onAdReady(ready) {
-  if (ready) {
-    Android.showRewardAd();
-  } else {
-    console.log("Ad not ready yet");
-  }
-}
-
-// ✅ After full ad is watched
-function onRewardEarned() {
-  const user = firebase.auth().currentUser;
-  if (!user) return alert("Please login first");
-
-  const userRef = firebase.firestore().collection("users").doc(user.uid);
-  userRef.update({
-    adViews: firebase.firestore.FieldValue.increment(1)
-  }).then(() => {
-    alert("🎉 Ad watched! +1 view");
-    gameState.adViews = (gameState.adViews || 0) + 1;
-    document.getElementById("adViewsCount").textContent = gameState.adViews;
-  });
-}
-
-// ✅ Optional - when ad ends (used if needed)
-function onAdFinished() {
-  console.log("Ad finished and screen returned");
-}
-
-// ✅ Optional fallback
-function onRewardAdNotReady() {
-  console.log("Ad not ready fallback");
-}
-</script>
-
-
-
 </body>
 </html>
