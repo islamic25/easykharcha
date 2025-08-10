@@ -193,6 +193,71 @@
             font-size: 18px;
             flex-shrink: 0;
         }
+.setting-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s ease;
+}
+
+.setting-icon {
+  background-color: #f0f0f0;
+  color: var(--primary-color, #004225);
+  padding: 10px;
+  border-radius: 12px;
+  margin-right: 15px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.setting-content {
+  flex: 1;
+}
+
+.setting-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #222;
+}
+
+.setting-desc {
+  font-size: 14px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.setting-action {
+  margin-left: auto;
+  color: #ccc;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.backup-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-dashboard.small {
+  padding: 5px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  background-color: var(--primary-color, #004225);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-dashboard.small:hover {
+  background-color: #003519;
+}
 
         .setting-content {
             flex: 1;
@@ -246,6 +311,27 @@
             border-radius: 12px;
             margin: 0 4px;
         }
+.backup-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-dashboard {
+  padding: 10px 15px;
+  background-color: #004225;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-dashboard:hover {
+  background-color: #006644;
+}
 
         .bottom-nav-link i {
             font-size: 20px;
@@ -729,6 +815,77 @@
   align-items: center;
   margin-top: 20px;
 }
+.settings-section {
+  margin: 15px 20px;
+}
+
+.btn-dashboard {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, #004225, #007f5f); /* Dark Green gradient */
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-dashboard i {
+  font-size: 18px;
+}
+
+.btn-dashboard:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 480px) {
+  .btn-dashboard {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
+.dashboard-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.action-card {
+  background: #004225;
+  color: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-card i {
+  font-size: 1.8rem;
+}
+
+.action-card span {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.action-card:hover {
+  background: #006d4a;
+  transform: scale(1.03);
+}
 
     </style>
 </head>
@@ -878,69 +1035,75 @@
             </ul>
         </div>
        
-        <div class="settings-section">
-            <button id="openSalesPageBtn" class="btn-sales">
-                <i class="fas fa-chart-line"></i> Sales Management
-            </button>
-        </div>
-        
-      <div class="settings-section">
-  <div class="invoice-center-wrapper">
-    <button id="goToInvoiceBtn" class="btn-invoice">
-      <i class="fas fa-file-invoice-dollar"></i> Invoice Maker
-    </button>
+     <!-- Container for Buttons -->
+<div class="dashboard-actions">
+  <div class="action-card" id="openSalesPageBtn">
+    <i class="fas fa-chart-line"></i>
+    <span>Sales Management</span>
+  </div>
+  <div class="action-card" id="goToInvoiceBtn">
+    <i class="fas fa-file-invoice-dollar"></i>
+    <span>Invoice Maker</span>
+  </div>
+  <div class="action-card" id="startMiningBtn">
+    <i class="fas fa-digging"></i>
+    <span>Start Digital Mining</span>
   </div>
 </div>
 
 
-        <div class="settings-section">
-            <button id="startMiningBtn" class="btn-mining">
-                <i class="fas fa-digging"></i> Start Digital Mining
-            </button>
-        </div>
 
-        <div class="settings-section">
-            <div class="section-title">Account Management</div>
-            <ul class="settings-list">
-                <li class="setting-item">
-                    <div class="setting-icon">
-                        <i class="fas fa-download"></i>
-                    </div>
-                    <div class="setting-content">
-                        <div class="setting-title">Backup & Restore</div>
-                        <div class="setting-desc">Export your data</div>
-                    </div>
-                    <div class="setting-action">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </li>
-                <li class="setting-item" id="supportItem">
-                    <div class="setting-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="setting-content">
-                        <div class="setting-title">Support & Contact</div>
-                        <div class="setting-desc">Get help from our team</div>
-                    </div>
-                    <div class="setting-action">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </li>
-                <li class="setting-item" id="deleteAccountBtn">
-                    <div class="setting-icon" style="background: rgba(239, 71, 111, 0.1); color: var(--danger);">
-                        <i class="fas fa-trash-alt"></i>
-                    </div>
-                    <div class="setting-content">
-                        <div class="setting-title" style="color: var(--danger);">Delete Account</div>
-                        <div class="setting-desc">Permanently remove your account</div>
-                    </div>
-                    <div class="setting-action">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </li>
-            </ul>
+   <div class="settings-section">
+  <div class="section-title">Account Management</div>
+  <ul class="settings-list">
+
+    <!-- Backup & Restore -->
+    <li class="setting-item" id="backupRestoreItem">
+      <div class="setting-icon">
+        <i class="fas fa-download"></i>
+      </div>
+      <div class="setting-content">
+        <div class="setting-title">Backup & Restore</div>
+        <div class="setting-desc">Export or import your data</div>
+        <div class="backup-buttons">
+          <button id="backupDataBtn" class="btn-dashboard small">🔄 Backup</button>
+          <button id="restoreDataBtn" class="btn-dashboard small">♻️ Restore</button>
+          <input type="file" id="restoreFileInput" accept=".json" style="display: none;" />
         </div>
-    </div>
+      </div>
+    </li>
+
+    <!-- Support & Contact -->
+    <li class="setting-item" id="supportItem">
+      <div class="setting-icon">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <div class="setting-content">
+        <div class="setting-title">Support & Contact</div>
+        <div class="setting-desc">Get help from our team</div>
+      </div>
+      <div class="setting-action">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </li>
+
+    <!-- Delete Account -->
+    <li class="setting-item" id="deleteAccountBtn">
+      <div class="setting-icon" style="background: rgba(239, 71, 111, 0.1); color: var(--danger);">
+        <i class="fas fa-trash-alt"></i>
+      </div>
+      <div class="setting-content">
+        <div class="setting-title" style="color: var(--danger);">Delete Account</div>
+        <div class="setting-desc">Permanently remove your account</div>
+      </div>
+      <div class="setting-action">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
    
     
     <nav class="bottom-nav">
@@ -1515,6 +1678,50 @@ document.getElementById("goToInvoiceBtn").addEventListener("click", function () 
   }
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const banner = document.getElementById("appBanner");
+    const closeBannerBtn = document.getElementById("closeBanner");
+
+    // Unique key for this banner
+    const BANNER_KEY = "easykharcha_banner_shown";
+
+    // ✅ Show banner if NOT shown before
+    if (!localStorage.getItem(BANNER_KEY)) {
+      banner.style.display = "flex"; // show the banner
+    }
+
+    // ❌ On close, hide and remember
+    closeBannerBtn.addEventListener("click", () => {
+      banner.style.display = "none";
+      localStorage.setItem(BANNER_KEY, "true");
+    });
+  });
+  document.getElementById("backupDataBtn").addEventListener("click", async () => {
+  const user = firebase.auth().currentUser;
+  if (!user) return alert("Please log in");
+
+  try {
+    const userData = {};
+    const snapshot = await firebase.firestore().collection("users").doc(user.uid).get();
+    userData["users"] = snapshot.exists ? snapshot.data() : {};
+
+    // Add more collections if needed
+    const blob = new Blob([JSON.stringify(userData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "backup.json";
+    a.click();
+    URL.revokeObjectURL(url);
+    alert("Backup successful!");
+  } catch (error) {
+    console.error("Backup error:", error);
+    alert("Backup failed.");
+  }
+});
+
+</script>
 
 </body>
 </html>
