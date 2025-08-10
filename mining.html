@@ -610,10 +610,27 @@
         .ad-btn i {
             font-size: 1.2rem;
         }
+        
+        /* Optimization indicator */
+        .optimization-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 100;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 <body>
     <div class="mining-background" id="miningBackground"></div>
+   
     
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
@@ -652,14 +669,14 @@
         </header>
         
         <section class="mining-section flex flex-col items-center mb-8">
-    <h2 class="mining-title text-2xl mb-5 text-center mining-font">Tap to Mine Coins</h2>
-    
-    <div class="coin-btn w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-8 border-yellow-700 flex items-center justify-center cursor-pointer relative shadow-xl animate-pulse overflow-hidden" id="coinBtn">
-    <!-- Coin Image properly centered and fitted -->
-    <img src="WhatsApp_Image_2025-08-06_at_5.58.37_PM-removebg-preview (1).png" alt="Coin" class="w-3/4 h-3/4 object-contain" />
-</div>
-
-</section>
+            <h2 class="mining-title text-2xl mb-5 text-center mining-font">Tap to Mine Coins</h2>
+            <div class="coin-btn w-48 h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-8 border-yellow-700 flex items-center justify-center cursor-pointer relative shadow-xl animate-pulse overflow-hidden" id="coinBtn">
+                <img src="WhatsApp_Image_2025-08-06_at_5.58.37_PM-removebg-preview (1).png" alt="Coin" class="w-3/4 h-3/4 object-contain" />
+            </div>
+            <div class="mt-4 text-sm text-gray-400">
+                <i class="fas fa-sync-alt mr-2"></i> Taps are batched for efficiency
+            </div>
+        </section>
 
         <section class="stats-grid mb-8">
             <div class="stat-card">
@@ -854,7 +871,12 @@
                     <i class="fas fa-trophy"></i>
                     Top Miners
                 </h2>
-                <button class="view-all-btn bg-transparent text-orange-500 border border-orange-500 py-2 px-4 rounded-full cursor-pointer font-semibold transition-all hover:bg-orange-500/10" id="viewAllBtn">View All</button>
+                <div>
+                    <button class="bg-orange-500 text-white border-none py-2 px-4 rounded-full cursor-pointer font-semibold transition-all hover:bg-orange-600 mr-2" id="refreshLeaderboardBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="view-all-btn bg-transparent text-orange-500 border border-orange-500 py-2 px-4 rounded-full cursor-pointer font-semibold transition-all hover:bg-orange-500/10" id="viewAllBtn">View All</button>
+                </div>
             </div>
             <div class="leaderboard-list" id="leaderboardList">
                 <div class="leaderboard-item">
@@ -918,6 +940,11 @@
             watchedVideos: []
         };
 
+        // Tap batching variables
+        let localTapCount = 0;
+        let accumulatedTapEarnings = 0;
+        let lastBatchTime = Date.now();
+        
         // DOM Elements
         const loadingOverlay = document.getElementById('loadingOverlay');
         const totalCoinsEl = document.getElementById('totalCoins');
@@ -945,10 +972,16 @@
         const leaderboardList = document.getElementById('leaderboardList');
         const notification = document.getElementById('notification');
         const viewAllBtn = document.getElementById('viewAllBtn');
+        const refreshLeaderboardBtn = document.getElementById('refreshLeaderboardBtn');
         const tabButtons = document.querySelectorAll('.tab-btn');
         const sections = document.querySelectorAll('.section');
         const videoGrid = document.getElementById('videoGrid');
         const adViewsCount = document.getElementById('adViewsCount');
+
+        // Interval IDs for cleanup
+        let tapBatchInterval;
+        let userDataRefreshInterval;
+        let leaderboardRefreshInterval;
 
         // Format numbers for display
         const fmt = n => (n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : Math.floor(n));
@@ -1004,11 +1037,11 @@
                         // Set referral link
                         referralLink.value = `${window.location.origin}/?ref=${gameState.referralCode}`;
                         
-                        // Credit offline earnings
+                        // Credit offline earnings only once at login
                         creditOfflineEarnings(userRef);
                         
-                        // Setup realtime listeners
-                        setupRealtimeListeners(userRef);
+                        // Set up periodic updates
+                        setupPeriodicUpdates(userRef);
                     } else {
                         // Create new user with default mining data
                         const defaultData = {
@@ -1054,6 +1087,50 @@
             });
         }
 
+        // Set up periodic updates
+        function setupPeriodicUpdates(userRef) {
+            // Tap batching: update every 5 seconds
+            tapBatchInterval = setInterval(() => updateTapsBatch(userRef), 5000);
+            
+            // User data refresh: every 30 seconds
+            userDataRefreshInterval = setInterval(() => refreshUserData(userRef), 30000);
+            
+            // Leaderboard refresh: every 60 seconds
+            leaderboardRefreshInterval = setInterval(refreshLeaderboard, 60000);
+            
+            // Initial leaderboard load
+            refreshLeaderboard();
+        }
+
+        // Tap batching function
+        async function updateTapsBatch(userRef) {
+            if (localTapCount === 0) return;
+            
+            try {
+                const updateData = {
+                    totalCoins: firebase.firestore.FieldValue.increment(accumulatedTapEarnings),
+                    tapCount: firebase.firestore.FieldValue.increment(localTapCount),
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Also update the tap task progress if needed
+                if (gameState.tasks?.tapTask) {
+                    updateData['tasks.tapTask.progress'] = firebase.firestore.FieldValue.increment(localTapCount);
+                }
+                
+                await userRef.update(updateData);
+                
+                // Reset counters only after successful update
+                localTapCount = 0;
+                accumulatedTapEarnings = 0;
+                lastBatchTime = Date.now();
+                
+            } catch (error) {
+                console.error("Error updating batch taps:", error);
+                // Retry in next interval
+            }
+        }
+
         // Create mining particles
         function createMiningParticles() {
             const container = document.getElementById('miningBackground');
@@ -1087,7 +1164,7 @@
             ).join('');
         }
 
-        // Fixed creditOfflineEarnings function
+        // Fixed creditOfflineEarnings function - only runs once at login
         function creditOfflineEarnings(userRef) {
             const hours = (Date.now() - gameState.lastUpdated.getTime()) / 3600000;
             if (hours > 0 && gameState.autoMinerLevel) {
@@ -1110,49 +1187,86 @@
             }
         }
 
-        // Setup realtime listeners
-        function setupRealtimeListeners(userRef) {
-            // User data listener
-            userRef.onSnapshot(doc => {
+        // Refresh user data periodically
+        async function refreshUserData(userRef) {
+            try {
+                const doc = await userRef.get();
                 if (doc.exists) {
                     const data = doc.data();
-                    gameState = { ...gameState, ...data };
                     
-                    // Ensure tasks are properly structured
-                    if (!gameState.tasks || typeof gameState.tasks !== 'object') {
-                        gameState.tasks = {...defaultTasks};
+                    // Merge tasks properly
+                    const mergedTasks = {};
+                    for (const taskKey in defaultTasks) {
+                        mergedTasks[taskKey] = { 
+                            ...defaultTasks[taskKey], 
+                            ...(data.tasks?.[taskKey] || {}) 
+                        };
                     }
+                    
+                    // Preserve local tap progress
+                    const adjustedData = {
+                        ...data,
+                        totalCoins: (data.totalCoins || 0) + accumulatedTapEarnings,
+                        tapCount: (data.tapCount || 0) + localTapCount,
+                    };
+                    
+                    // Also adjust the tap task progress
+                    if (mergedTasks.tapTask) {
+                        mergedTasks.tapTask.progress += localTapCount;
+                    }
+                    
+                    gameState = { 
+                        ...gameState, 
+                        ...adjustedData, 
+                        tasks: mergedTasks,
+                        lastUpdated: data.lastUpdated?.toDate() || new Date()
+                    };
                     
                     updateUI();
                 }
-            });
-            
-            // Leaderboard listener
-            db.collection('users')
-                .orderBy('totalCoins', 'desc')
-                .limit(5)
-                .onSnapshot(snapshot => {
-                    leaderboardList.innerHTML = '';
-                    let rank = 1;
+            } catch (error) {
+                console.error("Error refreshing user data:", error);
+            }
+        }
+
+        // Refresh leaderboard data
+        async function refreshLeaderboard() {
+            try {
+                const snapshot = await db.collection('users')
+                    .orderBy('totalCoins', 'desc')
+                    .limit(5)
+                    .get();
                     
-                    snapshot.forEach(doc => {
-                        const user = doc.data();
-                        const rankClass = `rank-${rank <= 3 ? rank : 'other'}`;
-                        
-                        const item = document.createElement('div');
-                        item.className = 'leaderboard-item';
-                        item.innerHTML = `
-                            <div class="rank-badge ${rankClass}">${rank}</div>
-                            <div class="player-info flex-1">
-                                <div class="player-name">${user.displayName || 'Anonymous'}</div>
-                            </div>
-                            <div class="player-coins text-yellow-400 font-bold">${fmt(user.totalCoins || 0)}</div>
-                        `;
-                        
-                        leaderboardList.appendChild(item);
-                        rank++;
-                    });
+                leaderboardList.innerHTML = '';
+                let rank = 1;
+                
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    const rankClass = `rank-${rank <= 3 ? rank : 'other'}`;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'leaderboard-item';
+                    item.innerHTML = `
+                        <div class="rank-badge ${rankClass}">${rank}</div>
+                        <div class="player-info flex-1">
+                            <div class="player-name">${user.displayName || 'Anonymous'}</div>
+                        </div>
+                        <div class="player-coins text-yellow-400 font-bold">${fmt(user.totalCoins || 0)}</div>
+                    `;
+                    
+                    leaderboardList.appendChild(item);
+                    rank++;
                 });
+                
+                // Show last update time
+                const timestamp = document.createElement('div');
+                timestamp.className = 'text-gray-500 text-sm text-right mt-4';
+                timestamp.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+                leaderboardList.appendChild(timestamp);
+                
+            } catch (error) {
+                console.error("Error refreshing leaderboard:", error);
+            }
         }
 
         // Setup event listeners
@@ -1176,9 +1290,11 @@
                 });
             });
             
-            // Coin button
+            // Coin button - local tap handling only
             coinBtn.addEventListener('click', () => {
                 const earned = gameState.tapPower * gameState.multiplier;
+                accumulatedTapEarnings += earned;
+                localTapCount++;
                 gameState.totalCoins += earned;
                 gameState.tapCount++;
                 
@@ -1192,19 +1308,6 @@
                 
                 // Create visual effect
                 createCoinEffect(earned);
-                
-                // Update in Firebase
-                userRef.update({
-                    totalCoins: gameState.totalCoins,
-                    tapCount: gameState.tapCount,
-                    ...(gameState.tasks?.tapTask && {'tasks.tapTask.progress': gameState.tasks.tapTask.progress}),
-                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // Show rating banner after 10 taps
-                if (gameState.tapCount === 10) {
-                    showRatingBanner();
-                }
             });
             
             // Upgrade buttons
@@ -1221,6 +1324,11 @@
             
             // Logout button
             logoutBtn.addEventListener('click', () => {
+                // Update any pending taps before logout
+                if (localTapCount > 0) {
+                    updateTapsBatch(userRef);
+                }
+                
                 auth.signOut().then(() => {
                     window.location.href = 'login.html';
                 });
@@ -1230,6 +1338,9 @@
             viewAllBtn.addEventListener('click', () => {
                 showNotification('Showing all top miners');
             });
+            
+            // Refresh leaderboard button
+            refreshLeaderboardBtn.addEventListener('click', refreshLeaderboard);
             
             // Claim task buttons
             document.querySelectorAll('.claim-btn').forEach(btn => {
@@ -1281,9 +1392,9 @@
                 upgradeCount: gameState.upgradeCount,
                 ...(gameState.tasks?.upgradeTask && {'tasks.upgradeTask.progress': gameState.tasks.upgradeTask.progress}),
                 lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                showNotification(`Upgrade purchased: ${type} level ${gameState[type + 'Level']}`);
             });
-            
-            showNotification(`Upgrade purchased: ${type} level ${gameState[type + 'Level']}`);
         }
 
         // Claim task
@@ -1323,9 +1434,9 @@
                 totalCoins: gameState.totalCoins,
                 [`tasks.${taskKey}.claimed`]: true,
                 lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                showNotification(`Task completed! ${reward} coins earned.`);
             });
-            
-            showNotification(`Task completed! ${reward} coins earned.`);
         }
 
         // Get upgrade cost
@@ -1340,7 +1451,7 @@
             return Math.floor(baseCosts[type] * Math.pow(1.4, level));
         }
 
-        // Update UI - FIXED ERROR HANDLING
+        // Update UI
         function updateUI() {
             totalCoinsEl.textContent = fmt(gameState.totalCoins);
             tapPowerEl.textContent = fmt(gameState.tapPower * gameState.multiplier);
@@ -1534,8 +1645,13 @@
         // Initialize the game when DOM is loaded
         document.addEventListener('DOMContentLoaded', initGame);
         
-        // Stop ad loop when leaving page
-        window.addEventListener('beforeunload', stopAutoAdLoop);
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            clearInterval(tapBatchInterval);
+            clearInterval(userDataRefreshInterval);
+            clearInterval(leaderboardRefreshInterval);
+            stopAutoAdLoop();
+        });
     </script>
 </body>
 </html>
