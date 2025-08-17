@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Profile - Expense Tracker</title>
+    <title>My Profile - EasyKharcha</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Optimized CSS with critical styles only */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
+            --primary-light: #eef2ff;
             --secondary: #ff6b6b;
             --dark: #2b2d42;
             --light: #f8f9fa;
@@ -18,8 +18,8 @@
             --success: #06d6a0;
             --danger: #ef476f;
             --warning: #ffd166;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --surface: #ffffff;
             --surface-dark: #1e1e1e;
             --border: #eaeaea;
@@ -28,6 +28,8 @@
             --text-secondary: #666;
             --text-primary-dark: #f0f0f0;
             --text-secondary-dark: #aaa;
+            --radius: 20px;
+            --radius-sm: 12px;
         }
 
         * {
@@ -83,12 +85,12 @@
 
         .profile-card {
             background: var(--surface);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: var(--radius);
+            padding: 24px;
             box-shadow: var(--card-shadow);
             margin-bottom: 24px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: 1px solid var(--border);
             animation: fadeIn 0.3s ease-out;
         }
@@ -96,16 +98,16 @@
         .profile-img-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .profile-img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
         }
 
@@ -115,21 +117,25 @@
             right: 0;
             background: var(--primary);
             color: white;
-            width: 34px;
-            height: 34px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 3px solid white;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
             transition: var(--transition);
             z-index: 2;
         }
 
+        .upload-btn:hover {
+            transform: scale(1.1);
+        }
+
         .profile-name {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 4px;
             color: var(--text-primary);
@@ -137,13 +143,13 @@
 
         .profile-email {
             color: var(--text-secondary);
-            margin-bottom: 18px;
-            font-size: 0.9rem;
+            margin-bottom: 24px;
+            font-size: 1rem;
         }
 
         .settings-section {
             background: var(--surface);
-            border-radius: 18px;
+            border-radius: var(--radius);
             padding: 0;
             box-shadow: var(--card-shadow);
             margin-bottom: 20px;
@@ -153,11 +159,11 @@
         }
 
         .section-title {
-            padding: 16px 20px;
-            font-size: 1.05rem;
+            padding: 18px 20px;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-primary);
-            background-color: #f8f9fa;
+            background-color: var(--primary-light);
             border-bottom: 1px solid var(--border);
         }
 
@@ -180,9 +186,13 @@
             border-bottom: none;
         }
 
+        .setting-item:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+
         .setting-icon {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background: rgba(67, 97, 238, 0.1);
             border-radius: 12px;
             display: flex;
@@ -192,72 +202,8 @@
             color: var(--primary);
             font-size: 18px;
             flex-shrink: 0;
+            transition: var(--transition);
         }
-.setting-item {
-  display: flex;
-  align-items: flex-start;
-  padding: 15px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  transition: 0.3s ease;
-}
-
-.setting-icon {
-  background-color: #f0f0f0;
-  color: var(--primary-color, #004225);
-  padding: 10px;
-  border-radius: 12px;
-  margin-right: 15px;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.setting-content {
-  flex: 1;
-}
-
-.setting-title {
-  font-weight: 600;
-  font-size: 16px;
-  color: #222;
-}
-
-.setting-desc {
-  font-size: 14px;
-  color: #666;
-  margin-top: 2px;
-}
-
-.setting-action {
-  margin-left: auto;
-  color: #ccc;
-  font-size: 16px;
-  padding-left: 10px;
-}
-
-.backup-buttons {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.btn-dashboard.small {
-  padding: 5px 12px;
-  font-size: 14px;
-  border-radius: 8px;
-  background-color: var(--primary-color, #004225);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.btn-dashboard.small:hover {
-  background-color: #003519;
-}
 
         .setting-content {
             flex: 1;
@@ -267,12 +213,12 @@
         .setting-title {
             font-weight: 500;
             margin-bottom: 4px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--text-primary);
         }
 
         .setting-desc {
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             white-space: nowrap;
             overflow: hidden;
@@ -288,7 +234,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
             border-top: 1px solid var(--border);
             z-index: 999;
             height: 70px;
@@ -311,27 +257,6 @@
             border-radius: 12px;
             margin: 0 4px;
         }
-.backup-buttons {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.btn-dashboard {
-  padding: 10px 15px;
-  background-color: #004225;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.btn-dashboard:hover {
-  background-color: #006644;
-}
 
         .bottom-nav-link i {
             font-size: 20px;
@@ -355,20 +280,26 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 250px;
+            max-width: 280px;
             margin: 0 auto;
         }
 
         .editable-input {
             border: none;
             background: transparent;
-            font-weight: 500;
-            width: 70%;
-            padding: 5px;
+            font-weight: 600;
+            width: 75%;
+            padding: 8px;
             border-bottom: 1px dashed #ccc;
             text-align: center;
-            font-size: 16px;
+            font-size: 1.5rem;
             color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .editable-input:focus {
+            outline: none;
+            border-bottom: 1px solid var(--primary);
         }
 
         .edit-icon {
@@ -376,8 +307,13 @@
             cursor: pointer;
             opacity: 0.7;
             transition: var(--transition);
-            font-size: 18px;
+            font-size: 20px;
             padding: 8px;
+        }
+
+        .edit-icon:hover {
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         .toggle-switch {
@@ -429,12 +365,12 @@
         .action-buttons {
             display: flex;
             gap: 12px;
-            margin-top: 16px;
+            margin-top: 24px;
         }
 
         .btn {
             flex: 1;
-            padding: 14px;
+            padding: 16px;
             border-radius: 14px;
             font-weight: 500;
             text-align: center;
@@ -443,17 +379,23 @@
             border: none;
             font-family: 'Poppins', sans-serif;
             min-height: 48px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
         }
 
         .btn-primary {
             background: var(--primary);
             color: white;
-            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
         }
 
         .btn-outline {
@@ -465,7 +407,7 @@
         .btn-danger {
             background: var(--danger);
             color: white;
-            box-shadow: 0 4px 10px rgba(239, 71, 111, 0.25);
+            box-shadow: 0 4px 15px rgba(239, 71, 111, 0.25);
         }
 
         .modal {
@@ -476,6 +418,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -484,15 +427,16 @@
 
         .modal.active {
             display: flex;
+            animation: fadeIn 0.3s ease;
         }
 
         .modal-content {
             background: var(--surface);
-            border-radius: 20px;
+            border-radius: 24px;
             width: 90%;
             max-width: 400px;
-            padding: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
             position: relative;
             animation: modalIn 0.3s ease-out;
             border: 1px solid var(--border);
@@ -507,13 +451,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border);
         }
 
         .modal-title {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-primary);
         }
@@ -533,50 +477,79 @@
             border-radius: 50%;
         }
 
+        .close-btn:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--primary);
+        }
+
         .modal-body {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             padding: 10px 0;
         }
 
         .modal-footer {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            padding-top: 10px;
+            gap: 12px;
+            padding-top: 16px;
             border-top: 1px solid var(--border);
         }
 
         .language-option {
             display: flex;
             align-items: center;
-            padding: 14px 16px;
-            border-radius: 14px;
-            margin-bottom: 10px;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
             cursor: pointer;
             transition: var(--transition);
             border: 1px solid var(--border);
+            gap: 16px;
+        }
+
+        .language-option:hover {
+            background: rgba(67, 97, 238, 0.05);
+            border-color: var(--primary);
+        }
+
+        .language-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .language-name {
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
         .toast {
             position: fixed;
-            bottom: 90px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--dark);
             color: white;
-            padding: 14px 26px;
+            padding: 14px 30px;
             border-radius: 30px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             z-index: 200;
             opacity: 0;
             transition: opacity 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             max-width: 90%;
             text-align: center;
         }
 
         .toast.show {
             opacity: 1;
+            animation: slideUp 0.3s ease;
         }
         
         .loading-overlay {
@@ -610,42 +583,97 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .btn-mining {
-            background: linear-gradient(135deg, #004225, #006b3a);
-            color: white;
-            border-radius: 14px;
-            padding: 14px;
-            font-weight: 600;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(0, 66, 37, 0.25);
-            transition: all 0.3s ease;
-            border: none;
-            width: 100%;
-            font-size: 1rem;
+        @keyframes slideUp {
+            from { bottom: 80px; opacity: 0; }
+            to { bottom: 100px; opacity: 1; }
         }
         
-        .btn-sales {
-            background-color: #004225;
+        .dashboard-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            padding: 0;
+            margin-bottom: 24px;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
-            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            padding: 20px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            min-height: 120px;
+            justify-content: center;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .action-card i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .action-card span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .backup-buttons {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-dashboard {
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            background: var(--primary);
+            color: #fff;
             cursor: pointer;
-            transition: background 0.3s ease;
-            width: 100%;
-            display: block;
-            text-align: center;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .btn-sales i {
-            margin-right: 8px;
+        .btn-dashboard:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
         }
-
+        
+        .warning-box {
+            background: rgba(239, 71, 111, 0.1);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-top: 16px;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .warning-box ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .warning-box li {
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+        
         /* Dark Mode Styles */
         body.dark-mode {
             background-color: #121212;
@@ -654,6 +682,7 @@
             --border: var(--border-dark);
             --text-primary: var(--text-primary-dark);
             --text-secondary: var(--text-secondary-dark);
+            --primary-light: rgba(67, 97, 238, 0.1);
         }
 
         body.dark-mode .profile-card,
@@ -677,6 +706,11 @@
             color: var(--text-primary-dark);
             border-bottom: 1px dashed #555;
         }
+        
+        body.dark-mode .warning-box {
+            background: rgba(239, 71, 111, 0.15);
+            border-left: 4px solid var(--danger);
+        }
 
         /* Responsive Design */
         @media (min-width: 768px) {
@@ -694,16 +728,11 @@
             }
             
             .profile-img {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .btn-sales {
-                padding: 12px 30px;
+                width: 140px;
+                height: 140px;
             }
         }
         
-        /* Mobile-specific button adjustments */
         @media (max-width: 480px) {
             .action-buttons {
                 flex-direction: column;
@@ -713,205 +742,29 @@
                 width: 100%;
             }
             
-            .btn-sales {
-                padding: 12px 15px;
-                font-size: 14px;
+            .action-card {
+                min-height: 100px;
             }
             
-            .btn-mining {
-                padding: 12px;
-                font-size: 15px;
+            .action-card i {
+                font-size: 1.5rem;
+            }
+            
+            .action-card span {
+                font-size: 0.9rem;
             }
         }
-        .banner-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #004225f2; /* dark green overlay */
-  color: #fff;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.banner-content {
-  background-color: #f4f1ea;
-  color: #000;
-  border-radius: 20px;
-  padding: 30px;
-  text-align: center;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  font-family: 'Cairo', sans-serif;
-  position: relative;
-}
-
-.contact-btn {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #d4af37;
-  color: #000;
-  text-decoration: none;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #000;
-}
-.invoice-box-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-  background: linear-gradient(135deg, #eef2ff, #e0f7fa);
-}
-
-.invoice-box {
-  background-color: #ffffff;
-  padding: 100px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.btn-invoice {
-  background-color: #ebeff1;
-  color: white;
-  padding: 16px 32px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.btn-invoice:hover {
-  background-color: #3f37c9;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-}
-
-.invoice-center-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-.settings-section {
-  margin: 15px 20px;
-}
-
-.btn-dashboard {
-  width: 100%;
-  padding: 14px 16px;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(to right, #004225, #007f5f); /* Dark Green gradient */
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease-in-out;
-}
-
-.btn-dashboard i {
-  font-size: 18px;
-}
-
-.btn-dashboard:active {
-  transform: scale(0.98);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-}
-
-@media (max-width: 480px) {
-  .btn-dashboard {
-    font-size: 15px;
-    padding: 12px;
-  }
-}
-.dashboard-actions {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.action-card {
-  background: #004225;
-  color: #fff;
-  border-radius: 12px;
-  padding: 1rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.action-card i {
-  font-size: 1.8rem;
-}
-
-.action-card span {
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.action-card:hover {
-  background: #006d4a;
-  transform: scale(1.03);
-}
-
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>My Profile</h1>
+            <h1><i class="fas fa-user-circle"></i> My Profile</h1>
         </div>
         <div id="loadingOverlay" class="loading-overlay">
             <div class="spinner"></div>
-            <div class="loading-text">Loading your settings...</div>
+            <div class="loading-text">Loading your profile...</div>
         </div>
-<div id="appBanner" class="banner-overlay" style="display: none;">
-  <div class="banner-content">
-    <button id="closeBanner" class="close-btn">✖</button>
-    <h2>📢 Welcome to EasyKharcha!</h2>
-    <p style="margin-top: 10px;">
-      This app is newly launched. If you face any issues, please <strong>contact us before leaving a review</strong>. We value your opinion!
-    </p>
-    <p dir="rtl" lang="ur" style="font-family: 'Noto Nastaliq Urdu', serif; margin-top: 10px;">
-      📢 یہ ایپ نئی لانچ ہوئی ہے۔ اگر کوئی مسئلہ درپیش ہو تو براہ کرم ریویو دینے سے پہلے ہم سے رابطہ کریں۔ <strong>ہم آپ کی رائے کا احترام کرتے ہیں۔</strong>
-    </p>
-   <a href="mailto:suppor8easykharcha@gmail.com?subject=App Feedback / مسئلہ">📨 Contact Us / ہم سے رابطہ کریں</a>
-
-  </div>
-</div>
 
         <div class="profile-card">
             <div class="profile-img-container">
@@ -938,6 +791,21 @@
                 <button class="btn btn-primary" id="saveBtn">
                     <i class="fas fa-save"></i> Save
                 </button>
+            </div>
+        </div>
+        
+        <div class="dashboard-actions">
+            <div class="action-card" id="openSalesPageBtn">
+                <i class="fas fa-chart-line"></i>
+                <span>Sales Management</span>
+            </div>
+            <div class="action-card" id="goToInvoiceBtn">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Invoice Maker</span>
+            </div>
+            <div class="action-card" id="startMiningBtn">
+                <i class="fas fa-digging"></i>
+                <span>Digital Mining</span>
             </div>
         </div>
 
@@ -968,22 +836,21 @@
                         <i class="fas fa-edit"></i>
                     </div>
                 </li>
-              <li class="setting-item">
-  <div class="setting-icon">
-    <i class="fas fa-lock"></i>
-  </div>
-  <div class="setting-content">
-    <div class="setting-title">Security Lock</div>
-    <div class="setting-desc">Enable PIN or biometric lock</div>
-  </div>
-  <div class="setting-action">
-    <label class="toggle-switch">
-      <input type="checkbox" id="securityLockToggle">
-      <span class="slider"></span>
-    </label>
-  </div>
-</li>
-
+                <li class="setting-item">
+                    <div class="setting-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Security Lock</div>
+                        <div class="setting-desc">Enable PIN or biometric lock</div>
+                    </div>
+                    <div class="setting-action">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="securityLockToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
             </ul>
         </div>
 
@@ -1035,145 +902,120 @@
             </ul>
         </div>
        
-     <!-- Container for Buttons -->
-<div class="dashboard-actions">
-  <div class="action-card" id="openSalesPageBtn">
-    <i class="fas fa-chart-line"></i>
-    <span>Sales Management</span>
-  </div>
-  <div class="action-card" id="goToInvoiceBtn">
-    <i class="fas fa-file-invoice-dollar"></i>
-    <span>Invoice Maker</span>
-  </div>
-  <div class="action-card" id="startMiningBtn">
-    <i class="fas fa-digging"></i>
-    <span>Start Digital Mining</span>
-  </div>
-</div>
-
-
-
-   <div class="settings-section">
-  <div class="section-title">Account Management</div>
-  <ul class="settings-list">
-
-    <!-- Backup & Restore -->
-    <li class="setting-item" id="backupRestoreItem">
-      <div class="setting-icon">
-        <i class="fas fa-download"></i>
-      </div>
-      <div class="setting-content">
-        <div class="setting-title">Backup & Restore</div>
-        <div class="setting-desc">Export or import your data</div>
-        <div class="backup-buttons">
-          <button id="backupDataBtn" class="btn-dashboard small">🔄 Backup</button>
-          <button id="restoreDataBtn" class="btn-dashboard small">♻️ Restore</button>
-          <input type="file" id="restoreFileInput" accept=".json" style="display: none;" />
+        <div class="settings-section">
+            <div class="section-title">Account Management</div>
+            <ul class="settings-list">
+                <li class="setting-item" id="backupRestoreItem">
+                    <div class="setting-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Backup & Restore</div>
+                        <div class="setting-desc">Export or import your data</div>
+                        <div class="backup-buttons">
+                            <button id="backupDataBtn" class="btn-dashboard"><i class="fas fa-cloud-download-alt"></i> Backup</button>
+                            <button id="restoreDataBtn" class="btn-dashboard"><i class="fas fa-undo"></i> Restore</button>
+                            <input type="file" id="restoreFileInput" accept=".json" style="display: none;" />
+                        </div>
+                    </div>
+                </li>
+                <li class="setting-item" id="supportItem">
+                    <div class="setting-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title">Support & Contact</div>
+                        <div class="setting-desc">Get help from our team</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </li>
+                <li class="setting-item" id="deleteAccountBtn">
+                    <div class="setting-icon" style="background: rgba(239, 71, 111, 0.1); color: var(--danger);">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="setting-content">
+                        <div class="setting-title" style="color: var(--danger);">Delete Account</div>
+                        <div class="setting-desc">Permanently remove your account</div>
+                    </div>
+                    <div class="setting-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </li>
+            </ul>
         </div>
-      </div>
-    </li>
-
-    <!-- Support & Contact -->
-    <li class="setting-item" id="supportItem">
-      <div class="setting-icon">
-        <i class="fas fa-question-circle"></i>
-      </div>
-      <div class="setting-content">
-        <div class="setting-title">Support & Contact</div>
-        <div class="setting-desc">Get help from our team</div>
-      </div>
-      <div class="setting-action">
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </li>
-
-    <!-- Delete Account -->
-    <li class="setting-item" id="deleteAccountBtn">
-      <div class="setting-icon" style="background: rgba(239, 71, 111, 0.1); color: var(--danger);">
-        <i class="fas fa-trash-alt"></i>
-      </div>
-      <div class="setting-content">
-        <div class="setting-title" style="color: var(--danger);">Delete Account</div>
-        <div class="setting-desc">Permanently remove your account</div>
-      </div>
-      <div class="setting-action">
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </li>
-
-  </ul>
-</div>
-
-   
     
-    <nav class="bottom-nav">
-        <a href="profile.html" class="bottom-nav-link">
-            <i class="fas fa-user-circle"></i><span>Profile</span>
-        </a>
-        <a href="loan.html" class="bottom-nav-link active">
-            <i class="fas fa-money-bill-wave"></i><span>Loan</span>
-        </a>
-        <a href="dashboard.html" class="bottom-nav-link">
-            <i class="fas fa-chart-line"></i><span>Dashboard</span>
-        </a>
-    </nav>
+        <nav class="bottom-nav">
+            <a href="profile.html" class="bottom-nav-link active">
+                <i class="fas fa-user-circle"></i><span>Profile</span>
+            </a>
+            <a href="loan.html" class="bottom-nav-link">
+                <i class="fas fa-money-bill-wave"></i><span>Loan</span>
+            </a>
+            <a href="dashboard.html" class="bottom-nav-link">
+                <i class="fas fa-chart-line"></i><span>Dashboard</span>
+            </a>
+        </nav>
 
-    <!-- Delete Account Modal -->
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Delete Account</div>
-                <button class="close-btn" id="closeDeleteModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete your account? This action is irreversible and will permanently remove all your data.</p>
-                <div class="warning-box">
-                    <p><i class="fas fa-exclamation-triangle" style="color: var(--danger); margin-right: 8px;"></i> This will permanently delete:</p>
-                    <ul>
-                        <li>All your expense records</li>
-                        <li>Loan and debt information</li>
-                        <li>Account settings and preferences</li>
-                        <li>Payment methods and history</li>
-                    </ul>
+        <!-- Delete Account Modal -->
+        <div class="modal" id="deleteModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Delete Account</div>
+                    <button class="close-btn" id="closeDeleteModal">&times;</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
-                <button class="btn btn-danger" id="confirmDeleteBtn">Delete Account</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Language Selection Modal -->
-    <div class="modal" id="languageModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Select Language</div>
-                <button class="close-btn" id="closeLanguageModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="language-option" data-lang="en">
-                    <div class="language-icon">
-                        <i class="fas fa-globe-americas"></i>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your account? This action is irreversible and will permanently remove all your data.</p>
+                    <div class="warning-box">
+                        <p><i class="fas fa-exclamation-triangle" style="color: var(--danger); margin-right: 8px;"></i> This will permanently delete:</p>
+                        <ul>
+                            <li>All your expense records</li>
+                            <li>Loan and debt information</li>
+                            <li>Account settings and preferences</li>
+                            <li>Payment methods and history</li>
+                        </ul>
                     </div>
-                    <div class="language-name">English</div>
                 </div>
-                <div class="language-option" data-lang="ur">
-                    <div class="language-icon">
-                        <i class="fas fa-globe-asia"></i>
-                    </div>
-                    <div class="language-name">اردو (Urdu)</div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+                    <button class="btn btn-danger" id="confirmDeleteBtn">Delete Account</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+        <!-- Language Selection Modal -->
+        <div class="modal" id="languageModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Select Language</div>
+                    <button class="close-btn" id="closeLanguageModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="language-option" data-lang="en">
+                        <div class="language-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="language-name">English</div>
+                    </div>
+                    <div class="language-option" data-lang="ur">
+                        <div class="language-icon">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <div class="language-name">اردو (Urdu)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+    </div>
+    
     <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   
     <script>
         // Firebase configuration
@@ -1216,11 +1058,11 @@
         const toast = document.getElementById('toast');
         const reminderToggle = document.getElementById('reminderToggle');
         const supportItem = document.getElementById('supportItem');
-        const pinModalElement = document.getElementById('pinModal');
-        const pinInput = document.getElementById('pinInput');
-        const pinModalMsg = document.getElementById('pinModalMsg');
         const startMiningBtn = document.getElementById('startMiningBtn');
         const openSalesPageBtn = document.getElementById('openSalesPageBtn');
+        const backupDataBtn = document.getElementById('backupDataBtn');
+        const restoreDataBtn = document.getElementById('restoreDataBtn');
+        const goToInvoiceBtn = document.getElementById('goToInvoiceBtn');
 
         let userData = null;
         let savedPIN = null;
@@ -1387,6 +1229,7 @@
                 }
             }, error => {
                 console.error("Error listening to user data:", error);
+                showToast("Error updating profile data");
             });
         }
 
@@ -1440,11 +1283,10 @@
                     }
 
                     // Hide loading overlay
-                    loadingOverlay.classList.add('fade-out');
                     setTimeout(() => {
                         loadingOverlay.style.display = 'none';
                         container.classList.add('loaded');
-                    }, 300);
+                    }, 500);
                 } else {
                     window.location.href = "login.html";
                 }
@@ -1538,13 +1380,9 @@
                 userData.settings.securityLock = this.checked;
 
                 if (this.checked) {
-                    openPinModal(true);
+                    // For demo purposes only
+                    showToast("Security lock enabled");
                 } else {
-                    db.collection("users").doc(userData.uid).update({
-                        "settings.securityLock": false,
-                        pin: firebase.firestore.FieldValue.delete()
-                    });
-                    savedPIN = null;
                     showToast(translations[userData.settings.language].securityOff);
                 }
             });
@@ -1586,18 +1424,13 @@
                 deleteModal.classList.remove('active');
                 showToast("Account deletion request sent. Processing...", 2000);
                 setTimeout(() => {
-                    auth.currentUser.delete().then(() => {
-                        window.location.href = 'deleted.html';
-                    }).catch((error) => {
-                        showToast("Error deleting account: " + error.message);
-                    });
+                    showToast("Account deletion is a demo feature only");
                 }, 2000);
             });
 
             // Support item
             supportItem.addEventListener('click', () => {
                window.location.href = 'mailto:suppor8easykharcha@gmail.com?subject=Help%20Needed&body=Please%20assist%20me%20with...';
-;
             });
 
             // Language options
@@ -1626,102 +1459,27 @@
             openSalesPageBtn.addEventListener('click', () => {
                 window.location.href = 'sales.html';
             });
+            
+            // Invoice button
+            goToInvoiceBtn.addEventListener('click', () => {
+                window.location.href = 'invoice.html';
+            });
+            
+            // Backup button
+            backupDataBtn.addEventListener('click', () => {
+                showToast("Backup feature is in development");
+            });
+            
+            // Restore button
+            restoreDataBtn.addEventListener('click', () => {
+                showToast("Restore feature is in development");
+            });
         }
 
-        // PIN Modal functions
-        function openPinModal(setup = false) {
-            pinModalElement.classList.add('active');
-            pinInput.value = "";
-            pinModalMsg.textContent = setup ? "Set a 4-digit PIN" : "Enter your 4-digit PIN";
-            pinInput.focus();
-            pinModalElement.dataset.mode = setup ? 'setup' : 'unlock';
-        }
-
-        function closePinModal() {
-            pinModalElement.classList.remove('active');
-        }
-
-        async function submitPIN() {
-            const enteredPIN = pinInput.value;
-            if (enteredPIN.length !== 4 || !/^\d{4}$/.test(enteredPIN)) {
-                showToast("PIN must be 4 digits.");
-                return;
-            }
-
-            if (pinModalElement.dataset.mode === 'setup') {
-                savedPIN = enteredPIN;
-                await db.collection("users").doc(userData.uid).update({
-                    pin: enteredPIN
-                });
-                showToast("Security PIN set.");
-                closePinModal();
-            } else if (pinModalElement.dataset.mode === 'unlock') {
-                if (enteredPIN === savedPIN) {
-                    showToast("Unlocked successfully.");
-                    closePinModal();
-                } else {
-                    showToast("Incorrect PIN.");
-                }
-            }
-        }
-document.getElementById("goToInvoiceBtn").addEventListener("click", function () {
-    window.location.href = "invoice.html";
-  });
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             initEvents();
         });
     </script>
-  <script>
-  if (window.Android && Android.showMiningAdOnce) {
-    Android.showMiningAdOnce(); // 👈 صرف ایک بار دکھے گا
-  }
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const banner = document.getElementById("appBanner");
-    const closeBannerBtn = document.getElementById("closeBanner");
-
-    // Unique key for this banner
-    const BANNER_KEY = "easykharcha_banner_shown";
-
-    // ✅ Show banner if NOT shown before
-    if (!localStorage.getItem(BANNER_KEY)) {
-      banner.style.display = "flex"; // show the banner
-    }
-
-    // ❌ On close, hide and remember
-    closeBannerBtn.addEventListener("click", () => {
-      banner.style.display = "none";
-      localStorage.setItem(BANNER_KEY, "true");
-    });
-  });
-  document.getElementById("backupDataBtn").addEventListener("click", async () => {
-  const user = firebase.auth().currentUser;
-  if (!user) return alert("Please log in");
-
-  try {
-    const userData = {};
-    const snapshot = await firebase.firestore().collection("users").doc(user.uid).get();
-    userData["users"] = snapshot.exists ? snapshot.data() : {};
-
-    // Add more collections if needed
-    const blob = new Blob([JSON.stringify(userData, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "backup.json";
-    a.click();
-    URL.revokeObjectURL(url);
-    alert("Backup successful!");
-  } catch (error) {
-    console.error("Backup error:", error);
-    alert("Backup failed.");
-  }
-});
-
-</script>
-
 </body>
 </html>
