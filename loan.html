@@ -5,21 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Loan Management - EasyKharcha</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
-  <!-- IN HEAD TAG, before any CSS loads -->
-<script>
-  try {
-    const localData = localStorage.getItem('userData');
-    const dark = localData && JSON.parse(localData).settings?.darkMode;
-    if (dark) document.documentElement.classList.add('dark-mode');
-  } catch (e) {}
-</script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
   <style>
-    /* ========== DARK MODE STYLES ========== */
+    /* ========== BASE STYLES ========== */
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --secondary: #f8f9fa;
+      --accent: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+      --radius: 12px;
+    }
+    
     .dark-mode {
       --primary: #3b82f6;
       --primary-light: #60a5fa;
@@ -159,21 +163,6 @@
       text-align: left;
     }
     
-    :root {
-      --primary: #2563eb;
-      --primary-light: #3b82f6;
-      --secondary: #f8f9fa;
-      --accent: #ef4444;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --text: #1e293b;
-      --text-light: #64748b;
-      --border: #e2e8f0;
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      --transition: all 0.3s ease;
-      --radius: 12px;
-    }
-    
     * {
       box-sizing: border-box;
       margin: 0;
@@ -197,7 +186,7 @@
       padding: 20px;
     }
     
-    /* Header styles */
+    /* ========== HEADER STYLES ========== */
     header {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
@@ -233,96 +222,7 @@
       font-weight: 700;
     }
     
-    .nav-links {
-      display: flex;
-      gap: 25px;
-    }
-    
-    .nav-link {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 8px;
-    }
-    
-    .nav-link:hover, .nav-link.active {
-      color: white;
-      background: rgba(255, 255, 255, 0.15);
-    }
-    
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-      cursor: pointer;
-    }
-    
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: var(--transition);
-    }
-    
-    .user-profile:hover .user-avatar {
-      background: rgba(255, 255, 255, 0.3);
-    }
-    
-    .user-menu {
-      position: absolute;
-      top: 50px;
-      right: 0;
-      background: white;
-      border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      width: 200px;
-      z-index: 10;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: var(--transition);
-    }
-    
-    .user-profile:hover .user-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    
-    .user-menu-item {
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      transition: var(--transition);
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .user-menu-item:last-child {
-      border-bottom: none;
-    }
-    
-    .user-menu-item:hover {
-      background: #f1f5f9;
-      color: var(--primary);
-    }
-    
-    /* Page title and stats */
+    /* ========== PAGE HEADER & STATS ========== */
     .page-header {
       margin: 25px 0 20px;
       display: flex;
@@ -358,12 +258,6 @@
       min-width: calc(33.333% - 11px);
       margin-bottom: 10px;
       transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    @media (max-width: 768px) {
-      .stat-card {
-        min-width: 100%;
-      }
     }
     
     .stat-card.warning {
@@ -405,122 +299,234 @@
       color: var(--accent);
     }
     
-    /* Main content layout */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-      margin-top: 20px;
-    }
-    
-    @media (max-width: 900px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 25px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-    
-    .card:hover {
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-    }
-    
-    .card-header {
+    /* ========== FILTERS SECTION ========== */
+    .filters {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
       margin-bottom: 20px;
+      background: white;
+      padding: 18px 22px;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      transition: background 0.3s ease;
     }
     
-    .card-title {
-      font-size: 19px;
-      color: var(--primary);
-      font-weight: 600;
+    .filter-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
     
-    /* Form styles */
-    .loan-form .form-group {
-      margin-bottom: 18px;
-    }
-    
-    .loan-form label {
-      display: block;
-      margin-bottom: 8px;
+    .filter-label {
       font-weight: 500;
-      color: var(--text);
+      color: var(--text-light);
       font-size: 14px;
+    }
+    
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-box input {
+      padding: 11px 15px 11px 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      min-width: 250px;
+      background: #f8fafc;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      color: var(--text-light);
+      font-size: 15px;
+    }
+    
+    .filter-select {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      background: #f8fafc;
+      min-width: 150px;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .filter-btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
       display: flex;
       align-items: center;
       gap: 6px;
     }
     
-    .loan-form input, 
-    .loan-form select, 
-    .loan-form textarea {
+    .filter-btn:hover {
+      background: var(--primary-light);
+    }
+    
+    /* ========== ADVANCED FILTERS (HIDDEN BY DEFAULT) ========== */
+    .advanced-filters {
+      display: none;
       width: 100%;
-      padding: 13px 15px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      transition: var(--transition);
+      padding: 15px;
       background: #f8fafc;
+      border-radius: var(--radius);
+      margin-top: 10px;
+      transition: all 0.3s ease;
     }
     
-    .loan-form input:focus, 
-    .loan-form select:focus, 
-    .loan-form textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    .advanced-filters.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
     }
     
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+    @keyframes fadeIn {
+      from { opacity: 0; height: 0; }
+      to { opacity: 1; height: auto; }
     }
     
-    @media (max-width: 600px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .loan-form button {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 14px 28px;
+    .toggle-filters {
+      background: none;
       border: none;
-      border-radius: 10px;
+      color: var(--primary);
+      font-size: 13px;
       cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      transition: var(--transition);
       display: flex;
       align-items: center;
+      gap: 5px;
+      margin-top: 5px;
+    }
+    
+    /* ========== CUSTOMER/LEDGER CARDS ========== */
+    .customer-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .customer-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 15px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .customer-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .customer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .customer-name {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    .customer-balance {
+      font-weight: 700;
+      font-size: 18px;
+    }
+    
+    .balance-positive {
+      color: var(--success);
+    }
+    
+    .balance-negative {
+      color: var(--accent);
+    }
+    
+    .customer-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    
+    .detail-label {
+      color: var(--text-light);
+      font-weight: 500;
+    }
+    
+    .customer-actions {
+      display: flex;
+      justify-content: flex-end;
       gap: 8px;
-      width: 100%;
-      justify-content: center;
-      margin-top: 10px;
+      margin-top: 15px;
     }
     
-    .loan-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    /* ========== LOAN ITEMS IN LEDGER ========== */
+    .loan-items {
+      margin-top: 15px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
     }
     
-    /* Table styles */
+    .loan-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    
+    .loan-item:last-child {
+      border-bottom: none;
+    }
+    
+    .loan-item-date {
+      color: var(--text-light);
+      font-size: 13px;
+    }
+    
+    .loan-item-amount {
+      font-weight: 600;
+    }
+    
+    .loan-item-type {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+    
+    .type-given-bg {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+    }
+    
+    .type-taken-bg {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent);
+    }
+    
+    /* ========== TABLE STYLES (DESKTOP) ========== */
     .table-container {
       overflow-x: auto;
       border-radius: var(--radius);
@@ -640,89 +646,7 @@
       background: rgba(37, 211, 102, 0.2);
     }
     
-    /* Filter section */
-    .filters {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 20px;
-      background: white;
-      padding: 18px 22px;
-      border-radius: var(--radius);
-      box-shadow: var(--card-shadow);
-      transition: background 0.3s ease;
-    }
-    
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    
-    .filter-label {
-      font-weight: 500;
-      color: var(--text-light);
-      font-size: 14px;
-    }
-    
-    .search-box {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    
-    .search-box input {
-      padding: 11px 15px 11px 40px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      min-width: 250px;
-      background: #f8fafc;
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .search-icon {
-      position: absolute;
-      left: 15px;
-      color: var(--text-light);
-      font-size: 15px;
-    }
-    
-    .filter-select {
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      background: #f8fafc;
-      min-width: 150px;
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .filter-btn {
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      background: var(--primary);
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .filter-btn:hover {
-      background: var(--primary-light);
-    }
-    
-    /* Status badge */
+    /* ========== STATUS BADGES ========== */
     .status-badge {
       padding: 4px 10px;
       border-radius: 20px;
@@ -745,7 +669,7 @@
       color: var(--accent);
     }
     
-    /* Floating Action Button */
+    /* ========== FLOATING ACTION BUTTON ========== */
     .fab {
       position: fixed;
       bottom: 80px;
@@ -771,237 +695,50 @@
       box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
     }
     
-    /* Mobile Loan List */
-    .mobile-loan-list {
-      display: none;
-      margin-top: 20px;
-    }
-    
-    .loan-item {
+    .fab-menu {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
       background: white;
       border-radius: var(--radius);
-      padding: 15px;
-      margin-bottom: 15px;
       box-shadow: var(--card-shadow);
-      transition: background 0.3s ease;
-    }
-    
-    .loan-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .loan-name {
-      font-weight: 600;
-      font-size: 16px;
-    }
-    
-    .loan-amount {
-      font-weight: 700;
-      font-size: 18px;
-    }
-    
-    .loan-type {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 500;
-      margin-right: 8px;
-    }
-    
-    .type-given-bg {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-    }
-    
-    .type-taken-bg {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent);
-    }
-    
-    .loan-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 15px;
-      font-size: 14px;
-    }
-    
-    .detail-label {
-      color: var(--text-light);
-      font-weight: 500;
-    }
-    
-    .loan-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-    
-    /* Footer */
-    footer {
-      background: var(--primary);
-      color: white;
-      padding: 40px 0 20px;
-      margin-top: 50px;
-      transition: background 0.3s ease;
-    }
-    
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-    }
-    
-    .footer-section h3 {
-      font-size: 18px;
-      margin-bottom: 20px;
-      position: relative;
-      padding-bottom: 10px;
-      font-weight: 600;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background: white;
-    }
-    
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-links li {
-      margin-bottom: 14px;
-    }
-    
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
+      width: 200px;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
       transition: var(--transition);
+    }
+    
+    .fab:hover .fab-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .fab-item {
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 15px;
-    }
-    
-    .footer-links a:hover {
-      color: white;
-    }
-    
-    .copyright {
-      text-align: center;
-      padding-top: 30px;
-      margin-top: 40px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--text);
+      text-decoration: none;
       font-size: 14px;
+      transition: var(--transition);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
     }
     
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .header-container {
-        flex-wrap: wrap;
-        gap: 15px;
-      }
-      
-      .nav-links {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        margin-top: 10px;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      
-      .nav-link {
-        padding: 6px 10px;
-        font-size: 14px;
-      }
-      
-      .user-profile {
-        margin-left: auto;
-      }
-      
-      .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .stats-container {
-        width: 100%;
-      }
-      
-      .stat-card {
-        min-width: 100%;
-      }
-      
-      .filters {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .search-box input {
-        min-width: 100%;
-      }
-      
-      .fab {
-        display: flex;
-      }
-      
-      /* Show mobile list and hide table */
-      .table-container {
-        display: none;
-      }
-      
-      .mobile-loan-list {
-        display: block;
-      }
+    .fab-item:last-child {
+      border-bottom: none;
     }
     
-    @media (min-width: 769px) {
-      .table-container {
-        display: block;
-      }
-      
-      .mobile-loan-list {
-        display: none;
-      }
+    .fab-item:hover {
+      background: #f1f5f9;
+      color: var(--primary);
     }
     
-    @media (max-width: 480px) {
-      .header-container {
-        padding: 0 15px;
-      }
-      
-      .logo-text {
-        font-size: 20px;
-      }
-      
-      .page-title {
-        font-size: 22px;
-      }
-      
-      .card {
-        padding: 20px;
-      }
-      
-      .filters {
-        padding: 15px;
-      }
-    }
-    
-    /* Modal styles */
+    /* ========== MODAL STYLES ========== */
     .modal {
       display: none;
       position: fixed;
@@ -1062,7 +799,122 @@
       padding: 20px;
     }
     
-    /* Toast notification */
+    /* ========== FORM STYLES ========== */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      transition: var(--transition);
+      background: #f8fafc;
+    }
+    
+    .form-group input:focus, 
+    .form-group select:focus, 
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text);
+    }
+    
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+    
+    /* ========== PRODUCT ITEMS IN LOAN FORM ========== */
+    .product-items {
+      margin-top: 15px;
+    }
+    
+    .product-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    
+    .product-select {
+      flex: 2;
+    }
+    
+    .product-qty, .product-rate {
+      flex: 1;
+    }
+    
+    .product-remove {
+      color: var(--accent);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    
+    .product-remove:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+    
+    /* ========== TOAST NOTIFICATION ========== */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -1086,7 +938,7 @@
       transform: translateX(-50%) translateY(0);
     }
     
-    /* Empty state */
+    /* ========== EMPTY STATE ========== */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -1109,7 +961,7 @@
       margin-bottom: 20px;
     }
     
-    /* Loading spinner */
+    /* ========== LOADING SPINNER ========== */
     .loading {
       display: flex;
       justify-content: center;
@@ -1129,6 +981,7 @@
       to { transform: rotate(360deg); }
     }
     
+    /* ========== BOTTOM NAVIGATION ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -1169,125 +1022,95 @@
       color: var(--primary);
     }
     
-    /* WhatsApp reminder modal */
-    .whatsapp-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .whatsapp-modal-content {
-      background: white;
-      border-radius: var(--radius);
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-    
-    .whatsapp-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .whatsapp-modal-title {
-      font-size: 18px;
-      color: var(--text);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .whatsapp-modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: var(--text-light);
-      cursor: pointer;
-    }
-    
-    .whatsapp-modal-body {
-      margin-bottom: 20px;
-    }
-    
-    .whatsapp-modal-body p {
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
-    
-    .whatsapp-modal-body textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      min-height: 120px;
-      margin-bottom: 15px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-    }
-    
-    .whatsapp-modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    
-    .whatsapp-btn {
-      background: #25D366;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .cancel-btn {
-      background: #f1f5f9;
-      color: var(--text);
-    }
-
-    /* NEW STYLES FOR FORM TOGGLE FUNCTIONALITY */
-    .form-card {
-      transition: all 0.3s ease;
-      max-height: 1000px;
-      opacity: 1;
-      overflow: hidden;
-    }
-    
-    .form-card.hidden {
-      max-height: 0;
-      opacity: 0;
-      padding: 0;
-      margin: 0;
-      border: none;
-      overflow: hidden;
+    /* ========== RESPONSIVE ADJUSTMENTS ========== */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      
+      .stats-container {
+        width: 100%;
+      }
+      
+      .stat-card {
+        min-width: 100%;
+      }
+      
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-box input {
+        min-width: 100%;
+      }
+      
+      .fab {
+        display: flex;
+      }
+      
+      /* Show mobile cards and hide table */
+      .table-container {
+        display: none;
+      }
+      
+      .customer-cards {
+        display: block;
+      }
     }
     
     @media (min-width: 769px) {
-      .form-card.hidden {
+      .table-container {
+        display: block;
+      }
+      
+      .customer-cards {
         display: none;
       }
     }
     
-    @media (max-width: 768px) {
-      .form-card {
-        display: none;
+    @media (max-width: 480px) {
+      .header-container {
+        padding: 0 15px;
       }
+      
+      .logo-text {
+        font-size: 20px;
+      }
+      
+      .page-title {
+        font-size: 22px;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .product-item {
+        flex-wrap: wrap;
+      }
+      
+      .product-select, .product-qty, .product-rate {
+        flex: 100%;
+      }
+    }
+    
+    /* ========== INPUT VALIDATION STYLES ========== */
+    .input-error {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+    }
+    
+    .error-message {
+      color: var(--accent);
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .form-group.error .error-message {
+      display: block;
     }
   </style>
 </head>
@@ -1319,9 +1142,9 @@
         </div>
 
         <div class="stat-card warning">
-          <div class="stat-title"><i class="fas fa-arrow-down"></i> <span data-translate="Total Taken">Total Taken</span></div>
-          <div class="stat-value" id="totalTaken">RS 0</div>
-          <div class="stat-trend trend-positive" id="takenTrend">
+          <div class="stat-title"><i class="fas fa-arrow-down"></i> <span data-translate="Total Received">Total Received</span></div>
+          <div class="stat-value" id="totalReceived">RS 0</div>
+          <div class="stat-trend trend-positive" id="receivedTrend">
             <i class="fas fa-arrow-down"></i> 0% from last month
           </div>
         </div>
@@ -1359,109 +1182,82 @@
       
       <div class="search-box">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" id="searchInput" placeholder="Search by name or note..." data-placeholder="Search by name or note...">
+        <input type="text" id="searchInput" placeholder="Search by name or phone..." data-placeholder="Search by name or phone...">
       </div>
     </div>
     
-    <div class="content-grid">
-      <!-- Form card with hidden class by default -->
-      <div class="card form-card hidden">
-        <div class="card-header">
-          <h2 class="card-title"><i class="fas fa-plus-circle"></i> <span data-translate="Add New Loan">Add New Loan</span></h2>
+    <!-- Advanced Filters (Hidden by Default) -->
+    <div class="advanced-filters" id="advancedFilters">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dateFrom"><i class="fas fa-calendar"></i> <span data-translate="From Date">From Date</span></label>
+          <input type="date" id="dateFrom">
         </div>
         
-        <form class="loan-form" id="loanForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="loanName"><i class="fas fa-user"></i> <span data-translate="Person/Shop Name">Person/Shop Name</span></label>
-              <input type="text" id="loanName" placeholder="Enter name" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="loanAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Amount">Amount</span></label>
-              <input type="number" id="loanAmount" placeholder="Enter amount" required>
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="loanType"><i class="fas fa-exchange-alt"></i> <span data-translate="Loan Type">Loan Type</span></label>
-              <select id="loanType">
-                <option value="given" data-translate="Given (You lent money)">Given (You lent money)</option>
-                <option value="taken" data-translate="Taken (You borrowed money)">Taken (You borrowed money)</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="loanDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
-              <input type="date" id="loanDate" value="2023-10-15">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="dueDate"><i class="fas fa-calendar-check"></i> <span data-translate="Due Date">Due Date</span></label>
-              <input type="date" id="dueDate">
-            </div>
-            
-            <div class="form-group">
-              <label for="loanStatus"><i class="fas fa-info-circle"></i> <span data-translate="Status">Status</span></label>
-              <select id="loanStatus">
-                <option value="active" data-translate="Active">Active</option>
-                <option value="closed" data-translate="Closed">Closed</option>
-                <option value="overdue" data-translate="Overdue">Overdue</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="loanNote"><i class="fas fa-sticky-note"></i> <span data-translate="Note (Optional)">Note (Optional)</span></label>
-            <textarea id="loanNote" placeholder="Add any details about this loan..." rows="3"></textarea>
-          </div>
-          
-          <button type="button" id="addLoanBtn">
-            <i class="fas fa-plus"></i> <span data-translate="Add Loan">Add Loan</span>
-          </button>
-        </form>
+        <div class="form-group">
+          <label for="dateTo"><i class="fas fa-calendar"></i> <span data-translate="To Date">To Date</span></label>
+          <input type="date" id="dateTo">
+        </div>
       </div>
       
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title"><i class="fas fa-list"></i> <span data-translate="Loan Records">Loan Records</span></h2>
-          
+      <div class="form-row">
+        <div class="form-group">
+          <label for="minAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Min Amount">Min Amount</span></label>
+          <input type="number" id="minAmount" placeholder="Minimum amount">
         </div>
         
-        <div class="table-container">
-          <table id="loansTable">
-            <thead>
-              <tr>
-                <th data-translate="Name">Name</th>
-                <th data-translate="Amount">Amount</th>
-                <th data-translate="Type">Type</th>
-                <th data-translate="Date">Date</th>
-                <th data-translate="Due Date">Due Date</th>
-                <th data-translate="Status">Status</th>
-                <th data-translate="Note">Note</th>
-                <th data-translate="Actions">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="loansTableBody">
-              <!-- Loans will be populated here by JavaScript -->
-            </tbody>
-          </table>
-        </div>
-        
-        <!-- Mobile Loan List -->
-        <div class="mobile-loan-list" id="mobileLoanList">
-          <!-- Mobile loan items will be populated here -->
+        <div class="form-group">
+          <label for="maxAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Max Amount">Max Amount</span></label>
+          <input type="number" id="maxAmount" placeholder="Maximum amount">
         </div>
       </div>
     </div>
+    
+    <button class="toggle-filters" id="toggleFilters">
+      <i class="fas fa-sliders-h"></i> <span data-translate="Advanced Filters">Advanced Filters</span>
+    </button>
+    
+    <!-- Customer Cards (Mobile View) -->
+    <div class="customer-cards" id="customerCards">
+      <!-- Customer cards will be populated here by JavaScript -->
+    </div>
+    
+    <!-- Loans Table (Desktop View) -->
+    <div class="table-container">
+      <table id="loansTable">
+        <thead>
+          <tr>
+            <th data-translate="Customer">Customer</th>
+            <th data-translate="Phone">Phone</th>
+            <th data-translate="Given">Given</th>
+            <th data-translate="Received">Received</th>
+            <th data-translate="Balance">Balance</th>
+            <th data-translate="Status">Status</th>
+            <th data-translate="Last Activity">Last Activity</th>
+            <th data-translate="Actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="loansTableBody">
+          <!-- Loans will be populated here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
   </div>
   
-  <!-- Floating Action Button -->
+  <!-- Floating Action Button with Menu -->
   <div class="fab" id="fabButton">
     <i class="fas fa-plus"></i>
+    <div class="fab-menu">
+      <div class="fab-item" id="addCustomerBtn">
+        <i class="fas fa-user-plus"></i> <span data-translate="Add Customer">Add Customer</span>
+      </div>
+      <div class="fab-item" id="addLoanBtn">
+        <i class="fas fa-hand-holding-usd"></i> <span data-translate="New Loan">New Loan</span>
+      </div>
+      <div class="fab-item" id="addRepaymentBtn">
+        <i class="fas fa-money-bill-wave"></i> <span data-translate="Record Repayment">Record Repayment</span>
+      </div>
+    </div>
   </div>
   
   <!-- Toast Notification -->
@@ -1470,88 +1266,311 @@
     <span id="toastMessage">Loan added successfully!</span>
   </div>
   
-  <!-- Modal for Mobile Form -->
-  <div class="modal" id="loanModal">
+  <!-- Modals -->
+  <!-- Add Customer Modal -->
+  <div class="modal" id="customerModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" data-translate="Add New Loan">Add New Loan</h3>
-        <button class="close-modal" id="closeModal">&times;</button>
+        <h3 class="modal-title" id="customerModalTitle" data-translate="Add Customer">Add Customer</h3>
+        <button class="close-modal" id="closeCustomerModal">&times;</button>
       </div>
       <div class="modal-body">
-        <form class="loan-form" id="mobileLoanForm">
+        <form id="customerForm">
           <div class="form-row">
             <div class="form-group">
-              <label for="mobileLoanName"><i class="fas fa-user"></i> <span data-translate="Person/Shop Name">Person/Shop Name</span></label>
-              <input type="text" id="mobileLoanName" placeholder="Enter name" required>
+              <label for="customerName"><i class="fas fa-user"></i> <span data-translate="Full Name">Full Name</span></label>
+              <input type="text" id="customerName" placeholder="Enter full name" required>
+              <div class="error-message" id="nameError">Name is required</div>
             </div>
             
             <div class="form-group">
-              <label for="mobileLoanAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Amount">Amount</span></label>
-              <input type="number" id="mobileLoanAmount" placeholder="Enter amount" required>
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="mobileLoanType"><i class="fas fa-exchange-alt"></i> <span data-translate="Loan Type">Loan Type</span></label>
-              <select id="mobileLoanType">
-                <option value="given" data-translate="Given (You lent money)">Given (You lent money)</option>
-                <option value="taken" data-translate="Taken (You borrowed money)">Taken (You borrowed money)</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="mobileLoanDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
-              <input type="date" id="mobileLoanDate" value="2023-10-15">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="mobileDueDate"><i class="fas fa-calendar-check"></i> <span data-translate="Due Date">Due Date</span></label>
-              <input type="date" id="mobileDueDate">
-            </div>
-            
-            <div class="form-group">
-              <label for="mobileLoanStatus"><i class="fas fa-info-circle"></i> <span data-translate="Status">Status</span></label>
-              <select id="mobileLoanStatus">
-                <option value="active" data-translate="Active">Active</option>
-                <option value="closed" data-translate="Closed">Closed</option>
-                <option value="overdue" data-translate="Overdue">Overdue</option>
-              </select>
+              <label for="customerPhone"><i class="fas fa-phone"></i> <span data-translate="Phone Number">Phone Number</span></label>
+              <input type="tel" id="customerPhone" placeholder="Enter phone number" required>
+              <div class="error-message" id="phoneError">Phone is required</div>
             </div>
           </div>
           
           <div class="form-group">
-            <label for="mobileLoanNote"><i class="fas fa-sticky-note"></i> <span data-translate="Note (Optional)">Note (Optional)</span></label>
-            <textarea id="mobileLoanNote" placeholder="Add any details about this loan..." rows="3"></textarea>
+            <label for="customerAddress"><i class="fas fa-map-marker-alt"></i> <span data-translate="Address (Optional)">Address (Optional)</span></label>
+            <textarea id="customerAddress" placeholder="Enter address" rows="2"></textarea>
           </div>
           
-          <button type="button" id="mobileAddLoanBtn">
-            <i class="fas fa-plus"></i> <span data-translate="Add Loan">Add Loan</span>
-          </button>
+          <div class="form-group">
+            <label for="customerPhoto"><i class="fas fa-camera"></i> <span data-translate="Photo (Optional)">Photo (Optional)</span></label>
+            <input type="file" id="customerPhoto" accept="image/*">
+          </div>
+          
+          <div class="form-group">
+            <label for="openingBalance"><i class="fas fa-rupee-sign"></i> <span data-translate="Opening Balance">Opening Balance</span></label>
+            <input type="number" id="openingBalance" placeholder="Enter opening balance" value="0">
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancelCustomer">
+              <span data-translate="Cancel">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveCustomer">
+              <i class="fas fa-save"></i> <span data-translate="Save Customer">Save Customer</span>
+            </button>
+          </div>
         </form>
       </div>
     </div>
   </div>
   
+  <!-- Add Loan Modal -->
+  <div class="modal" id="loanModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="loanModalTitle" data-translate="New Loan">New Loan</h3>
+        <button class="close-modal" id="closeLoanModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="loanForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="loanCustomer"><i class="fas fa-user"></i> <span data-translate="Customer">Customer</span></label>
+              <select id="loanCustomer" required>
+                <option value="" data-translate="Select Customer">Select Customer</option>
+                <!-- Customers will be populated here -->
+              </select>
+              <div class="error-message" id="customerError">Customer is required</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="loanDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
+              <input type="date" id="loanDate" required>
+              <div class="error-message" id="dateError">Date is required</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="loanDueDate"><i class="fas fa-calendar-check"></i> <span data-translate="Due Date">Due Date</span></label>
+            <input type="date" id="loanDueDate">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-boxes"></i> <span data-translate="Products">Products</span></label>
+            <div class="product-items" id="productItems">
+              <!-- Product items will be added here -->
+            </div>
+            <button type="button" class="btn btn-secondary" id="addProduct" style="margin-top: 10px;">
+              <i class="fas fa-plus"></i> <span data-translate="Add Product">Add Product</span>
+            </button>
+            <div class="error-message" id="productError">At least one product is required</div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="loanDiscount"><i class="fas fa-tag"></i> <span data-translate="Discount">Discount</span></label>
+              <input type="number" id="loanDiscount" placeholder="Enter discount" value="0" min="0">
+            </div>
+            
+            <div class="form-group">
+              <label for="loanTax"><i class="fas fa-percentage"></i> <span data-translate="Tax">Tax</span></label>
+              <input type="number" id="loanTax" placeholder="Enter tax" value="0" min="0">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="loanTotal"><i class="fas fa-calculator"></i> <span data-translate="Total Amount">Total Amount</span></label>
+            <input type="number" id="loanTotal" readonly>
+          </div>
+          
+          <div class="form-group">
+            <label for="loanNote"><i class="fas fa-sticky-note"></i> <span data-translate="Notes (Optional)">Notes (Optional)</span></label>
+            <textarea id="loanNote" placeholder="Enter any notes"></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancelLoan">
+              <span data-translate="Cancel">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveLoan">
+              <i class="fas fa-save"></i> <span data-translate="Save Loan">Save Loan</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Record Repayment Modal -->
+  <div class="modal" id="repaymentModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" data-translate="Record Repayment">Record Repayment</h3>
+        <button class="close-modal" id="closeRepaymentModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="repaymentForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="repaymentCustomer"><i class="fas fa-user"></i> <span data-translate="Customer">Customer</span></label>
+              <select id="repaymentCustomer" required>
+                <option value="" data-translate="Select Customer">Select Customer</option>
+                <!-- Customers will be populated here -->
+              </select>
+              <div class="error-message" id="repaymentCustomerError">Customer is required</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="repaymentLoan"><i class="fas fa-file-invoice-dollar"></i> <span data-translate="Loan">Loan</span></label>
+              <select id="repaymentLoan" required>
+                <option value="" data-translate="Select Loan">Select Loan</option>
+                <!-- Loans will be populated here -->
+              </select>
+              <div class="error-message" id="repaymentLoanError">Loan is required</div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="repaymentAmount"><i class="fas fa-rupee-sign"></i> <span data-translate="Amount">Amount</span></label>
+              <input type="number" id="repaymentAmount" placeholder="Enter amount" required min="1">
+              <div class="error-message" id="repaymentAmountError">Amount must be greater than 0</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="repaymentDate"><i class="fas fa-calendar"></i> <span data-translate="Date">Date</span></label>
+              <input type="date" id="repaymentDate" required>
+              <div class="error-message" id="repaymentDateError">Date is required</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="repaymentMethod"><i class="fas fa-money-bill-wave"></i> <span data-translate="Payment Method">Payment Method</span></label>
+            <select id="repaymentMethod">
+              <option value="cash" data-translate="Cash">Cash</option>
+              <option value="bank" data-translate="Bank Transfer">Bank Transfer</option>
+              <option value="cheque" data-translate="Cheque">Cheque</option>
+              <option value="upi" data-translate="UPI">UPI</option>
+              <option value="other" data-translate="Other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="repaymentNote"><i class="fas fa-sticky-note"></i> <span data-translate="Notes (Optional)">Notes (Optional)</span></label>
+            <textarea id="repaymentNote" placeholder="Enter any notes"></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancelRepayment">
+              <span data-translate="Cancel">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-primary" id="saveRepayment">
+              <i class="fas fa-save"></i> <span data-translate="Record Payment">Record Payment</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Customer Detail Modal -->
+  <div class="modal" id="customerDetailModal">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="customerDetailTitle">Customer Details</h3>
+        <button class="close-modal" id="closeCustomerDetailModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group" style="text-align: center;">
+            <img id="customerDetailPhoto" src="https://via.placeholder.com/150" alt="Customer Photo" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 10px;">
+            <h3 id="customerDetailName">Customer Name</h3>
+            <p id="customerDetailPhone"><i class="fas fa-phone"></i> +1234567890</p>
+            <p id="customerDetailAddress"><i class="fas fa-map-marker-alt"></i> Address not provided</p>
+          </div>
+          
+          <div class="form-group">
+            <div class="stat-card" style="margin-bottom: 15px;">
+              <div class="stat-title"><i class="fas fa-arrow-up"></i> <span data-translate="Total Given">Total Given</span></div>
+              <div class="stat-value" id="customerTotalGiven">RS 0</div>
+            </div>
+            
+            <div class="stat-card warning" style="margin-bottom: 15px;">
+              <div class="stat-title"><i class="fas fa-arrow-down"></i> <span data-translate="Total Received">Total Received</span></div>
+              <div class="stat-value" id="customerTotalReceived">RS 0</div>
+            </div>
+            
+            <div class="stat-card danger">
+              <div class="stat-title"><i class="fas fa-balance-scale"></i> <span data-translate="Balance">Balance</span></div>
+              <div class="stat-value" id="customerBalance">RS 0</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label><i class="fas fa-filter"></i> <span data-translate="Date Range">Date Range</span></label>
+          <div class="form-row">
+            <div class="form-group">
+              <input type="date" id="customerDateFrom">
+            </div>
+            
+            <div class="form-group">
+              <input type="date" id="customerDateTo">
+            </div>
+            
+            <div class="form-group">
+              <button type="button" class="btn btn-primary" id="applyCustomerFilter" style="width: 100%;">
+                <i class="fas fa-filter"></i> <span data-translate="Apply">Apply</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table id="customerLedgerTable">
+            <thead>
+              <tr>
+                <th data-translate="Date">Date</th>
+                <th data-translate="Type">Type</th>
+                <th data-translate="Amount">Amount</th>
+                <th data-translate="Balance">Balance</th>
+                <th data-translate="Note">Note</th>
+              </tr>
+            </thead>
+            <tbody id="customerLedgerBody">
+              <!-- Ledger entries will be populated here -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="whatsappCustomer">
+            <i class="fab fa-whatsapp"></i> <span data-translate="Send Reminder">Send Reminder</span>
+          </button>
+          <button type="button" class="btn btn-secondary" id="exportCustomerPDF">
+            <i class="fas fa-file-pdf"></i> <span data-translate="Export PDF">Export PDF</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="addCustomerTransaction">
+            <i class="fas fa-plus"></i> <span data-translate="Add Transaction">Add Transaction</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- WhatsApp Reminder Modal -->
-  <div class="whatsapp-modal" id="whatsappModal">
-    <div class="whatsapp-modal-content">
-      <div class="whatsapp-modal-header">
-        <h3 class="whatsapp-modal-title">
+  <div class="modal" id="whatsappModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">
           <i class="fab fa-whatsapp" style="color: #25D366;"></i> <span data-translate="Send WhatsApp Reminder">Send WhatsApp Reminder</span>
         </h3>
-        <button class="whatsapp-modal-close" id="closeWhatsappModal">&times;</button>
+        <button class="close-modal" id="closeWhatsappModal">&times;</button>
       </div>
-      <div class="whatsapp-modal-body">
-        <p data-translate="This message will be sent to the borrower/lender:">This message will be sent to the borrower/lender:</p>
-        <textarea id="whatsappMessage" placeholder="Customize your message..."></textarea>
+      <div class="modal-body">
+        <p data-translate="This message will be sent to the customer:">This message will be sent to the customer:</p>
+        <textarea id="whatsappMessage" placeholder="Customize your message..." style="width: 100%; min-height: 120px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 15px;"></textarea>
         <p><small data-translate="Note: You'll need to select the contact manually in WhatsApp">Note: You'll need to select the contact manually in WhatsApp</small></p>
       </div>
-      <div class="whatsapp-modal-footer">
-        <button class="cancel-btn" id="cancelWhatsapp" data-translate="Cancel">Cancel</button>
-        <button class="whatsapp-btn" id="sendWhatsapp">
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancelWhatsapp">
+          <span data-translate="Cancel">Cancel</span>
+        </button>
+        <button type="button" class="btn btn-primary" id="sendWhatsapp" style="background-color: #25D366;">
           <i class="fab fa-whatsapp"></i> <span data-translate="Open WhatsApp">Open WhatsApp</span>
         </button>
       </div>
@@ -1575,8 +1594,10 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
+    // ========== FIREBASE CONFIGURATION ==========
     const firebaseConfig = {
       apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
       authDomain: "easykharcha.firebaseapp.com",
@@ -1591,148 +1612,27 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
     
-    // Define translations dictionary
-    const translations = {
-      ur: {
-        "Loan Management": "قرض کا انتظام",
-        "Total Given": "کل دیا گیا",
-        "Total Taken": "کل لیا گیا",
-        "Net Balance": "خالص بیلنس",
-        "Filter by:": "فلٹر کریں:",
-        "All Loans": "تمام قرضے",
-        "Given Loans": "دیے گئے قرضے",
-        "Taken Loans": "لیے گئے قرضے",
-        "All Status": "تمام حیثیتیں",
-        "Active Loans": "فعال قرضے",
-        "Closed Loans": "مکمل قرضے",
-        "Overdue Loans": "ادائیگی میں تاخیر",
-        "Apply": "لگو کریں",
-        "Search by name or note...": "نام یا نوٹ سے تلاش کریں...",
-        "Add New Loan": "نیا قرض شامل کریں",
-        "Person/Shop Name": "شخص یا دکان کا نام",
-        "Amount": "رقم",
-        "Loan Type": "قرض کی قسم",
-        "Date": "تاریخ",
-        "Due Date": "واجب الادا تاریخ",
-        "Status": "حیثیت",
-        "Note (Optional)": "نوٹ (اختیاری)",
-        "Add Loan": "قرض شامل کریں",
-        "Loan Records": "قرض کا ریکارڈ",
-        "Export PDF": "پی ڈی ایف برآمد کریں",
-        "Name": "نام",
-        "Type": "قسم",
-        "Due Date": "واجب الادا تاریخ",
-        "Note": "نوٹ",
-        "Actions": "اعمال",
-        "No Loans Found": "کوئی قرض نہیں ملا",
-        "Try adjusting your search or add a new loan": "تلاش کو تبدیل کریں یا نیا قرض شامل کریں",
-        "Send WhatsApp Reminder": "واٹس ایپ یاددہانی بھیجیں",
-        "This message will be sent to the borrower/lender:": "یہ پیغام قرض لینے والے/قرض دینے والے کو بھیجا جائے گا:",
-        "Note: You'll need to select the contact manually in WhatsApp": "نوٹ: آپ کو رابطہ دستی طور پر واٹس ایپ میں منتخب کرنا ہوگا",
-        "Cancel": "منسوخ کریں",
-        "Open WhatsApp": "واٹس ایپ کھولیں",
-        "Dashboard": "ڈیش بورڈ",
-        "Loan": "قرض",
-        "Profile": "پروفائل",
-        "Active": "فعال",
-        "Closed": "مکمل",
-        "Overdue": "ادائیگی میں تاخیر",
-        "Given (You lent money)": "دیے گئے (آپ نے رقم قرض دی)",
-        "Taken (You borrowed money)": "لیے گئے (آپ نے رقم قرض لی)"
-      }
-    };
-
-    // Function to translate the page
-    function translatePage(lang) {
-      const dict = translations[lang];
-      if (!dict) return;
-
-      // Translate elements with data-translate attribute
-      document.querySelectorAll('[data-translate]').forEach(el => {
-        const key = el.getAttribute('data-translate');
-        if (dict[key]) {
-          el.innerHTML = dict[key];
-        }
-      });
-
-      // Translate placeholders
-      document.querySelectorAll('[data-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-placeholder');
-        if (dict[key]) {
-          el.setAttribute('placeholder', dict[key]);
-        }
-      });
-    }
-
-    // Function to apply user settings
-    function applySettings(settings) {
-      // Apply dark mode
-      if (settings.darkMode) {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
-
-      // Apply language
-      document.body.classList.remove('urdu-mode');
-      if (settings.language === 'ur') {
-        document.body.classList.add('urdu-mode');
-        translatePage('ur');
-      }
-    }
-
-   function fetchUserSettings(userId) {
-  return db.collection("users").doc(userId).get().then(doc => {
-    if (doc.exists) {
-      const data = doc.data();
-      return data.settings || { darkMode: false, language: 'en' }; // fallback
-    } else {
-      // Create user doc with default settings
-      const defaultSettings = { darkMode: false, language: 'en' };
-      return db.collection("users").doc(userId).set({ settings: defaultSettings }).then(() => defaultSettings);
-    }
-  }).catch(error => {
-    console.error("Error getting settings:", error);
-    return { darkMode: false, language: 'en' };
-  });
-}
-
-
+    // ========== GLOBAL VARIABLES ==========
+    let customers = [];
     let loans = [];
+    let repayments = [];
+    let products = [];
+    let selectedCustomer = null;
+    let selectedLoan = null;
+    let editingCustomerId = null;
     let editingLoanId = null;
-    let selectedLoanForWhatsapp = null;
-
-    // DOM Elements
-    const loansTableBody = document.getElementById('loansTableBody');
-    const mobileLoanList = document.getElementById('mobileLoanList');
-    const addLoanBtn = document.getElementById('addLoanBtn');
-    const mobileAddLoanBtn = document.getElementById('mobileAddLoanBtn');
-    const searchInput = document.getElementById('searchInput');
-    const typeFilter = document.getElementById('typeFilter');
-    const statusFilter = document.getElementById('statusFilter');
-    const applyFilters = document.getElementById('applyFilters');
-    const fabButton = document.getElementById('fabButton');
-    const loanModal = document.getElementById('loanModal');
-    const closeModal = document.getElementById('closeModal');
-    const exportPdfBtn = document.getElementById('exportPdfBtn');
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-    const whatsappModal = document.getElementById('whatsappModal');
-    const closeWhatsappModal = document.getElementById('closeWhatsappModal');
-    const cancelWhatsapp = document.getElementById('cancelWhatsapp');
-    const sendWhatsapp = document.getElementById('sendWhatsapp');
-    const whatsappMessage = document.getElementById('whatsappMessage');
-    const formCard = document.querySelector('.form-card');
-
+    
+    // ========== UTILITY FUNCTIONS ==========
     function formatCurrency(amount) {
       return 'RS ' + amount.toLocaleString('en-IN');
     }
-
+    
     function formatDate(dateString) {
       if (!dateString) return '-';
-      return new Date(dateString).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
     }
-
+    
     function getStatusBadge(status) {
       switch (status) {
         case 'active':
@@ -1745,463 +1645,1252 @@
           return '<span class="status-badge">-</span>';
       }
     }
-
-    function renderLoans(loansToRender) {
-      // Render desktop table
-      renderTable(loansToRender);
-      
-      // Render mobile list
-      renderMobileList(loansToRender);
-    }
-
-    function renderTable(loansToRender) {
-      loansTableBody.innerHTML = '';
-
-      if (loansToRender.length === 0) {
-        loansTableBody.innerHTML = `
-          <tr><td colspan="8">
-            <div class="empty-state">
-              <i class="fas fa-file-invoice-dollar"></i>
-              <h3 data-translate="No Loans Found">No Loans Found</h3>
-              <p data-translate="Try adjusting your search or add a new loan">Try adjusting your search or add a new loan</p>
-            </div>
-          </td></tr>`;
-        return;
-      }
-
-      loansToRender.forEach(loan => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${loan.name}</td>
-          <td>${formatCurrency(loan.amount)}</td>
-          <td class="${loan.type === 'given' ? 'type-given' : 'type-taken'}">
-            <i class="fas fa-${loan.type === 'given' ? 'arrow-up' : 'arrow-down'}"></i>
-            ${loan.type === 'given' ? 'Given' : 'Taken'}
-          </td>
-          <td>${formatDate(loan.date)}</td>
-          <td>${formatDate(loan.dueDate)}</td>
-          <td>${getStatusBadge(loan.status)}</td>
-          <td>${loan.note}</td>
-          <td class="action-cell">
-            <button class="action-btn whatsapp-btn" data-id="${loan.id}" title="Send WhatsApp reminder">
-              <i class="fab fa-whatsapp"></i>
-            </button>
-            <button class="action-btn edit-btn" data-id="${loan.id}" title="Edit">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="action-btn delete-btn" data-id="${loan.id}" title="Delete">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>`;
-
-        loansTableBody.appendChild(row);
-
-        row.querySelector('.edit-btn').addEventListener('click', () => editLoan(loan.id));
-        row.querySelector('.delete-btn').addEventListener('click', () => deleteLoan(loan.id));
-        row.querySelector('.whatsapp-btn').addEventListener('click', () => openWhatsappModal(loan));
-      });
-    }
-
-    function renderMobileList(loansToRender) {
-      mobileLoanList.innerHTML = '';
-
-      if (loansToRender.length === 0) {
-        mobileLoanList.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <h3 data-translate="No Loans Found">No Loans Found</h3>
-            <p data-translate="Try adjusting your search or add a new loan">Try adjusting your search or add a new loan</p>
-          </div>`;
-        return;
-      }
-
-      loansToRender.forEach(loan => {
-        const item = document.createElement('div');
-        item.className = 'loan-item';
-        item.innerHTML = `
-          <div class="loan-header">
-            <div class="loan-name">${loan.name}</div>
-            <div class="loan-amount">${formatCurrency(loan.amount)}</div>
-          </div>
-          <div class="loan-details">
-            <div>
-              <span class="detail-label" data-translate="Type:">Type:</span>
-              <span class="loan-type ${loan.type === 'given' ? 'type-given-bg' : 'type-taken-bg'}">
-                ${loan.type === 'given' ? 'Given' : 'Taken'}
-              </span>
-            </div>
-            <div>
-              <span class="detail-label" data-translate="Date:">Date:</span> ${formatDate(loan.date)}
-            </div>
-            <div>
-              <span class="detail-label" data-translate="Due:">Due:</span> ${loan.dueDate ? formatDate(loan.dueDate) : '-'}
-            </div>
-            <div>
-              <span class="detail-label" data-translate="Status:">Status:</span> ${getStatusBadge(loan.status)}
-            </div>
-          </div>
-          <div class="loan-actions">
-            <button class="action-btn whatsapp-btn" data-id="${loan.id}" title="Send WhatsApp reminder">
-              <i class="fab fa-whatsapp"></i>
-            </button>
-            <button class="action-btn edit-btn" data-id="${loan.id}" title="Edit">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="action-btn delete-btn" data-id="${loan.id}" title="Delete">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>`;
-
-        mobileLoanList.appendChild(item);
-
-        item.querySelector('.edit-btn').addEventListener('click', () => editLoan(loan.id));
-        item.querySelector('.delete-btn').addEventListener('click', () => deleteLoan(loan.id));
-        item.querySelector('.whatsapp-btn').addEventListener('click', () => openWhatsappModal(loan));
-      });
-    }
-
-    function openWhatsappModal(loan) {
-      selectedLoanForWhatsapp = loan;
-      
-      // Generate default message
-      let message = `Hi ${loan.name},\n\n`;
-      message += `This is a reminder about the loan of *RS${loan.amount.toLocaleString('en-IN')}* `;
-      message += loan.type === 'given' ? 'that you owe me.' : 'that I owe you.';
-      message += `\n\n*Loan Details:*\n`;
-      message += `- Date: ${formatDate(loan.date)}\n`;
-      if (loan.dueDate) {
-        message += `- Due Date: ${formatDate(loan.dueDate)}\n`;
-      }
-      message += `- Status: ${loan.status.charAt(0).toUpperCase() + loan.status.slice(1)}\n`;
-      if (loan.note && loan.note !== 'No note') {
-        message += `- Note: ${loan.note}\n`;
-      }
-      message += `\nPlease let me know if you have any questions.`;
-      
-      whatsappMessage.value = message;
-      whatsappModal.style.display = 'flex';
-    }
-
-    function sendWhatsappMessage() {
-      if (!selectedLoanForWhatsapp) return;
-      
-      const message = encodeURIComponent(whatsappMessage.value);
-      window.open(`https://wa.me/?text=${message}`, '_blank');
-      whatsappModal.style.display = 'none';
-    }
-
-    function deleteLoan(loanId) {
-      const user = auth.currentUser;
-      if (!user) return alert("Login first");
-
-      const confirmDelete = confirm("Are you sure you want to delete this loan?");
-      if (!confirmDelete) return;
-
-      db.collection("users").doc(user.uid)
-        .collection("loans").doc(loanId)
-        .delete()
-        .then(() => showToast("Loan deleted successfully!"))
-        .catch(err => alert("Error deleting loan: " + err.message));
-    }
-
-    function editLoan(loanId) {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const loan = loans.find(l => l.id === loanId);
-      if (!loan) return alert("Loan not found");
-
-      editingLoanId = loanId;
-
-      // Pre-fill the form
-      document.getElementById('loanName').value = loan.name;
-      document.getElementById('loanAmount').value = loan.amount;
-      document.getElementById('loanType').value = loan.type;
-      document.getElementById('loanDate').value = loan.date;
-      document.getElementById('dueDate').value = loan.dueDate;
-      document.getElementById('loanStatus').value = loan.status;
-      document.getElementById('loanNote').value = loan.note;
-
-      // Pre-fill mobile form
-      document.getElementById('mobileLoanName').value = loan.name;
-      document.getElementById('mobileLoanAmount').value = loan.amount;
-      document.getElementById('mobileLoanType').value = loan.type;
-      document.getElementById('mobileLoanDate').value = loan.date;
-      document.getElementById('mobileDueDate').value = loan.dueDate;
-      document.getElementById('mobileLoanStatus').value = loan.status;
-      document.getElementById('mobileLoanNote').value = loan.note;
-
-      // Update button text
-      addLoanBtn.innerHTML = '<i class="fas fa-save"></i> Update Loan';
-      document.getElementById('mobileAddLoanBtn').innerHTML = '<i class="fas fa-save"></i> Update Loan';
-
-      // Show form
-      if (window.innerWidth >= 768) {
-        formCard.classList.remove('hidden');
-        formCard.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        loanModal.style.display = 'flex';
-      }
-    }
-
-    function filterLoans() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const typeValue = typeFilter.value;
-      const statusValue = statusFilter.value;
-
-      const filtered = loans.filter(loan => {
-        const matchesSearch = loan.name.toLowerCase().includes(searchTerm) || loan.note.toLowerCase().includes(searchTerm);
-        const matchesType = typeValue === 'all' || loan.type === typeValue;
-        const matchesStatus = statusValue === 'all' || loan.status === statusValue;
-        return matchesSearch && matchesType && matchesStatus;
-      });
-
-      renderLoans(filtered);
-    }
-
+    
     function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      
       toastMessage.textContent = message;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
-
-    function addNewLoan() {
-      const user = auth.currentUser;
-      if (!user) return alert("Login first.");
-
-      let name, amount, type, date, dueDate, status, note;
-
-      if (window.innerWidth >= 768) {
-        name = document.getElementById('loanName').value.trim();
-        amount = parseFloat(document.getElementById('loanAmount').value);
-        type = document.getElementById('loanType').value;
-        date = document.getElementById('loanDate').value;
-        dueDate = document.getElementById('dueDate').value;
-        status = document.getElementById('loanStatus').value;
-        note = document.getElementById('loanNote').value.trim() || 'No note';
-      } else {
-        name = document.getElementById('mobileLoanName').value.trim();
-        amount = parseFloat(document.getElementById('mobileLoanAmount').value);
-        type = document.getElementById('mobileLoanType').value;
-        date = document.getElementById('mobileLoanDate').value;
-        dueDate = document.getElementById('mobileDueDate').value;
-        status = document.getElementById('mobileLoanStatus').value;
-        note = document.getElementById('mobileLoanNote').value.trim() || 'No note';
-      }
-
-      if (!name || isNaN(amount)) return alert("Enter valid name and amount.");
-
-      if (editingLoanId) {
-        // EDIT MODE
-        db.collection("users").doc(user.uid)
-          .collection("loans").doc(editingLoanId)
-          .update({ name, amount, type, date, dueDate, status, note })
-          .then(() => {
-            showToast("Loan updated successfully!");
-            editingLoanId = null;
-            
-            // Reset button text
-            addLoanBtn.innerHTML = '<i class="fas fa-plus"></i> Add Loan';
-            document.getElementById('mobileAddLoanBtn').innerHTML = '<i class="fas fa-plus"></i> Add Loan';
-            
-            // Hide form
-            hideForm();
-          })
-          .catch(err => alert("Error updating loan: " + err.message));
-      } else {
-        // ADD MODE
-        db.collection("users").doc(user.uid).collection("loans").add({
-          name, amount, type, date, dueDate, status, note,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
-          showToast("Loan added successfully!");
-          hideForm();
-        }).catch(err => alert("Error: " + err.message));
-      }
-    }
     
-    function hideForm() {
-      if (window.innerWidth >= 768) {
-        formCard.classList.add('hidden');
-      } else {
-        loanModal.style.display = 'none';
-      }
-    }
-
-    function fetchLoans() {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      db.collection("users").doc(user.uid)
-        .collection("loans")
-        .orderBy("createdAt", "desc")
-        .onSnapshot(snapshot => {
-          loans = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          renderLoans(loans);
-          updateStats(loans);
-        });
-    }
-
-    function updateStats(loans) {
-      const totalGiven = loans.filter(l => l.type === 'given').reduce((sum, l) => sum + l.amount, 0);
-      const totalTaken = loans.filter(l => l.type === 'taken').reduce((sum, l) => sum + l.amount, 0);
-      const netBalance = totalGiven - totalTaken;
-
-      document.getElementById('totalGiven').textContent = formatCurrency(totalGiven);
-      document.getElementById('totalTaken').textContent = formatCurrency(totalTaken);
-      document.getElementById('netBalance').textContent = formatCurrency(netBalance);
-
-      // Optional: Monthly trend calculation
-      const now = new Date();
-      const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-
-      const lastMonthGiven = loans.filter(l => l.type === 'given' && new Date(l.date) >= lastMonth)
-                                  .reduce((sum, l) => sum + l.amount, 0);
-
-      const lastMonthTaken = loans.filter(l => l.type === 'taken' && new Date(l.date) >= lastMonth)
-                                  .reduce((sum, l) => sum + l.amount, 0);
-
-      const givenTrend = totalGiven ? Math.round((lastMonthGiven / totalGiven) * 100) : 0;
-      const takenTrend = totalTaken ? Math.round((lastMonthTaken / totalTaken) * 100) : 0;
-      const balanceTrend = netBalance ? Math.round(((lastMonthGiven - lastMonthTaken) / netBalance) * 100) : 0;
-
-      document.getElementById('givenTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${givenTrend}% from last month`;
-      document.getElementById('takenTrend').innerHTML = `<i class="fas fa-arrow-down"></i> ${takenTrend}% from last month`;
-      document.getElementById('balanceTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${balanceTrend}% from last month`;
-    }
-
-    function exportToPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF('p', 'pt', 'a4');
-
-      doc.setFontSize(18).text('EasyKharcha - Loan Report', 40, 40);
-      doc.setFontSize(12).setTextColor(100).text(`Generated: ${new Date().toLocaleDateString()}`, 40, 60);
-
-      const totalGiven = loans.filter(l => l.type === 'given').reduce((sum, l) => sum + l.amount, 0);
-      const totalTaken = loans.filter(l => l.type === 'taken').reduce((sum, l) => sum + l.amount, 0);
-      const netBalance = totalGiven - totalTaken;
-
-      doc.setFontSize(14).setTextColor(0).text('Summary', 40, 90);
-      doc.setFontSize(12).text(`Total Given: RS${totalGiven.toLocaleString('en-IN')}`, 50, 115);
-      doc.text(`Total Taken: RS${totalTaken.toLocaleString('en-IN')}`, 50, 135);
-      doc.text(`Net Balance: RS${netBalance.toLocaleString('en-IN')}`, 50, 155);
-
-      doc.setTextColor(255).setFillColor(37, 99, 235).rect(40, 180, 520, 20, 'F');
-      doc.text('Name', 45, 193);
-      doc.text('Amount', 200, 193);
-      doc.text('Type', 300, 193);
-      doc.text('Date', 350, 193);
-      doc.text('Status', 450, 193);
-
-      doc.setTextColor(0);
-      let y = 210;
-      loans.forEach((loan, i) => {
-        if (y > 700) { doc.addPage(); y = 40; }
-        doc.setFontSize(10);
-        doc.text(loan.name, 45, y);
-        doc.text(`RS${loan.amount.toLocaleString('en-IN')}`, 200, y);
-        doc.text(loan.type === 'given' ? 'Given' : 'Taken', 300, y);
-        doc.text(formatDate(loan.date), 350, y);
-        doc.text(loan.status.charAt(0).toUpperCase() + loan.status.slice(1), 450, y);
-        y += 20;
-      });
-
-      doc.save(`EasyKharcha-Loans-${new Date().toISOString().slice(0, 10)}.pdf`);
-    }
-
-    function init() {
-      const today = new Date();
-      document.getElementById('loanDate').valueAsDate = today;
-      document.getElementById('mobileLoanDate').valueAsDate = today;
-
-      const dueDate = new Date();
-      dueDate.setDate(today.getDate() + 30);
-      document.getElementById('dueDate').valueAsDate = dueDate;
-      document.getElementById('mobileDueDate').valueAsDate = dueDate;
-
-      // Event Listeners
-      addLoanBtn.addEventListener('click', addNewLoan);
-      mobileAddLoanBtn.addEventListener('click', addNewLoan);
-      searchInput.addEventListener('input', filterLoans);
-      applyFilters.addEventListener('click', filterLoans);
+    function calculateLoanTotal() {
+      let subtotal = 0;
+      const productItems = document.getElementById('productItems');
+      const productRows = productItems.querySelectorAll('.product-item');
+      let hasValidProduct = false;
       
-      
-      fabButton.addEventListener('click', function() {
-        if (window.innerWidth < 768) {
-          loanModal.style.display = 'flex';
-        } else {
-          formCard.classList.remove('hidden');
-          formCard.scrollIntoView({ behavior: 'smooth' });
+      productRows.forEach(row => {
+        const qty = parseFloat(row.querySelector('.product-qty').value) || 0;
+        const rate = parseFloat(row.querySelector('.product-rate').value) || 0;
+        
+        if (qty > 0 && rate > 0) {
+          subtotal += qty * rate;
+          hasValidProduct = true;
         }
       });
       
-      closeModal.addEventListener('click', () => loanModal.style.display = 'none');
-      window.addEventListener('click', e => {
-        if (e.target === loanModal) loanModal.style.display = 'none';
+      const discount = parseFloat(document.getElementById('loanDiscount').value) || 0;
+      const tax = parseFloat(document.getElementById('loanTax').value) || 0;
+      
+      const total = subtotal - discount + (subtotal * (tax / 100));
+      document.getElementById('loanTotal').value = total.toFixed(2);
+      
+      // Update error state
+      const productError = document.getElementById('productError');
+      if (!hasValidProduct) {
+        productError.style.display = 'block';
+      } else {
+        productError.style.display = 'none';
+      }
+    }
+    
+    function updateLoanStatus(loanId) {
+      const loan = loans.find(l => l.id === loanId);
+      if (!loan) return;
+
+      const loanRepayments = repayments.filter(r => r.loanId === loanId);
+      const totalRepaid = loanRepayments.reduce((sum, r) => r.amount ? sum + r.amount : sum, 0);
+      
+      let status = 'active';
+      if (totalRepaid >= loan.total) {
+        status = 'closed';
+      } else if (loan.dueDate && new Date(loan.dueDate) < new Date()) {
+        status = 'overdue';
+      }
+
+      if (loan.status !== status) {
+        db.collection("loans").doc(loanId).update({ status });
+      }
+    }
+    
+    // ========== MODAL FUNCTIONS ==========
+    function openCustomerModal(customer = null) {
+      editingCustomerId = customer?.id || null;
+      
+      if (customer) {
+        document.getElementById('customerModalTitle').textContent = 'Edit Customer';
+        document.getElementById('customerName').value = customer.name;
+        document.getElementById('customerPhone').value = customer.phone || '';
+        document.getElementById('customerAddress').value = customer.address || '';
+        document.getElementById('openingBalance').value = customer.openingBalance || 0;
+        
+        if (customer.photoURL) {
+          document.getElementById('customerDetailPhoto').src = customer.photoURL;
+        }
+      } else {
+        document.getElementById('customerModalTitle').textContent = 'Add Customer';
+        document.getElementById('customerForm').reset();
+        document.getElementById('customerDetailPhoto').src = 'https://via.placeholder.com/150';
+      }
+      
+      document.getElementById('customerModal').style.display = 'flex';
+    }
+    
+    function openLoanModal(loan = null) {
+      editingLoanId = loan?.id || null;
+      
+      if (loan) {
+        document.getElementById('loanModalTitle').textContent = 'Edit Loan';
+        document.getElementById('loanCustomer').value = loan.customerId;
+        document.getElementById('loanDate').value = loan.date;
+        document.getElementById('loanDueDate').value = loan.dueDate || '';
+        document.getElementById('loanDiscount').value = loan.discount || 0;
+        document.getElementById('loanTax').value = loan.tax || 0;
+        document.getElementById('loanTotal').value = loan.total || 0;
+        document.getElementById('loanNote').value = loan.note || '';
+        
+        // Render product items
+        const productItems = document.getElementById('productItems');
+        productItems.innerHTML = '';
+        
+        if (loan.items && loan.items.length > 0) {
+          loan.items.forEach(item => {
+            addProductRow(item);
+          });
+        } else {
+          addProductRow();
+        }
+      } else {
+        document.getElementById('loanModalTitle').textContent = 'New Loan';
+        document.getElementById('loanForm').reset();
+        document.getElementById('loanDate').valueAsDate = new Date();
+        
+        // Set default due date (30 days from now)
+        const dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 30);
+        document.getElementById('loanDueDate').valueAsDate = dueDate;
+        
+        renderLoanProductsDropdown();
+      }
+      
+      document.getElementById('loanModal').style.display = 'flex';
+    }
+    
+    function openRepaymentModal() {
+      document.getElementById('repaymentForm').reset();
+      document.getElementById('repaymentDate').valueAsDate = new Date();
+      document.getElementById('repaymentModal').style.display = 'flex';
+    }
+    
+    function viewCustomerDetails(customerId) {
+      selectedCustomer = customers.find(c => c.id === customerId);
+      if (!selectedCustomer) return;
+      
+      // Set default date range (last 30 days)
+      const toDate = new Date();
+      const fromDate = new Date();
+      fromDate.setDate(toDate.getDate() - 30);
+      
+      document.getElementById('customerDateFrom').valueAsDate = fromDate;
+      document.getElementById('customerDateTo').valueAsDate = toDate;
+      
+      renderCustomerLedger(customerId, fromDate, toDate);
+      document.getElementById('customerDetailModal').style.display = 'flex';
+    }
+    
+    function openWhatsappModal(customer) {
+      selectedCustomer = customer;
+      
+      // Generate default message
+      let message = `Hi ${customer.name},\n\n`;
+      message += `This is a friendly reminder about your outstanding balance with us.\n\n`;
+      message += `Please let us know when we can expect your payment.\n\n`;
+      message += `Thank you,\n${document.querySelector('.logo-text').textContent}`;
+      
+      document.getElementById('whatsappMessage').value = message;
+      document.getElementById('whatsappModal').style.display = 'flex';
+    }
+    
+    // ========== RENDER FUNCTIONS ==========
+    function renderCustomers(customersToRender) {
+      const loansTableBody = document.getElementById('loansTableBody');
+      const customerCards = document.getElementById('customerCards');
+      
+      // Clear existing content
+      loansTableBody.innerHTML = '';
+      customerCards.innerHTML = '';
+      
+      if (customersToRender.length === 0) {
+        const emptyMessage = `
+          <tr><td colspan="8">
+            <div class="empty-state">
+              <i class="fas fa-user-slash"></i>
+              <h3 data-translate="No Customers Found">No Customers Found</h3>
+              <p data-translate="Add your first customer to get started">Add your first customer to get started</p>
+            </div>
+          </td></tr>`;
+        
+        loansTableBody.innerHTML = emptyMessage;
+        customerCards.innerHTML = emptyMessage;
+        return;
+      }
+      
+      // Render desktop table
+      customersToRender.forEach(customer => {
+        // Calculate customer totals
+        const customerLoans = loans.filter(loan => loan.customerId === customer.id);
+        const given = customerLoans.filter(loan => loan.type === 'given').reduce((sum, loan) => sum + (loan.total || 0), 0);
+        const received = customerLoans.filter(loan => loan.type === 'taken').reduce((sum, loan) => sum + (loan.total || 0), 0);
+        const balance = given - received;
+        
+        // Determine status
+        let status = 'active';
+        const overdueLoans = customerLoans.filter(loan => {
+          const dueDate = new Date(loan.dueDate);
+          return loan.status === 'active' && dueDate < new Date();
+        });
+        
+        if (overdueLoans.length > 0) {
+          status = 'overdue';
+        } else if (balance === 0 && customerLoans.length > 0) {
+          status = 'closed';
+        }
+        
+        // Last activity date
+        const lastActivity = customerLoans.length > 0 ? 
+          customerLoans.reduce((latest, loan) => {
+            const loanDate = new Date(loan.date);
+            return loanDate > latest ? loanDate : latest;
+          }, new Date(0)) : null;
+        
+        // Create table row
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${customer.name}</td>
+          <td>${customer.phone || '-'}</td>
+          <td>${formatCurrency(given)}</td>
+          <td>${formatCurrency(received)}</td>
+          <td class="${balance >= 0 ? 'type-given' : 'type-taken'}">
+            ${formatCurrency(Math.abs(balance))}
+          </td>
+          <td>${getStatusBadge(status)}</td>
+          <td>${lastActivity ? formatDate(lastActivity) : '-'}</td>
+          <td class="action-cell">
+            <button class="action-btn whatsapp-btn" data-id="${customer.id}" title="Send WhatsApp reminder">
+              <i class="fab fa-whatsapp"></i>
+            </button>
+            <button class="action-btn edit-btn" data-id="${customer.id}" title="View Details">
+              <i class="fas fa-eye"></i>
+            </button>
+          </td>`;
+        
+        loansTableBody.appendChild(row);
+        
+        // Add event listeners
+        row.querySelector('.whatsapp-btn').addEventListener('click', () => openWhatsappModal(customer));
+        row.querySelector('.edit-btn').addEventListener('click', () => viewCustomerDetails(customer.id));
       });
       
-      closeWhatsappModal.addEventListener('click', () => whatsappModal.style.display = 'none');
-      cancelWhatsapp.addEventListener('click', () => whatsappModal.style.display = 'none');
-      sendWhatsapp.addEventListener('click', sendWhatsappMessage);
-      window.addEventListener('click', e => {
-        if (e.target === whatsappModal) whatsappModal.style.display = 'none';
+      // Render mobile cards
+      customersToRender.forEach(customer => {
+        // Calculate customer totals
+        const customerLoans = loans.filter(loan => loan.customerId === customer.id);
+        const given = customerLoans.filter(loan => loan.type === 'given').reduce((sum, loan) => sum + (loan.total || 0), 0);
+        const received = customerLoans.filter(loan => loan.type === 'taken').reduce((sum, loan) => sum + (loan.total || 0), 0);
+        const balance = given - received;
+        
+        // Determine status
+        let status = 'active';
+        const overdueLoans = customerLoans.filter(loan => {
+          const dueDate = new Date(loan.dueDate);
+          return loan.status === 'active' && dueDate < new Date();
+        });
+        
+        if (overdueLoans.length > 0) {
+          status = 'overdue';
+        } else if (balance === 0 && customerLoans.length > 0) {
+          status = 'closed';
+        }
+        
+        // Create card
+        const card = document.createElement('div');
+        card.className = 'customer-card';
+        card.innerHTML = `
+          <div class="customer-header">
+            <div class="customer-name">${customer.name}</div>
+            <div class="customer-balance ${balance >= 0 ? 'balance-positive' : 'balance-negative'}">
+              ${formatCurrency(Math.abs(balance))}
+            </div>
+          </div>
+          <div class="customer-details">
+            <div>
+              <span class="detail-label" data-translate="Phone:">Phone:</span> ${customer.phone || '-'}
+            </div>
+            <div>
+              <span class="detail-label" data-translate="Given:">Given:</span> ${formatCurrency(given)}
+            </div>
+            <div>
+              <span class="detail-label" data-translate="Received:">Received:</span> ${formatCurrency(received)}
+            </div>
+            <div>
+              <span class="detail-label" data-translate="Status:">Status:</span> ${getStatusBadge(status)}
+            </div>
+          </div>
+          <div class="customer-actions">
+            <button class="action-btn whatsapp-btn" data-id="${customer.id}" title="Send WhatsApp reminder">
+              <i class="fab fa-whatsapp"></i>
+            </button>
+            <button class="action-btn edit-btn" data-id="${customer.id}" title="View Details">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>`;
+        
+        customerCards.appendChild(card);
+        
+        // Add event listeners
+        card.querySelector('.whatsapp-btn').addEventListener('click', () => openWhatsappModal(customer));
+        card.querySelector('.edit-btn').addEventListener('click', () => viewCustomerDetails(customer.id));
       });
-
+    }
+    
+    function renderCustomerLedger(customerId, fromDate = null, toDate = null) {
+      const customer = customers.find(c => c.id === customerId);
+      if (!customer) return;
+      
+      // Set customer details in modal
+      document.getElementById('customerDetailTitle').textContent = customer.name;
+      document.getElementById('customerDetailName').textContent = customer.name;
+      document.getElementById('customerDetailPhone').innerHTML = customer.phone ? `<i class="fas fa-phone"></i> ${customer.phone}` : '<i class="fas fa-phone"></i> Not provided';
+      document.getElementById('customerDetailAddress').innerHTML = customer.address ? `<i class="fas fa-map-marker-alt"></i> ${customer.address}` : '<i class="fas fa-map-marker-alt"></i> Not provided';
+      document.getElementById('customerDetailPhoto').src = customer.photoURL || 'https://via.placeholder.com/150';
+      
+      // Filter loans and repayments by date range
+      let customerLoans = loans.filter(loan => loan.customerId === customerId);
+      let customerRepayments = repayments.filter(repayment => repayment.customerId === customerId);
+      
+      if (fromDate) {
+        const from = new Date(fromDate);
+        customerLoans = customerLoans.filter(loan => new Date(loan.date) >= from);
+        customerRepayments = customerRepayments.filter(repayment => new Date(repayment.paidAt) >= from);
+      }
+      
+      if (toDate) {
+        const to = new Date(toDate);
+        customerLoans = customerLoans.filter(loan => new Date(loan.date) <= to);
+        customerRepayments = customerRepayments.filter(repayment => new Date(repayment.paidAt) <= to);
+      }
+      
+      // Calculate totals
+      const given = customerLoans.filter(loan => loan.type === 'given').reduce((sum, loan) => sum + (loan.total || 0), 0);
+      const received = customerLoans.filter(loan => loan.type === 'taken').reduce((sum, loan) => sum + (loan.total || 0), 0);
+      const balance = given - received;
+      
+      document.getElementById('customerTotalGiven').textContent = formatCurrency(given);
+      document.getElementById('customerTotalReceived').textContent = formatCurrency(received);
+      document.getElementById('customerBalance').textContent = formatCurrency(balance);
+      
+      // Combine loans and repayments into ledger entries
+      const ledgerEntries = [];
+      
+      customerLoans.forEach(loan => {
+        ledgerEntries.push({
+          date: loan.date,
+          type: 'loan',
+          amount: loan.type === 'given' ? loan.total : -loan.total,
+          note: loan.note || 'Loan'
+        });
+      });
+      
+      customerRepayments.forEach(repayment => {
+        ledgerEntries.push({
+          date: repayment.paidAt,
+          type: 'repayment',
+          amount: repayment.amount,
+          note: repayment.note || 'Repayment'
+        });
+      });
+      
+      // Sort by date
+      ledgerEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Calculate running balance
+      let runningBalance = 0;
+      ledgerEntries.forEach(entry => {
+        runningBalance += entry.amount;
+        entry.balance = runningBalance;
+      });
+      
+      // Reverse to show oldest first
+      ledgerEntries.reverse();
+      
+      // Render ledger
+      const customerLedgerBody = document.getElementById('customerLedgerBody');
+      customerLedgerBody.innerHTML = '';
+      
+      if (ledgerEntries.length === 0) {
+        customerLedgerBody.innerHTML = `
+          <tr><td colspan="5">
+            <div class="empty-state">
+              <i class="fas fa-file-invoice-dollar"></i>
+              <h3 data-translate="No Transactions Found">No Transactions Found</h3>
+            </div>
+          </td></tr>`;
+        return;
+      }
+      
+      ledgerEntries.forEach(entry => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${formatDate(entry.date)}</td>
+          <td>${entry.type === 'loan' ? 'Loan' : 'Repayment'}</td>
+          <td class="${entry.amount >= 0 ? 'type-given' : 'type-taken'}">
+            ${formatCurrency(Math.abs(entry.amount))}
+          </td>
+          <td class="${entry.balance >= 0 ? 'type-given' : 'type-taken'}">
+            ${formatCurrency(Math.abs(entry.balance))}
+          </td>
+          <td>${entry.note}</td>`;
+        
+        customerLedgerBody.appendChild(row);
+      });
+    }
+    
+    function renderLoanCustomerDropdown() {
+      const loanCustomer = document.getElementById('loanCustomer');
+      const repaymentCustomer = document.getElementById('repaymentCustomer');
+      
+      loanCustomer.innerHTML = '<option value="" data-translate="Select Customer">Select Customer</option>';
+      repaymentCustomer.innerHTML = '<option value="" data-translate="Select Customer">Select Customer</option>';
+      
+      customers.forEach(customer => {
+        const option = document.createElement('option');
+        option.value = customer.id;
+        option.textContent = customer.name;
+        
+        loanCustomer.appendChild(option.cloneNode(true));
+        repaymentCustomer.appendChild(option);
+      });
+    }
+    
+    function renderLoanProductsDropdown() {
+      const productItems = document.getElementById('productItems');
+      productItems.innerHTML = '';
+      addProductRow();
+    }
+    
+    function addProductRow(product = null) {
+      const productItems = document.getElementById('productItems');
+      const row = document.createElement('div');
+      row.className = 'product-item';
+      
+      // Product select
+      const productSelect = document.createElement('select');
+      productSelect.className = 'product-select';
+      productSelect.innerHTML = '<option value="" data-translate="Select Product">Select Product</option>';
+      
+      products.forEach(prod => {
+        const option = document.createElement('option');
+        option.value = prod.id;
+        option.textContent = prod.name;
+        option.dataset.rate = prod.rate;
+        if (product && product.productId === prod.id) {
+          option.selected = true;
+        }
+        productSelect.appendChild(option);
+      });
+      
+      // Quantity input
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.className = 'product-qty';
+      qtyInput.placeholder = 'Qty';
+      qtyInput.min = '1';
+      qtyInput.value = product?.qty || '1';
+      qtyInput.required = true;
+      
+      // Rate input
+      const rateInput = document.createElement('input');
+      rateInput.type = 'number';
+      rateInput.className = 'product-rate';
+      rateInput.placeholder = 'Rate';
+      rateInput.min = '0';
+      rateInput.step = '0.01';
+      rateInput.value = product?.rate || '';
+      rateInput.required = true;
+      
+      // Remove button
+      const removeBtn = document.createElement('i');
+      removeBtn.className = 'fas fa-times product-remove';
+      removeBtn.title = 'Remove product';
+      
+      // Add to row
+      row.appendChild(productSelect);
+      row.appendChild(qtyInput);
+      row.appendChild(rateInput);
+      row.appendChild(removeBtn);
+      
+      // Add event listeners
+      productSelect.addEventListener('change', (e) => {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        if (selectedOption.dataset.rate) {
+          rateInput.value = selectedOption.dataset.rate;
+          calculateLoanTotal();
+        }
+      });
+      
+      qtyInput.addEventListener('input', calculateLoanTotal);
+      rateInput.addEventListener('input', calculateLoanTotal);
+      removeBtn.addEventListener('click', () => {
+        row.remove();
+        calculateLoanTotal();
+      });
+      
+      productItems.appendChild(row);
+      calculateLoanTotal();
+    }
+    
+    function renderLoanDropdown(customerId) {
+      const repaymentLoan = document.getElementById('repaymentLoan');
+      repaymentLoan.innerHTML = '<option value="" data-translate="Select Loan">Select Loan</option>';
+      
+      if (!customerId) return;
+      
+      const customerLoans = loans.filter(loan => loan.customerId === customerId && loan.status === 'active');
+      
+      customerLoans.forEach(loan => {
+        const option = document.createElement('option');
+        option.value = loan.id;
+        option.textContent = `${formatDate(loan.date)} - ${formatCurrency(loan.total)} (Due: ${loan.dueDate ? formatDate(loan.dueDate) : 'None'})`;
+        repaymentLoan.appendChild(option);
+      });
+    }
+    
+    // ========== DATA OPERATIONS ==========
+    async function saveCustomer() {
+      const user = auth.currentUser;
+      if (!user) return alert("Please log in to save customers.");
+      
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      
+      // Validation
+      let isValid = true;
+      if (!name) {
+        document.getElementById('customerName').classList.add('input-error');
+        document.getElementById('nameError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('customerName').classList.remove('input-error');
+        document.getElementById('nameError').style.display = 'none';
+      }
+      
+      if (!phone) {
+        document.getElementById('customerPhone').classList.add('input-error');
+        document.getElementById('phoneError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('customerPhone').classList.remove('input-error');
+        document.getElementById('phoneError').style.display = 'none';
+      }
+      
+      if (!isValid) return;
+      
+      const customerData = {
+        name,
+        phone,
+        address: document.getElementById('customerAddress').value.trim(),
+        openingBalance: parseFloat(document.getElementById('openingBalance').value) || 0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      
+      try {
+        if (editingCustomerId) {
+          await db.collection("customers").doc(editingCustomerId).update(customerData);
+          showToast("Customer updated successfully!");
+        } else {
+          await db.collection("customers").add(customerData);
+          showToast("Customer added successfully!");
+        }
+        
+        document.getElementById('customerModal').style.display = 'none';
+      } catch (error) {
+        console.error("Error saving customer:", error);
+        alert("Error saving customer: " + error.message);
+      }
+    }
+    
+    async function saveLoan() {
+      const user = auth.currentUser;
+      if (!user) return alert("Please log in to save loans.");
+      
+      // Validate customer selection
+      const loanCustomer = document.getElementById('loanCustomer').value;
+      const loanDate = document.getElementById('loanDate').value;
+      
+      let isValid = true;
+      if (!loanCustomer) {
+        document.getElementById('loanCustomer').classList.add('input-error');
+        document.getElementById('customerError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('loanCustomer').classList.remove('input-error');
+        document.getElementById('customerError').style.display = 'none';
+      }
+      
+      if (!loanDate) {
+        document.getElementById('loanDate').classList.add('input-error');
+        document.getElementById('dateError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('loanDate').classList.remove('input-error');
+        document.getElementById('dateError').style.display = 'none';
+      }
+      
+      // Collect product items
+      const items = [];
+      const productItems = document.getElementById('productItems');
+      const productRows = productItems.querySelectorAll('.product-item');
+      
+      productRows.forEach(row => {
+        const productId = row.querySelector('.product-select').value;
+        const productName = row.querySelector('.product-select').options[row.querySelector('.product-select').selectedIndex]?.text || 'Custom';
+        const qty = parseFloat(row.querySelector('.product-qty').value) || 0;
+        const rate = parseFloat(row.querySelector('.product-rate').value) || 0;
+        
+        if (productId && qty > 0 && rate > 0) {
+          items.push({
+            productId,
+            name: productName,
+            qty,
+            rate
+          });
+        }
+      });
+      
+      if (items.length === 0) {
+        document.getElementById('productError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('productError').style.display = 'none';
+      }
+      
+      if (!isValid) return;
+      
+      // Calculate totals
+      const subtotal = items.reduce((sum, item) => sum + (item.qty * item.rate), 0);
+      const discount = parseFloat(document.getElementById('loanDiscount').value) || 0;
+      const tax = parseFloat(document.getElementById('loanTax').value) || 0;
+      const total = subtotal - discount + (subtotal * (tax / 100));
+      
+      // Determine status
+      let status = 'active';
+      if (document.getElementById('loanDueDate').value) {
+        const dueDate = new Date(document.getElementById('loanDueDate').value);
+        if (dueDate < new Date()) {
+          status = 'overdue';
+        }
+      }
+      
+      const loanData = {
+        customerId: loanCustomer,
+        date: loanDate,
+        dueDate: document.getElementById('loanDueDate').value || null,
+        items,
+        subtotal,
+        discount,
+        tax,
+        total,
+        status,
+        note: document.getElementById('loanNote').value.trim(),
+        type: 'given', // Assuming all loans are given in this system
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      
+      try {
+        if (editingLoanId) {
+          await db.collection("loans").doc(editingLoanId).update(loanData);
+          showToast("Loan updated successfully!");
+        } else {
+          await db.collection("loans").add(loanData);
+          showToast("Loan added successfully!");
+        }
+        
+        document.getElementById('loanModal').style.display = 'none';
+      } catch (error) {
+        console.error("Error saving loan:", error);
+        alert("Error saving loan: " + error.message);
+      }
+    }
+    
+    async function saveRepayment() {
+      const user = auth.currentUser;
+      if (!user) return alert("Please log in to record repayments.");
+      
+      // Validate inputs
+      const repaymentCustomer = document.getElementById('repaymentCustomer').value;
+      const repaymentLoan = document.getElementById('repaymentLoan').value;
+      const repaymentAmount = parseFloat(document.getElementById('repaymentAmount').value);
+      const repaymentDate = document.getElementById('repaymentDate').value;
+      
+      let isValid = true;
+      
+      if (!repaymentCustomer) {
+        document.getElementById('repaymentCustomer').classList.add('input-error');
+        document.getElementById('repaymentCustomerError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('repaymentCustomer').classList.remove('input-error');
+        document.getElementById('repaymentCustomerError').style.display = 'none';
+      }
+      
+      if (!repaymentLoan) {
+        document.getElementById('repaymentLoan').classList.add('input-error');
+        document.getElementById('repaymentLoanError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('repaymentLoan').classList.remove('input-error');
+        document.getElementById('repaymentLoanError').style.display = 'none';
+      }
+      
+      if (isNaN(repaymentAmount) || repaymentAmount <= 0) {
+        document.getElementById('repaymentAmount').classList.add('input-error');
+        document.getElementById('repaymentAmountError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('repaymentAmount').classList.remove('input-error');
+        document.getElementById('repaymentAmountError').style.display = 'none';
+      }
+      
+      if (!repaymentDate) {
+        document.getElementById('repaymentDate').classList.add('input-error');
+        document.getElementById('repaymentDateError').style.display = 'block';
+        isValid = false;
+      } else {
+        document.getElementById('repaymentDate').classList.remove('input-error');
+        document.getElementById('repaymentDateError').style.display = 'none';
+      }
+      
+      if (!isValid) return;
+      
+      const repaymentData = {
+        customerId: repaymentCustomer,
+        loanId: repaymentLoan,
+        amount: repaymentAmount,
+        paidAt: repaymentDate,
+        method: document.getElementById('repaymentMethod').value,
+        note: document.getElementById('repaymentNote').value.trim(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      
+      try {
+        await db.collection("repayments").add(repaymentData);
+        showToast("Repayment recorded successfully!");
+        document.getElementById('repaymentModal').style.display = 'none';
+      } catch (error) {
+        console.error("Error saving repayment:", error);
+        alert("Error saving repayment: " + error.message);
+      }
+    }
+    
+    function sendWhatsappMessage() {
+      if (!selectedCustomer?.phone) {
+        alert("Customer doesn't have a phone number saved.");
+        return;
+      }
+      
+      const message = encodeURIComponent(document.getElementById('whatsappMessage').value);
+      const phone = selectedCustomer.phone.replace(/[^0-9]/g, '');
+      
+      // Create WhatsApp deep link
+      const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+      
+      // Try to open WhatsApp, fallback to copy to clipboard
+      window.open(whatsappUrl, '_blank');
+      
+      // Fallback: Copy message to clipboard
+      navigator.clipboard.writeText(document.getElementById('whatsappMessage').value)
+        .then(() => {
+          showToast("Message copied to clipboard. Please paste it in WhatsApp.");
+        })
+        .catch(err => {
+          console.error("Could not copy text: ", err);
+        });
+      
+      document.getElementById('whatsappModal').style.display = 'none';
+    }
+    
+    function exportCustomerPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'pt', 'a4');
+      
+      // Customer info
+      doc.setFontSize(18).text(selectedCustomer.name, 40, 40);
+      doc.setFontSize(12).setTextColor(100).text(`Phone: ${selectedCustomer.phone || 'Not provided'}`, 40, 60);
+      doc.text(`Address: ${selectedCustomer.address || 'Not provided'}`, 40, 80);
+      doc.text(`Generated: ${new Date().toLocaleDateString()}`, 40, 100);
+      
+      // Summary
+      doc.setFontSize(14).setTextColor(0).text('Summary', 40, 130);
+      doc.setFontSize(12).text(`Total Given: ${document.getElementById('customerTotalGiven').textContent}`, 50, 155);
+      doc.text(`Total Received: ${document.getElementById('customerTotalReceived').textContent}`, 50, 175);
+      doc.text(`Balance: ${document.getElementById('customerBalance').textContent}`, 50, 195);
+      
+      // Ledger table
+      doc.setTextColor(255).setFillColor(37, 99, 235).rect(40, 220, 520, 20, 'F');
+      doc.text('Date', 45, 233);
+      doc.text('Type', 150, 233);
+      doc.text('Amount', 300, 233);
+      doc.text('Balance', 400, 233);
+      doc.text('Note', 500, 233);
+      
+      // Ledger entries
+      doc.setTextColor(0);
+      let y = 250;
+      const customerLedgerBody = document.getElementById('customerLedgerBody');
+      const rows = customerLedgerBody.querySelectorAll('tr');
+      
+      rows.forEach(row => {
+        if (y > 700) { doc.addPage(); y = 40; }
+        
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 5) {
+          doc.setFontSize(10);
+          doc.text(cells[0].textContent, 45, y);
+          doc.text(cells[1].textContent, 150, y);
+          doc.text(cells[2].textContent, 300, y);
+          doc.text(cells[3].textContent, 400, y);
+          doc.text(cells[4].textContent, 500, y);
+          y += 20;
+        }
+      });
+      
+      doc.save(`EasyKharcha-${selectedCustomer.name}-${new Date().toISOString().slice(0, 10)}.pdf`);
+    }
+    
+    // ========== STATS FUNCTIONS ==========
+    function updateStats() {
+      const given = loans.filter(loan => loan.type === 'given').reduce((sum, loan) => sum + (loan.total || 0), 0);
+      const received = loans.filter(loan => loan.type === 'taken').reduce((sum, loan) => sum + (loan.total || 0), 0);
+      const balance = given - received;
+      
+      document.getElementById('totalGiven').textContent = formatCurrency(given);
+      document.getElementById('totalReceived').textContent = formatCurrency(received);
+      document.getElementById('netBalance').textContent = formatCurrency(balance);
+      
+      // Optional: Monthly trend calculation
+      const now = new Date();
+      const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      
+      const lastMonthGiven = loans.filter(l => l.type === 'given' && new Date(l.date) >= lastMonth)
+                          .reduce((sum, l) => sum + (l.total || 0), 0);
+      
+      const lastMonthReceived = loans.filter(l => l.type === 'taken' && new Date(l.date) >= lastMonth)
+                            .reduce((sum, l) => sum + (l.total || 0), 0);
+      
+      const givenTrend = given ? Math.round((lastMonthGiven / given) * 100) : 0;
+      const receivedTrend = received ? Math.round((lastMonthReceived / received) * 100) : 0;
+      const balanceTrend = balance ? Math.round(((lastMonthGiven - lastMonthReceived) / balance) * 100) : 0;
+      
+      document.getElementById('givenTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${givenTrend}% from last month`;
+      document.getElementById('receivedTrend').innerHTML = `<i class="fas fa-arrow-down"></i> ${receivedTrend}% from last month`;
+      document.getElementById('balanceTrend').innerHTML = `<i class="fas fa-arrow-up"></i> ${balanceTrend}% from last month`;
+    }
+    
+    // ========== FILTER FUNCTIONS ==========
+    function filterCustomers() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const typeValue = document.getElementById('typeFilter').value;
+      const statusValue = document.getElementById('statusFilter').value;
+      const fromDate = document.getElementById('dateFrom').value;
+      const toDate = document.getElementById('dateTo').value;
+      const minAmount = parseFloat(document.getElementById('minAmount').value) || 0;
+      const maxAmount = parseFloat(document.getElementById('maxAmount').value) || Infinity;
+      
+      const filtered = customers.filter(customer => {
+        // Search by name or phone
+        const matchesSearch = customer.name.toLowerCase().includes(searchTerm) || 
+                            (customer.phone && customer.phone.toLowerCase().includes(searchTerm));
+        
+        // Filter by loan type (given/taken)
+        const customerLoans = loans.filter(loan => loan.customerId === customer.id);
+        const given = customerLoans.filter(loan => loan.type === 'given').reduce((sum, loan) => sum + (loan.total || 0), 0);
+        const received = customerLoans.filter(loan => loan.type === 'taken').reduce((sum, loan) => sum + (loan.total || 0), 0);
+        const balance = given - received;
+        
+        let matchesType = true;
+        if (typeValue === 'given') {
+          matchesType = balance > 0;
+        } else if (typeValue === 'taken') {
+          matchesType = balance < 0;
+        }
+        
+        // Filter by status
+        let status = 'active';
+        const overdueLoans = customerLoans.filter(loan => {
+          const dueDate = new Date(loan.dueDate);
+          return loan.status === 'active' && dueDate < new Date();
+        });
+        
+        if (overdueLoans.length > 0) {
+          status = 'overdue';
+        } else if (balance === 0 && customerLoans.length > 0) {
+          status = 'closed';
+        }
+        
+        const matchesStatus = statusValue === 'all' || status === statusValue;
+        
+        // Filter by amount range
+        const matchesAmount = Math.abs(balance) >= minAmount && Math.abs(balance) <= maxAmount;
+        
+        // Filter by date range
+        let matchesDate = true;
+        if (fromDate || toDate) {
+          const hasLoansInRange = customerLoans.some(loan => {
+            const loanDate = new Date(loan.date);
+            const from = fromDate ? new Date(fromDate) : new Date(0);
+            const to = toDate ? new Date(toDate) : new Date();
+            return loanDate >= from && loanDate <= to;
+          });
+          
+          matchesDate = hasLoansInRange;
+        }
+        
+        return matchesSearch && matchesType && matchesStatus && matchesAmount && matchesDate;
+      });
+      
+      renderCustomers(filtered);
+    }
+    
+    // ========== EVENT LISTENERS ==========
+    function setupEventListeners() {
+      // Toggle advanced filters
+      document.getElementById('toggleFilters').addEventListener('click', () => {
+        document.getElementById('advancedFilters').classList.toggle('show');
+      });
+      
+      // Apply filters
+      document.getElementById('applyFilters').addEventListener('click', filterCustomers);
+      document.getElementById('searchInput').addEventListener('input', filterCustomers);
+      document.getElementById('typeFilter').addEventListener('change', filterCustomers);
+      document.getElementById('statusFilter').addEventListener('change', filterCustomers);
+      document.getElementById('dateFrom').addEventListener('change', filterCustomers);
+      document.getElementById('dateTo').addEventListener('change', filterCustomers);
+      document.getElementById('minAmount').addEventListener('input', filterCustomers);
+      document.getElementById('maxAmount').addEventListener('input', filterCustomers);
+      
+      // Customer form
+      document.getElementById('customerForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveCustomer();
+      });
+      
+      document.getElementById('cancelCustomer').addEventListener('click', () => {
+        document.getElementById('customerModal').style.display = 'none';
+      });
+      
+      // Loan form
+      document.getElementById('loanForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveLoan();
+      });
+      
+      document.getElementById('cancelLoan').addEventListener('click', () => {
+        document.getElementById('loanModal').style.display = 'none';
+      });
+      
+      document.getElementById('addProduct').addEventListener('click', () => {
+        addProductRow();
+      });
+      
+      // Repayment form
+      document.getElementById('repaymentForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveRepayment();
+      });
+      
+      document.getElementById('cancelRepayment').addEventListener('click', () => {
+        document.getElementById('repaymentModal').style.display = 'none';
+      });
+      
+      document.getElementById('repaymentCustomer').addEventListener('change', (e) => {
+        renderLoanDropdown(e.target.value);
+      });
+      
+      // Customer detail modal
+      document.getElementById('applyCustomerFilter').addEventListener('click', () => {
+        renderCustomerLedger(
+          selectedCustomer.id,
+          document.getElementById('customerDateFrom').value,
+          document.getElementById('customerDateTo').value
+        );
+      });
+      
+      document.getElementById('whatsappCustomer').addEventListener('click', () => {
+        openWhatsappModal(selectedCustomer);
+      });
+      
+      document.getElementById('exportCustomerPDF').addEventListener('click', exportCustomerPDF);
+      document.getElementById('addCustomerTransaction').addEventListener('click', () => {
+        document.getElementById('customerDetailModal').style.display = 'none';
+        openLoanModal();
+      });
+      
+      // WhatsApp modal
+      document.getElementById('sendWhatsapp').addEventListener('click', sendWhatsappMessage);
+      document.getElementById('cancelWhatsapp').addEventListener('click', () => {
+        document.getElementById('whatsappModal').style.display = 'none';
+      });
+      
+      // Close modals when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('customerModal')) document.getElementById('customerModal').style.display = 'none';
+        if (e.target === document.getElementById('loanModal')) document.getElementById('loanModal').style.display = 'none';
+        if (e.target === document.getElementById('repaymentModal')) document.getElementById('repaymentModal').style.display = 'none';
+        if (e.target === document.getElementById('customerDetailModal')) document.getElementById('customerDetailModal').style.display = 'none';
+        if (e.target === document.getElementById('whatsappModal')) document.getElementById('whatsappModal').style.display = 'none';
+      });
+      
+      // FAB actions
+      document.getElementById('addCustomerBtn').addEventListener('click', () => {
+        openCustomerModal();
+        document.getElementById('fabButton').blur();
+      });
+      
+      document.getElementById('addLoanBtn').addEventListener('click', () => {
+        openLoanModal();
+        document.getElementById('fabButton').blur();
+      });
+      
+      document.getElementById('addRepaymentBtn').addEventListener('click', () => {
+        openRepaymentModal();
+        document.getElementById('fabButton').blur();
+      });
+      
+      // Close buttons
+      document.getElementById('closeCustomerModal').addEventListener('click', () => {
+        document.getElementById('customerModal').style.display = 'none';
+      });
+      
+      document.getElementById('closeLoanModal').addEventListener('click', () => {
+        document.getElementById('loanModal').style.display = 'none';
+      });
+      
+      document.getElementById('closeRepaymentModal').addEventListener('click', () => {
+        document.getElementById('repaymentModal').style.display = 'none';
+      });
+      
+      document.getElementById('closeCustomerDetailModal').addEventListener('click', () => {
+        document.getElementById('customerDetailModal').style.display = 'none';
+      });
+      
+      document.getElementById('closeWhatsappModal').addEventListener('click', () => {
+        document.getElementById('whatsappModal').style.display = 'none';
+      });
+    }
+    
+    // ========== INITIALIZATION ==========
+    function init() {
+      // Set default dates for filters
+      const today = new Date();
+      const lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      
+      document.getElementById('dateFrom').valueAsDate = lastMonth;
+      document.getElementById('dateTo').valueAsDate = today;
+      
+      // Set default dates in forms
+      document.getElementById('loanDate').valueAsDate = today;
+      document.getElementById('repaymentDate').valueAsDate = today;
+      
+      // Set default due date (30 days from now)
+      const dueDate = new Date();
+      dueDate.setDate(today.getDate() + 30);
+      document.getElementById('loanDueDate').valueAsDate = dueDate;
+      
+      // Setup event listeners
+      setupEventListeners();
+      
       // Check auth state
       auth.onAuthStateChanged(user => {
         if (user) {
           // First fetch user settings
-          fetchUserSettings(user.uid)
-            .then(settings => {
+          db.collection("users").doc(user.uid).get()
+            .then(doc => {
+              const settings = doc.exists ? doc.data().settings || {} : {};
               // Apply settings to the page
               applySettings(settings);
-              // Then fetch loans
-              fetchLoans();
+              
+              // Then fetch data
+              // Customers with real-time updates
+              db.collection("customers").onSnapshot(snap => {
+                customers = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderCustomers(customers);
+                renderLoanCustomerDropdown();
+              });
+              
+              // Loans with real-time updates
+              db.collection("loans").onSnapshot(snap => {
+                loans = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                updateStats();
+                filterCustomers();
+              });
+              
+              // Repayments with real-time updates
+              db.collection("repayments").onSnapshot(snap => {
+                repayments = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Update loan statuses
+                loans.forEach(loan => {
+                  updateLoanStatus(loan.id);
+                });
+              });
+              
+              // Products with real-time updates
+              db.collection("products").onSnapshot(snap => {
+                products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderLoanProductsDropdown();
+              });
             })
             .catch(error => {
               console.error("Error loading settings:", error);
               // Proceed with default settings
               applySettings({ darkMode: false, language: 'en' });
-              fetchLoans();
+              
+              // Fetch data with real-time updates
+              db.collection("customers").onSnapshot(snap => {
+                customers = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderCustomers(customers);
+                renderLoanCustomerDropdown();
+              });
+              
+              db.collection("loans").onSnapshot(snap => {
+                loans = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                updateStats();
+                filterCustomers();
+              });
+              
+              db.collection("repayments").onSnapshot(snap => {
+                repayments = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Update loan statuses
+                loans.forEach(loan => {
+                  updateLoanStatus(loan.id);
+                });
+              });
+              
+              db.collection("products").onSnapshot(snap => {
+                products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderLoanProductsDropdown();
+              });
             });
         } else {
-          alert("Please log in to access your loans.");
+          // Redirect to login if not authenticated
           window.location.href = "login.html";
         }
       });
     }
-
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
-  <script>
-  // 👇 This is the function called from Java side after ad
-  function openAddLoanForm() {
-    alert("✅ Loan form opened (after ad)");
-    // 👇 Yahan aap apna form modal ya section khol saktay hain
-    // document.getElementById("loanForm").style.display = "block";
-  }
-
-  // 👇 Bind click event with button
-  document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("mobileAddLoanBtn");
-    if (btn) {
-      btn.addEventListener("click", function () {
-        // 👇 Call Android function (from WebView)
-        if (typeof Android !== "undefined" && Android.showAddLoanAd) {
-          Android.showAddLoanAd();
-        } else {
-          // fallback in case Android bridge not ready
-          openAddLoanForm();
+    
+    function applySettings(settings) {
+      // Apply dark mode
+      if (settings.darkMode) {
+        document.documentElement.classList.add('dark-mode');
+      } else {
+        document.documentElement.classList.remove('dark-mode');
+      }
+      
+      // Apply language
+      document.documentElement.classList.remove('urdu-mode');
+      if (settings.language === 'ur') {
+        document.documentElement.classList.add('urdu-mode');
+        translatePage('ur');
+      }
+    }
+    
+    function translatePage(lang) {
+      const translations = {
+        ur: {
+          "Loan Management": "قرض کا انتظام",
+          "Total Given": "کل دیا گیا",
+          "Total Received": "کل وصول شدہ",
+          "Net Balance": "خالص بیلنس",
+          "Filter by:": "فلٹر کریں:",
+          "All Loans": "تمام قرضے",
+          "Given Loans": "دیے گئے قرضے",
+          "Taken Loans": "لیے گئے قرضے",
+          "All Status": "تمام حیثیتیں",
+          "Active Loans": "فعال قرضے",
+          "Closed Loans": "مکمل قرضے",
+          "Overdue Loans": "ادائیگی میں تاخیر",
+          "Apply": "لگو کریں",
+          "Search by name or phone...": "نام یا فون سے تلاش کریں...",
+          "Advanced Filters": "اعلی درجے کے فلٹرز",
+          "From Date": "تاریخ سے",
+          "To Date": "تاریخ تک",
+          "Min Amount": "کم از کم رقم",
+          "Max Amount": "زیادہ سے زیادہ رقم",
+          "Add Customer": "گاہک شامل کریں",
+          "New Loan": "نیا قرض",
+          "Record Repayment": "ادائیگی ریکارڈ کریں",
+          "Full Name": "مکمل نام",
+          "Phone Number": "فون نمبر",
+          "Address (Optional)": "پتہ (اختیاری)",
+          "Photo (Optional)": "تصویر (اختیاری)",
+          "Opening Balance": "ابتدائی بیلنس",
+          "Save Customer": "گاہک محفوظ کریں",
+          "Customer": "گاہک",
+          "Select Customer": "گاہک منتخب کریں",
+          "Date": "تاریخ",
+          "Due Date": "واجب الادا تاریخ",
+          "Products": "مصنوعات",
+          "Add Product": "مصنوعات شامل کریں",
+          "Discount": "چھوٹ",
+          "Tax": "ٹیکس",
+          "Total Amount": "کل رقم",
+          "Notes (Optional)": "نوٹس (اختیاری)",
+          "Save Loan": "قرض محفوظ کریں",
+          "Loan": "قرض",
+          "Select Loan": "قرض منتخب کریں",
+          "Amount": "رقم",
+          "Payment Method": "ادائیگی کا طریقہ",
+          "Cash": "نقد",
+          "Bank Transfer": "بینک ٹرانسفر",
+          "Cheque": "چیک",
+          "UPI": "یو پی آئی",
+          "Other": "دیگر",
+          "Record Payment": "ادائیگی ریکارڈ کریں",
+          "Customer Details": "گاہک کی تفصیلات",
+          "Balance": "بیلنس",
+          "Date Range": "تاریخ کی حد",
+          "Send Reminder": "یاد دہانی بھیجیں",
+          "Export PDF": "پی ڈی ایف برآمد کریں",
+          "Add Transaction": "ٹرانزیکشن شامل کریں",
+          "Send WhatsApp Reminder": "واٹس ایپ یاددہانی بھیجیں",
+          "This message will be sent to the customer:": "یہ پیغام گاہک کو بھیجا جائے گا:",
+          "Note: You'll need to select the contact manually in WhatsApp": "نوٹ: آپ کو رابطہ دستی طور پر واٹس ایپ میں منتخب کرنا ہوگا",
+          "Cancel": "منسوخ کریں",
+          "Open WhatsApp": "واٹس ایپ کھولیں",
+          "Dashboard": "ڈیش بورڈ",
+          "Loan": "قرض",
+          "Profile": "پروفائل",
+          "Type": "قسم",
+          "Note": "نوٹ"
+        }
+      };
+      
+      const dict = translations[lang];
+      if (!dict) return;
+      
+      // Translate elements with data-translate attribute
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+      
+      // Translate placeholders
+      document.querySelectorAll('[data-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-placeholder');
+        if (dict[key]) {
+          el.setAttribute('placeholder', dict[key]);
         }
       });
     }
-  });
-</script>
-<script>
-  if (window.Android && Android.showMiningAdOnce) {
-    Android.showMiningAdOnce(); // 👈 ہر فائل میں الگ الگ بار دکھے گا
-  }
-</script>
-
+    
+    // Start the app
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
