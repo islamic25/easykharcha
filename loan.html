@@ -2892,5 +2892,18 @@
     // Start the app
     document.addEventListener('DOMContentLoaded', init);
   </script>
+  <script>
+  // Check if interstitial ad already shown
+  if (!localStorage.getItem('interstitialShown')) {
+      showInterstitialAd(); // Show ad
+      localStorage.setItem('interstitialShown', 'true'); // Set flag
+  }
+
+  function showInterstitialAd() {
+      // Yahan apna ad network code paste karein
+      alert("Interstitial Ad Shown"); // Example placeholder, replace with your ad
+  }
+</script>
+
 </body>
 </html>
