@@ -79,6 +79,8 @@
                 position: fixed;
                 z-index: 50;
                 transform: translateX(-100%);
+                width: 85%;
+                max-width: 320px;
             }
             
             .sidebar.active {
@@ -91,10 +93,12 @@
         .main-content {
             margin-left: var(--sidebar-width);
             transition: margin-left var(--transition-speed) ease;
+            width: calc(100% - var(--sidebar-width));
         }
         
         .main-content.full-width {
             margin-left: 0;
+            width: 100%;
         }
         
         /* Animations */
@@ -153,6 +157,7 @@
             right: 1rem;
             z-index: 100;
             animation: slideInDown 0.3s ease-out;
+            max-width: 350px;
         }
         
         /* Invoice styling */
@@ -198,6 +203,53 @@
             font-weight: 600;
             color: white;
             background-color: #3b82f6;
+        }
+        
+        /* Mobile optimizations */
+        .mobile-menu-btn {
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mobile-header {
+            height: 64px;
+        }
+        
+        .mobile-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .touch-target {
+            padding: 12px 16px;
+            min-height: 48px;
+        }
+        
+        @media (max-width: 640px) {
+            .grid-cols-1-mobile {
+                grid-template-columns: 1fr;
+            }
+            
+            .flex-col-mobile {
+                flex-direction: column;
+            }
+            
+            .w-full-mobile {
+                width: 100%;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .main-content {
+                padding-top: 80px;
+            }
+            
+            .mobile-form-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -337,7 +389,7 @@
             </div>
             
             <div class="absolute bottom-0 w-full p-4 border-t border-gray-800">
-                <button id="logout-btn" class="w-full flex items-center justify-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors">
+                <button id="logout-btn" class="w-full flex items-center justify-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-colors touch-target">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                     </svg>
@@ -352,8 +404,8 @@
         <!-- Main Content -->
         <main class="main-content flex-1 pb-10">
             <!-- Mobile Header -->
-            <header class="md:hidden fixed top-0 left-0 right-0 bg-gray-900 text-white p-4 flex items-center justify-between z-30 shadow-md">
-                <button id="mobile-menu-toggle" class="text-white">
+            <header class="md:hidden fixed top-0 left-0 right-0 bg-gray-900 text-white p-4 flex items-center justify-between z-30 shadow-md mobile-header">
+                <button id="mobile-menu-toggle" class="text-white mobile-menu-btn">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -366,7 +418,7 @@
 
             <!-- Dashboard Section -->
             <section id="dashboard" class="p-4 md:p-6 mt-16 md:mt-0">
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
                         <p class="text-gray-500" id="dashboard-date">Loading date...</p>
@@ -381,7 +433,7 @@
                 </div>
                 
                 <!-- Summary Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6 grid-cols-1-mobile">
                     <!-- Total Sales Card -->
                     <div class="card bg-white rounded-xl shadow-sm p-5 border border-gray-100">
                         <div class="flex items-start justify-between">
@@ -526,7 +578,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mobile-scroll">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -575,13 +627,13 @@
                     </div>
                     <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
                         <div class="flex-1 flex justify-between items-center sm:hidden">
-                            <button id="prev-page-mobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button id="prev-page-mobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 touch-target">
                                 Previous
                             </button>
                             <span class="text-sm text-gray-700">
                                 Page <span id="current-page-mobile">1</span>
                             </span>
-                            <button id="next-page-mobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button id="next-page-mobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 touch-target">
                                 Next
                             </button>
                         </div>
@@ -591,9 +643,9 @@
                                     Showing <span class="font-medium" id="sales-start">1</span> to <span class="font-medium" id="sales-end">10</span> of <span class="font-medium" id="sales-total">0</span> results
                                 </p>
                             </div>
-                            <div>
+                            <div class="overflow-x-auto mobile-scroll">
                                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <button id="prev-page" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <button id="prev-page" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 touch-target">
                                         <span class="sr-only">Previous</span>
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -602,7 +654,7 @@
                                     <div id="pagination-numbers" class="flex">
                                         <!-- Page numbers will be inserted here -->
                                     </div>
-                                    <button id="next-page" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <button id="next-page" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 touch-target">
                                         <span class="sr-only">Next</span>
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -617,13 +669,13 @@
             
             <!-- Product Management Section -->
             <section id="products" class="p-4 md:p-6 hidden">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 flex-wrap gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">Product Management</h2>
                         <p class="text-gray-500">Manage your product inventory and stock levels</p>
                     </div>
                     <div class="mt-4 md:mt-0">
-                        <button id="add-product-btn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                        <button id="add-product-btn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                             <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
@@ -647,7 +699,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mobile-scroll">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -696,13 +748,13 @@
                     </div>
                     <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
                         <div class="flex-1 flex justify-between items-center sm:hidden">
-                            <button id="products-prev-page-mobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button id="products-prev-page-mobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 touch-target">
                                 Previous
                             </button>
                             <span class="text-sm text-gray-700">
                                 Page <span id="products-current-page-mobile">1</span>
                             </span>
-                            <button id="products-next-page-mobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button id="products-next-page-mobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 touch-target">
                                 Next
                             </button>
                         </div>
@@ -712,9 +764,9 @@
                                     Showing <span class="font-medium" id="products-start">1</span> to <span class="font-medium" id="products-end">10</span> of <span class="font-medium" id="products-total">0</span> results
                                 </p>
                             </div>
-                            <div>
+                            <div class="overflow-x-auto mobile-scroll">
                                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <button id="products-prev-page" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <button id="products-prev-page" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 touch-target">
                                         <span class="sr-only">Previous</span>
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -723,7 +775,7 @@
                                     <div id="products-pagination-numbers" class="flex">
                                         <!-- Page numbers will be inserted here -->
                                     </div>
-                                    <button id="products-next-page" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <button id="products-next-page" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 touch-target">
                                         <span class="sr-only">Next</span>
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -744,20 +796,20 @@
                         <form id="product-form">
                             <input type="hidden" id="edit-product-id">
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mobile-form-grid">
                                 <!-- Left Column -->
                                 <div>
                                     <!-- Product Name -->
                                     <div class="mb-4">
                                         <label for="product-name" class="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
-                                        <input type="text" id="product-name" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                        <input type="text" id="product-name" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                         <p class="mt-1 text-sm text-red-600 hidden" id="product-name-error">Product name is required</p>
                                     </div>
                                     
                                     <!-- Product Category -->
                                     <div class="mb-4">
                                         <label for="product-category" class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-                                        <select id="product-category" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                        <select id="product-category" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                             <option value="">Select category</option>
                                             <option>Electronics</option>
                                             <option>Clothing</option>
@@ -777,7 +829,7 @@
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                 <span class="text-gray-500 sm:text-sm">$</span>
                                             </div>
-                                            <input type="number" step="0.01" min="0" id="product-price" class="block w-full pl-7 border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                            <input type="number" step="0.01" min="0" id="product-price" class="block w-full pl-7 border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                         </div>
                                         <p class="mt-1 text-sm text-red-600 hidden" id="product-price-error">Please enter a valid price</p>
                                     </div>
@@ -785,14 +837,14 @@
                                     <!-- Product Stock -->
                                     <div class="mb-4">
                                         <label for="product-stock" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity *</label>
-                                        <input type="number" min="0" id="product-stock" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                        <input type="number" min="0" id="product-stock" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                         <p class="mt-1 text-sm text-red-600 hidden" id="product-stock-error">Please enter a valid stock quantity</p>
                                     </div>
                                     
                                     <!-- Reorder Level -->
                                     <div class="mb-4">
                                         <label for="product-reorder-level" class="block text-sm font-medium text-gray-700 mb-1">Reorder Level</label>
-                                        <input type="number" min="0" id="product-reorder-level" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                        <input type="number" min="0" id="product-reorder-level" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                         <p class="mt-1 text-xs text-gray-500">System will alert when stock reaches this level</p>
                                     </div>
                                 </div>
@@ -809,7 +861,7 @@
                                                 </svg>
                                             </span>
                                             <div class="ml-4">
-                                                <label for="product-image-upload" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                                <label for="product-image-upload" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                                                     <span>Upload</span>
                                                     <input id="product-image-upload" type="file" class="sr-only" accept="image/*">
                                                 </label>
@@ -821,28 +873,28 @@
                                     <!-- Barcode/SKU -->
                                     <div class="mb-4">
                                         <label for="product-sku" class="block text-sm font-medium text-gray-700 mb-1">SKU/Barcode</label>
-                                        <input type="text" id="product-sku" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                        <input type="text" id="product-sku" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                     </div>
                                     
                                     <!-- Expiry Date -->
                                     <div class="mb-4">
                                         <label for="product-expiry" class="block text-sm font-medium text-gray-700 mb-1">Expiry Date (if applicable)</label>
-                                        <input type="date" id="product-expiry" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                        <input type="date" id="product-expiry" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                     </div>
                                     
                                     <!-- Description -->
                                     <div class="mb-4">
                                         <label for="product-description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                        <textarea id="product-description" rows="3" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
+                                        <textarea id="product-description" rows="3" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target"></textarea>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="mt-6 flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3">
-                                <button type="button" id="cancel-edit" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 hidden">
+                                <button type="button" id="cancel-edit" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 hidden touch-target">
                                     Cancel
                                 </button>
-                                <button type="submit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                <button type="submit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                                     Save Product
                                 </button>
                             </div>
@@ -860,7 +912,7 @@
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-col-mobile">
                     <!-- New Sale Form -->
                     <div class="card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="p-5 border-b border-gray-100">
@@ -874,24 +926,24 @@
                                     
                                     <div class="mb-3">
                                         <label for="customer-name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                                        <input type="text" id="customer-name" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                        <input type="text" id="customer-name" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                         <p class="mt-1 text-sm text-red-600 hidden" id="customer-name-error">Customer name is required</p>
                                     </div>
                                     
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                                         <div>
                                             <label for="customer-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                            <input type="email" id="customer-email" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                            <input type="email" id="customer-email" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                         </div>
                                         <div>
                                             <label for="customer-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                                            <input type="tel" id="customer-phone" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                            <input type="tel" id="customer-phone" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                         </div>
                                     </div>
                                     
                                     <div class="mb-3">
                                         <label for="customer-address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                                        <textarea id="customer-address" rows="2" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
+                                        <textarea id="customer-address" rows="2" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target"></textarea>
                                     </div>
                                 </div>
                                 
@@ -901,12 +953,12 @@
                                     
                                     <div class="mb-3">
                                         <label for="sale-date" class="block text-sm font-medium text-gray-700 mb-1">Date *</label>
-                                        <input type="date" id="sale-date" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                        <input type="date" id="sale-date" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                     </div>
                                     
                                     <div class="mb-3">
                                         <label for="sale-product" class="block text-sm font-medium text-gray-700 mb-1">Product *</label>
-                                        <select id="sale-product" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                        <select id="sale-product" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                             <option value="">Select a product</option>
                                             <!-- Products will be populated here -->
                                             <option disabled>Loading products...</option>
@@ -917,20 +969,20 @@
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
                                         <div>
                                             <label for="sale-quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
-                                            <input type="number" id="sale-quantity" min="1" value="1" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500" required>
+                                            <input type="number" id="sale-quantity" min="1" value="1" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target" required>
                                             <p class="mt-1 text-sm text-red-600 hidden" id="sale-quantity-error">Please enter a valid quantity</p>
                                         </div>
                                         <div>
                                             <label for="sale-discount" class="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
-                                            <input type="number" id="sale-discount" min="0" max="100" value="0" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                            <input type="number" id="sale-discount" min="0" max="100" value="0" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                         </div>
                                         <div>
                                             <label for="tax-rate" class="block text-sm font-medium text-gray-700 mb-1">Tax Rate (%)</label>
-                                            <input type="number" id="tax-rate" min="0" max="100" value="8.5" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                            <input type="number" id="tax-rate" min="0" max="100" value="8.5" class="block w-full border border-gray-200 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 touch-target">
                                         </div>
                                     </div>
                                     
-                                    <button type="button" id="add-to-invoice" class="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 mb-3">
+                                    <button type="button" id="add-to-invoice" class="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 mb-3 touch-target">
                                         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                         </svg>
@@ -946,10 +998,10 @@
                                 </div>
                                 
                                 <div class="flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3">
-                                    <button type="button" id="clear-sale" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    <button type="button" id="clear-sale" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                                         Clear
                                     </button>
-                                    <button type="submit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    <button type="submit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 touch-target">
                                         <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
@@ -965,19 +1017,19 @@
                         <div class="p-5 border-b border-gray-100 flex items-center justify-between">
                             <h3 class="font-semibold text-gray-800">Invoice Preview</h3>
                             <div class="flex space-x-2">
-                                <button id="print-invoice" class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                <button id="print-invoice" class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                                     <svg class="-ml-1 mr-2 h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                                     </svg>
                                     Print
                                 </button>
-                                <button id="download-pdf" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                <button id="download-pdf" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 touch-target">
                                     <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                     </svg>
                                     PDF
                                 </button>
-                                <button id="send-email" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <button id="send-email" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-target">
                                     <svg class="-ml-1 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
@@ -1092,20 +1144,20 @@
             
             <!-- Reports Section -->
             <section id="reports" class="p-4 md:p-6 hidden">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 flex-wrap gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">Sales Analytics</h2>
                         <p class="text-gray-500">Detailed reports and business insights</p>
                     </div>
                     <div class="mt-4 md:mt-0">
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2 flex-wrap gap-2">
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
-                                <input type="date" id="report-start-date" class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                <input type="date" id="report-start-date" class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm touch-target">
                             </div>
                             <span class="text-gray-500">to</span>
                             <div class="relative">
@@ -1114,9 +1166,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                 </div>
-                                <input type="date" id="report-end-date" class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+                                <input type="date" id="report-end-date" class="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm touch-target">
                             </div>
-                            <button id="apply-report-filter" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <button id="apply-report-filter" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                                 Apply
                             </button>
                         </div>
@@ -1124,7 +1176,7 @@
                 </div>
                 
                 <!-- Summary Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6 grid-cols-1-mobile">
                     <!-- Total Revenue -->
                     <div class="card bg-white rounded-xl shadow-sm p-5 border border-gray-100">
                         <div class="flex items-start justify-between">
@@ -1242,7 +1294,7 @@
                         <h3 class="font-semibold text-gray-800">Detailed Sales Report</h3>
                     </div>
                     <div class="p-5">
-                        <div class="overflow-x-auto">
+                        <div class="overflow-x-auto mobile-scroll">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
@@ -1291,7 +1343,7 @@
                             </table>
                         </div>
                         <div class="mt-4 flex justify-end">
-                            <button id="export-report" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <button id="export-report" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 touch-target">
                                 <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                 </svg>
@@ -1304,7 +1356,7 @@
             
             <!-- Sales History Section -->
             <section id="history" class="p-4 md:p-6 hidden">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 flex-wrap gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">Sales History</h2>
                         <p class="text-gray-500">View and manage past sales transactions</p>
@@ -1325,7 +1377,7 @@
                     <div class="p-5 border-b border-gray-100">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <h3 class="font-semibold text-gray-800 mb-2 md:mb-0">Recent Transactions</h3>
-                            <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-3 flex-wrap gap-2">
                                 <select id="history-filter-status" class="text-sm border border-gray-200 rounded-md px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                                     <option value="all">All Statuses</option>
                                     <option value="paid">Paid</option>
@@ -1342,7 +1394,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mobile-scroll">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -1392,13 +1444,13 @@
                     </div>
                     <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
                         <div class="flex-1 flex justify-between items-center sm:hidden">
-                            <button id="history-prev-page-mobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button id="history-prev-page-mobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 touch-target">
                                 Previous
                             </button>
                             <span class="text-sm text-gray-700">
                                 Page <span id="history-current-page-mobile">1</span>
                             </span>
-                            <button id="history-next-page-mobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button id="history-next-page-mobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 touch-target">
                                 Next
                             </button>
                         </div>
@@ -1408,9 +1460,9 @@
                                     Showing <span class="font-medium" id="history-start">1</span> to <span class="font-medium" id="history-end">10</span> of <span class="font-medium" id="history-total">0</span> results
                                 </p>
                             </div>
-                            <div>
+                            <div class="overflow-x-auto mobile-scroll">
                                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <button id="history-prev-page" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <button id="history-prev-page" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 touch-target">
                                         <span class="sr-only">Previous</span>
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
@@ -1419,7 +1471,7 @@
                                     <div id="history-pagination-numbers" class="flex">
                                         <!-- Page numbers will be inserted here -->
                                     </div>
-                                    <button id="history-next-page" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <button id="history-next-page" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 touch-target">
                                         <span class="sr-only">Next</span>
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -1458,6 +1510,8 @@
         const itemsPerPage = 10;
         let salesChart, stockChart, revenueChart, topProductsChart, categoryChart;
         let productImageFile = null;
+        let activeToasts = 0;
+        const maxToasts = 3;
         
         // DOM elements
         const menuToggle = document.getElementById('mobile-menu-toggle');
@@ -1555,24 +1609,28 @@
                     updateUserInfo(user);
                     
                     // Check user role and load appropriate data
-                    const userDoc = await usersRef.doc(user.uid).get();
-                    const userData = userDoc.data();
-                    const userRole = userData?.role || 'cashier';
-                    
-                    // Show/hide admin links based on role
-                    if (userRole === 'admin') {
-                        document.getElementById('admin-links').classList.remove('hidden');
+                    try {
+                        const userDoc = await usersRef.doc(user.uid).get();
+                        const userData = userDoc.data();
+                        const userRole = userData?.role || 'cashier';
+                        
+                        // Show/hide admin links based on role
+                        if (userRole === 'admin') {
+                            document.getElementById('admin-links').classList.remove('hidden');
+                        }
+                        
+                        // Update role badge
+                        document.getElementById('user-role').textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
+                        
+                        // Load data
+                        loadProducts();
+                        loadSales();
+                        loadDashboardData();
+                        initCharts();
+                        listenToRealtimeData();
+                    } catch (error) {
+                        handleFirestoreError(error);
                     }
-                    
-                    // Update role badge
-                    document.getElementById('user-role').textContent = userRole.charAt(0).toUpperCase() + userRole.slice(1);
-                    
-                    // Load data
-                    loadProducts();
-                    loadSales();
-                    loadDashboardData();
-                    initCharts();
-                    listenToRealtimeData();
                 } else {
                     console.log("User not logged in");
                     signInAnonymously();
@@ -1609,11 +1667,13 @@
         function toggleMobileSidebar() {
             sidebar.classList.toggle('active');
             mobileOverlay.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
         }
 
         function closeMobileSidebar() {
             sidebar.classList.remove('active');
             mobileOverlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
         }
 
         function handleNavClick(e) {
@@ -1995,8 +2055,22 @@
 
                 snapshot.forEach(doc => {
                     const sale = doc.data();
-                    if (sale.date && sale.total) {
-                        const date = sale.date.toDate ? sale.date.toDate() : new Date(sale.date);
+                    // Safe date handling
+                    let date;
+                    try {
+                        if (sale.date && sale.date.toDate) {
+                            date = sale.date.toDate();
+                        } else if (sale.date) {
+                            date = new Date(sale.date);
+                        } else {
+                            return;
+                        }
+                    } catch (e) {
+                        console.error('Invalid date format', sale.date);
+                        return;
+                    }
+                    
+                    if (date && sale.total) {
                         const month = date.getMonth();
                         salesByMonth[month] += 1;
                         revenueByMonth[month] += sale.total;
@@ -2777,7 +2851,19 @@
                 
                 snapshot.forEach(doc => {
                     const sale = doc.data();
-                    const date = sale.date.toDate ? sale.date.toDate() : new Date(sale.date);
+                    let date;
+                    try {
+                        if (sale.date && sale.date.toDate) {
+                            date = sale.date.toDate();
+                        } else if (sale.date) {
+                            date = new Date(sale.date);
+                        } else {
+                            date = new Date(); // Fallback to current date
+                        }
+                    } catch (e) {
+                        console.error('Invalid date format', sale.date);
+                        date = new Date(); // Fallback to current date
+                    }
                     
                     const tr = document.createElement('tr');
                     tr.className = 'hover:bg-gray-50';
@@ -2847,7 +2933,23 @@
                         document.getElementById('customer-email').value = sale.customerEmail || '';
                         document.getElementById('customer-phone').value = sale.customerPhone || '';
                         document.getElementById('customer-address').value = sale.customerAddress || '';
-                        document.getElementById('sale-date').value = new Date(sale.date.seconds * 1000).toISOString().split('T')[0];
+                        
+                        // Safe date handling
+                        let saleDate;
+                        try {
+                            if (sale.date && sale.date.toDate) {
+                                saleDate = sale.date.toDate();
+                            } else if (sale.date) {
+                                saleDate = new Date(sale.date);
+                            } else {
+                                saleDate = new Date(); // Fallback to current date
+                            }
+                        } catch (e) {
+                            console.error('Invalid date format', sale.date);
+                            saleDate = new Date(); // Fallback to current date
+                        }
+                        
+                        document.getElementById('sale-date').value = saleDate.toISOString().split('T')[0];
                         document.getElementById('tax-rate').value = sale.taxRate || 0;
         
                         currentSaleItems = sale.items || [];
@@ -2910,9 +3012,23 @@
                 // Calculate revenue trend
                 const lastMonthRevenue = lastMonthSales.docs.reduce((sum, doc) => sum + (doc.data().total || 0), 0);
                 const currentMonthRevenue = salesSnapshot.docs.reduce((sum, doc) => {
-                    const saleDate = doc.data().date.toDate ? doc.data().date.toDate() : new Date(doc.data().date);
+                    const sale = doc.data();
+                    let saleDate;
+                    try {
+                        if (sale.date && sale.date.toDate) {
+                            saleDate = sale.date.toDate();
+                        } else if (sale.date) {
+                            saleDate = new Date(sale.date);
+                        } else {
+                            return sum; // Skip if no valid date
+                        }
+                    } catch (e) {
+                        console.error('Invalid date format', sale.date);
+                        return sum; // Skip if invalid date
+                    }
+                    
                     if (saleDate >= new Date(now.getFullYear(), now.getMonth(), 1)) {
-                        return sum + (doc.data().total || 0);
+                        return sum + (sale.total || 0);
                     }
                     return sum;
                 }, 0);
@@ -2964,7 +3080,8 @@
                 // Get top category
                 const categoryMap = {};
                 salesSnapshot.forEach(doc => {
-                    doc.data().items.forEach(item => {
+                    const sale = doc.data();
+                    sale.items.forEach(item => {
                         const product = products.find(p => p.id === item.productId);
                         if (product) {
                             categoryMap[product.category] = (categoryMap[product.category] || 0) + item.lineTotal;
@@ -3087,21 +3204,55 @@
         }
 
         function exportReportAsCSV() {
-            // This would generate a CSV from the current report data
             showLoading('Exporting report...');
             
-            setTimeout(() => {
-                hideLoading();
-                showToast('Report exported as CSV', 'success');
+            try {
+                // Create CSV content
+                let csvContent = "Date,Invoice #,Customer,Items,Subtotal,Tax,Total\n";
                 
-                // Create a dummy download link
+                // Get the table rows
+                const rows = document.querySelectorAll('#detailed-report-body tr');
+                
+                // Check if we have data
+                if (rows.length === 0) {
+                    throw new Error('No data to export');
+                }
+                
+                // Loop through each row
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    if (cells.length >= 7) {
+                        const rowData = [
+                            cells[0].textContent.trim(),
+                            cells[1].textContent.trim(),
+                            cells[2].textContent.trim(),
+                            cells[3].textContent.trim(),
+                            cells[4].textContent.trim(),
+                            cells[5].textContent.trim(),
+                            cells[6].textContent.trim()
+                        ];
+                        csvContent += rowData.join(',') + '\n';
+                    }
+                });
+                
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                link.href = 'data:text/csv;charset=utf-8,';
-                link.download = `sales-report-${new Date().toISOString().split('T')[0]}.csv`;
+                link.setAttribute('href', url);
+                link.setAttribute('download', `sales-report-${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-            }, 1500);
+                
+                showToast('Report exported as CSV', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                showToast('Failed to export report: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
         }
 
         function filterSalesHistory() {
@@ -3218,6 +3369,16 @@
         }
 
         function showToast(message, type = 'info') {
+            // Limit to maxToasts visible at once
+            if (activeToasts >= maxToasts) {
+                // Remove oldest toast
+                const oldestToast = toastContainer.firstChild;
+                if (oldestToast) {
+                    oldestToast.remove();
+                    activeToasts--;
+                }
+            }
+            
             const toast = document.createElement('div');
             toast.className = `animate-slide-in mb-2 p-4 rounded-md shadow-md ${
                 type === 'success' ? 'bg-green-100 text-green-800' :
@@ -3241,11 +3402,15 @@
             `;
             
             toastContainer.appendChild(toast);
+            activeToasts++;
             
             // Auto-remove toast after 5 seconds
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-                setTimeout(() => toast.remove(), 300);
+                setTimeout(() => {
+                    toast.remove();
+                    activeToasts--;
+                }, 300);
             }, 5000);
         }
 
@@ -3254,5 +3419,6 @@
             showToast(`Error: ${error.message}`, 'error');
         }
     </script>
+    
 </body>
 </html>
