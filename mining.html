@@ -1585,73 +1585,88 @@
         }
         
         // Ad system functions
-        let adTimer = null;
-        
-        function startAutoAdLoop() {
-            if (adTimer) return; // already running
-            
-            adTimer = setInterval(() => {
-                if (typeof Android !== 'undefined' && Android.checkAdReady) {
-                    Android.checkAdReady(); // Android will call onAdReady()
-                }
-            }, 120000); // 2 minutes = 120000ms
+let adTimer = null;
+
+function startAutoAdLoop() {
+    if (adTimer) return; // already running
+
+    adTimer = setInterval(() => {
+        if (typeof Android !== 'undefined' && Android.checkAdReady) {
+            Android.checkAdReady(); // Android will call onAdReady()
         }
-        
-        function stopAutoAdLoop() {
-            if (adTimer) {
-                clearInterval(adTimer);
-                adTimer = null;
-            }
-        }
-        
-        function showManualAd() {
+    }, 120000); // 2 minutes
+}
+
+function stopAutoAdLoop() {
+    if (adTimer) {
+        clearInterval(adTimer);
+        adTimer = null;
+    }
+}
+
+// Manual Ad button
+function showManualAd() {
+    if (typeof Android !== 'undefined' && Android.checkAdReady) {
+        showNotification("⏳ Checking Ad availability...");
+        Android.checkAdReady();
+    } else {
+        alert("⚠️ Ad system not connected.");
+    }
+}
+
+// Callback from Android → check ready
+function onAdReady(ready) {
+    if (ready) {
+        Android.showRewardAd();
+    } else {
+        showNotification("⏳ Ad is loading... please wait");
+
+        // retry after 5 sec
+        setTimeout(() => {
             if (typeof Android !== 'undefined' && Android.checkAdReady) {
                 Android.checkAdReady();
-            } else {
-                alert("⚠️ Ad system not ready.");
             }
-        }
-        
-        function onAdReady(ready) {
-            if (ready) {
-                Android.showRewardAd();
-            } else {
-                console.log("Ad not ready yet");
-            }
-        }
-        
-        function onRewardEarned() {
-            const user = auth.currentUser;
-            if (!user) return alert("Please login first");
-            
-            const userRef = db.collection('users').doc(user.uid);
-            userRef.update({
-                adViews: firebase.firestore.FieldValue.increment(1)
-            }).then(() => {
-                gameState.adViews = (gameState.adViews || 0) + 1;
-                updateUI();
-                showNotification("🎉 Ad watched! +100 coins");
-            });
-        }
-        
-        function onAdFinished() {
-            console.log("Ad finished and screen returned");
-        }
-        
-        function onRewardAdNotReady() {
-            console.log("Ad not ready fallback");
-        }
+        }, 5000);
+    }
+}
 
-        // Initialize the game when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initGame);
-        
-        // Clean up on page unload
-        window.addEventListener('beforeunload', () => {
-            clearInterval(tapBatchInterval);
-            clearInterval(userDataRefreshInterval);
-            clearInterval(leaderboardRefreshInterval);
-            stopAutoAdLoop();
-        });
+// Reward earned → update Firestore
+function onRewardEarned() {
+    const user = auth.currentUser;
+    if (!user) return alert("Please login first");
+
+    const userRef = db.collection('users').doc(user.uid);
+    userRef.update({
+        adViews: firebase.firestore.FieldValue.increment(1),
+        coins: firebase.firestore.FieldValue.increment(100) // ✅ +100 coins
+    }).then(() => {
+        gameState.adViews = (gameState.adViews || 0) + 1;
+        gameState.coins = (gameState.coins || 0) + 100;
+        updateUI();
+        showNotification("🎉 Ad watched! +100 coins");
+    });
+}
+
+function onAdFinished() {
+    console.log("Ad finished and screen returned");
+}
+
+function onRewardAdNotReady() {
+    showNotification("⚠️ Ad not ready, please try again");
+    console.log("Ad not ready fallback");
+}
+
+// Initialize the game when DOM is loaded
+document.addEventListener('DOMContentLoaded', initGame);
+
+// Clean up on page unload
+window.addEventListener('beforeunload', () => {
+    clearInterval(tapBatchInterval);
+    clearInterval(userDataRefreshInterval);
+    clearInterval(leaderboardRefreshInterval);
+    stopAutoAdLoop();
+});
+
     </script>
 </body>
 </html>
