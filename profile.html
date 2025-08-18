@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>My Profile - EasyKharcha</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
+    
     <style>
+        /* Existing CSS remains exactly the same */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -30,6 +40,7 @@
             --text-secondary-dark: #aaa;
             --radius: 20px;
             --radius-sm: 12px;
+            --body-bg: #f5f7fa;
         }
 
         * {
@@ -43,7 +54,7 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f5f7fa;
+            background-color: var(--body-bg);
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
@@ -556,7 +567,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: #fff;
+            background-color: var(--body-bg);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -676,7 +687,7 @@
         
         /* Dark Mode Styles */
         body.dark-mode {
-            background-color: #121212;
+            --body-bg: #121212;
             color: #e0e0e0;
             --surface: var(--surface-dark);
             --border: var(--border-dark);
@@ -1018,6 +1029,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   
     <script>
+        // Optimized user data caching with expiration
+        const USER_DATA_CACHE_KEY = "cachedUserData";
+        const CACHE_EXPIRATION_HOURS = 4; // Cache valid for 4 hours
+        
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDHGd2EAJVUUYXa50G65GkutoiiHz9qtn8",
@@ -1070,19 +1085,24 @@
         let unsubscribe = null;
 
         // Cache user data to minimize Firebase reads
-        function getUserCacheKey(uid) {
-            return `userData-${uid}`;
+        function cacheUserData(data) {
+            const cacheData = {
+                data: data,
+                timestamp: new Date().getTime()
+            };
+            localStorage.setItem(USER_DATA_CACHE_KEY, JSON.stringify(cacheData));
         }
 
-        function cacheUserData(uid, data) {
-            const cacheKey = getUserCacheKey(uid);
-            sessionStorage.setItem(cacheKey, JSON.stringify(data));
-        }
-
-        function getCachedUserData(uid) {
-            const cacheKey = getUserCacheKey(uid);
-            const cachedData = sessionStorage.getItem(cacheKey);
-            return cachedData ? JSON.parse(cachedData) : null;
+        function getCachedUserData() {
+            const cachedData = localStorage.getItem(USER_DATA_CACHE_KEY);
+            if (!cachedData) return null;
+            
+            const parsedData = JSON.parse(cachedData);
+            const now = new Date().getTime();
+            const hoursDiff = Math.abs(now - parsedData.timestamp) / 36e5;
+            
+            // Return cached data if within expiration period
+            return hoursDiff < CACHE_EXPIRATION_HOURS ? parsedData.data : null;
         }
 
         // Translations
@@ -1125,24 +1145,32 @@
             }
         };
 
-        // Initialize
-        function initializeUI() {
-            fullNameInput.value = userData.fullName || "User";
-            userEmail.textContent = userData.email || "Not set";
-            userPhone.textContent = userData.phoneNumber || "Not provided";
-            profileImage.src = userData.profileImage || "https://ui-avatars.com/api/?name=User&background=4361ee&color=fff";
-
-            // Apply toggle states
-            darkModeToggle.checked = userData.settings.darkMode || false;
-            securityLockToggle.checked = userData.settings.securityLock || false;
-            reminderToggle.checked = userData.settings.reminders || true;
-
-            // Language display
-            currentLanguage.textContent = 
-                userData.settings.language === 'ur' ? "اردو (Urdu)" : "English";
+        // Initialize UI with cached data
+        function initializeUI(cachedData) {
+            if (cachedData) {
+                userData = cachedData;
                 
-            // Apply dark mode
-            document.body.classList.toggle('dark-mode', userData.settings.darkMode);
+                // Apply cached data immediately
+                fullNameInput.value = userData.fullName || "User";
+                userEmail.textContent = userData.email || "Not set";
+                userPhone.textContent = userData.phoneNumber || "Not provided";
+                profileImage.src = userData.profileImage || "https://ui-avatars.com/api/?name=User&background=4361ee&color=fff";
+                
+                // Apply toggle states
+                darkModeToggle.checked = userData.settings?.darkMode || false;
+                securityLockToggle.checked = userData.settings?.securityLock || false;
+                reminderToggle.checked = userData.settings?.reminders !== false;
+                
+                // Apply dark mode immediately
+                document.body.classList.toggle('dark-mode', userData.settings?.darkMode || false);
+                
+                // Language display
+                currentLanguage.textContent = 
+                    userData.settings?.language === 'ur' ? "اردو (Urdu)" : "English";
+                
+                // Show UI immediately
+                document.querySelector('.container').classList.add('loaded');
+            }
         }
 
         function applyLanguage(lang) {
@@ -1224,13 +1252,51 @@
                 if (doc.exists) {
                     const newData = doc.data();
                     userData = {...newData, uid};
-                    cacheUserData(uid, userData);
-                    initializeUI();
+                    cacheUserData(userData);
+                    initializeUI(userData);
                 }
             }, error => {
                 console.error("Error listening to user data:", error);
                 showToast("Error updating profile data");
             });
+        }
+
+        // Load user data from Firebase
+        async function loadUserData(user) {
+            const uid = user.uid;
+            const docRef = db.collection("users").doc(uid);
+            
+            try {
+                const doc = await docRef.get();
+                
+                if (doc.exists) {
+                    userData = {...doc.data(), uid};
+                    cacheUserData(userData);
+                    return userData;
+                } else {
+                    // Create default document if missing
+                    const defaultData = {
+                        fullName: user.displayName || "User",
+                        email: user.email,
+                        phoneNumber: user.phoneNumber || "Not provided",
+                        profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
+                        settings: {
+                            darkMode: false,
+                            language: 'en',
+                            securityLock: false,
+                            reminders: true
+                        }
+                    };
+
+                    await docRef.set(defaultData);
+                    userData = {...defaultData, uid};
+                    cacheUserData(userData);
+                    return userData;
+                }
+            } catch (error) {
+                console.error("Error loading user data:", error);
+                return null;
+            }
         }
 
         auth.onAuthStateChanged(async (user) => {
@@ -1239,54 +1305,34 @@
 
             try {
                 if (user) {
-                    const uid = user.uid;
+                    // Check for cached data first
+                    const cachedUserData = getCachedUserData();
                     
-                    // Check cache first
-                    const cachedUser = getCachedUserData(uid);
-                    if (cachedUser) {
-                        userData = cachedUser;
-                        initializeUI();
-                        container.classList.add('loaded');
-                        loadingOverlay.style.display = 'none';
+                    // If cached data exists, render UI immediately
+                    if (cachedUserData) {
+                        initializeUI(cachedUserData);
                     }
                     
-                    // Always get fresh data from Firebase
-                    const docRef = db.collection("users").doc(uid);
-                    const doc = await docRef.get();
+                    // Load fresh data from Firebase
+                    const freshUserData = await loadUserData(user);
                     
-                    if (doc.exists) {
-                        userData = {...doc.data(), uid};
-                        cacheUserData(uid, userData);
-                        initializeUI();
+                    if (freshUserData) {
+                        userData = freshUserData;
+                        
+                        // Only re-initialize if we didn't have cached data
+                        if (!cachedUserData) {
+                            initializeUI(userData);
+                        }
                         
                         // Set up real-time listener
-                        setupFirebaseListener(uid);
-                    } else {
-                        // Create default document if missing
-                        const defaultData = {
-                            fullName: user.displayName || "User",
-                            email: user.email,
-                            phoneNumber: user.phoneNumber || "Not provided",
-                            profileImage: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || "User")}&background=4361ee&color=fff`,
-                            settings: {
-                                darkMode: false,
-                                language: 'en',
-                                securityLock: false,
-                                reminders: true
-                            }
-                        };
-
-                        await docRef.set(defaultData);
-                        userData = {...defaultData, uid};
-                        cacheUserData(uid, userData);
-                        initializeUI();
+                        setupFirebaseListener(user.uid);
                     }
 
                     // Hide loading overlay
                     setTimeout(() => {
                         loadingOverlay.style.display = 'none';
                         container.classList.add('loaded');
-                    }, 500);
+                    }, 300);
                 } else {
                     window.location.href = "login.html";
                 }
@@ -1326,7 +1372,7 @@
                             settings: userData.settings
                         });
                         
-                        cacheUserData(userData.uid, userData);
+                        cacheUserData(userData);
                         showToast(translations[userData.settings.language].saveSuccess);
                     } catch (error) {
                         console.error("Error saving user data:", error);
@@ -1481,20 +1527,5 @@
             initEvents();
         });
     </script>
-    <script>
-  // Check if interstitial ad already shown
-  if (!localStorage.getItem('interstitialShown')) {
-      showInterstitialAd(); // Show ad
-      localStorage.setItem('interstitialShown', 'true'); // Set flag
-  }
-
-  function showInterstitialAd() {
-      // Yahan apna ad network code paste karein
-      alert("Interstitial Ad Shown"); // Example placeholder, replace with your ad
-  }
-</script>
-
-
-
 </body>
 </html>
