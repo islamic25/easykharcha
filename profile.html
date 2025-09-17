@@ -16,6 +16,84 @@
     </noscript>
     
     <style>
+        /* Fullscreen Poster */
+#posterOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 66, 37, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#posterBox {
+  background: #f4f1ea;
+  color: #004225;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+#posterBox h2 {
+  color: #d4af37;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+#posterBox p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #d4af37;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.whatsappBtn {
+  margin-top: 15px;
+  background: #25d366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+}
+.finger {
+  display: inline-block;
+  font-size: 30px;
+  margin-right: 8px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+
         /* Existing CSS remains exactly the same */
         :root {
             --primary: #4361ee;
@@ -776,6 +854,19 @@
             <div class="spinner"></div>
             <div class="loading-text">Loading your profile...</div>
         </div>
+<div id="posterOverlay">
+  <div id="posterBox">
+    <button class="closeBtn" onclick="closePoster()">×</button>
+    <h2>📢 اہم اطلاع</h2>
+    <p>یہ ایپ نئی ہے اور ہم مسلسل بہتری پر کام کر رہے ہیں۔</p>
+    <p>براہِ کرم غلط ریویو دینے سے پہلے ہماری <strong>کسٹمر سپورٹ</strong> سے رابطہ کریں۔</p>
+    <p>✅ تازہ ترین اپ ڈیٹس کے لیے ہمارا واٹس ایپ چینل فالو کریں۔</p>
+    <a href="https://whatsapp.com/channel/0029Vb6ADn2ATRSkkYipFz0E" class="whatsappBtn" target="_blank">
+  <span class="finger">👇</span> واٹس ایپ چینل فالو کریں
+</a>
+
+  </div>
+</div>
 
         <div class="profile-card">
             <div class="profile-img-container">
@@ -1541,7 +1632,18 @@
         document.getElementById("loader-overlay").style.display = "none"; // ✅ Error par bhi hide
     });
 });
+function closePoster() {
+  document.getElementById('posterOverlay').style.display = 'none';
+  localStorage.setItem('posterShown', 'true');
+}
+
+window.onload = function() {
+  if (localStorage.getItem('posterShown')) {
+    document.getElementById('posterOverlay').style.display = 'none';
+  }
+}
 
     </script>
+    
 </body>
 </html>
