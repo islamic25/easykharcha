@@ -57,6 +57,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        @media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
         :root {
             --sidebar-width: 280px;
             --header-height: 64px;
@@ -2046,12 +2053,13 @@
                 stockChart.data.datasets[0].data = stockData;
                 stockChart.update();
             }, handleFirestoreError);
-
-            // Listen to sales changes for sales chart
-            salesRef.orderBy('date', 'desc').onSnapshot(snapshot => {
-                const salesByMonth = new Array(12).fill(0);
-                const revenueByMonth = new Array(12).fill(0);
-                const expensesByMonth = new Array(12).fill(0); // This would come from another data source
+salesRef
+  .where("userId", "==", currentUser.uid)   // 👈 sirf current user ki sales
+  .orderBy('date', 'desc')
+  .onSnapshot(snapshot => {
+      const salesByMonth = new Array(12).fill(0);
+      const revenueByMonth = new Array(12).fill(0);
+      const expensesByMonth = new Array(12).fill(0); // This would come from another data source
 
                 snapshot.forEach(doc => {
                     const sale = doc.data();
@@ -2095,7 +2103,11 @@
             showLoading('Loading products...');
             
             try {
-                const snapshot = await productsRef.orderBy('name').get();
+              const snapshot = await productsRef
+  .where("userId", "==", currentUser.uid)   // 👈 filter by logged in user
+  .orderBy('name')
+  .get();
+
                 products = [];
                 const productsTableBody = document.getElementById('products-table-body');
                 productsTableBody.innerHTML = '';
@@ -2293,8 +2305,10 @@
                     showToast('Product updated successfully!', 'success');
                 } else {
                     // Add new product
-                    productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                    await productsRef.add(productData);
+                   productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+productData.userId = currentUser.uid;   // 👈 add this
+await productsRef.add(productData);
+
                     showToast('Product added successfully!', 'success');
                 }
                 
@@ -2675,21 +2689,22 @@
                     await counterRef.set({ count: nextNumber });
                     const invoiceNumber = `INV-${new Date().getFullYear()}-${nextNumber.toString().padStart(4, '0')}`;
 
-                    const saleData = {
-                        customerName,
-                        customerEmail,
-                        customerPhone,
-                        customerAddress,
-                        date: new Date(saleDate),
-                        items: currentSaleItems,
-                        subtotal,
-                        tax,
-                        total,
-                        invoiceNumber,
-                        status: 'paid',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        createdBy: currentUser.uid
-                    };
+                   const saleData = {
+    customerName,
+    customerEmail,
+    customerPhone,
+    customerAddress,
+    date: new Date(saleDate),
+    items: currentSaleItems,
+    subtotal,
+    tax,
+    total,
+    invoiceNumber,
+    status: 'paid',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    createdBy: currentUser.uid,
+    userId: currentUser.uid   // 👈 ye line add karo
+};
 
                     // Save sale and update stock
                     const saleRef = await salesRef.add(saleData);
@@ -3038,7 +3053,10 @@
                 updateTrendElement(revenueTrendElement, revenueTrend, 'revenue');
                 
                 // Products in stock
-                const productsSnapshot = await productsRef.get();
+               const productsSnapshot = await db.collection("products")
+  .where("ownerId", "==", auth.currentUser.uid)
+  .get();
+
                 let totalStock = 0;
                 let lowStockCount = 0;
                 
@@ -3419,17 +3437,31 @@
             showToast(`Error: ${error.message}`, 'error');
         }
     </script>
-    <script>
-  // Check if interstitial ad already shown
-  if (!localStorage.getItem('interstitialShown')) {
-      showInterstitialAd(); // Show ad
-      localStorage.setItem('interstitialShown', 'true'); // Set flag
-  }
+   
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileToggle = document.getElementById("mobile-menu-toggle");
+  const sidebar = document.querySelector(".sidebar");
+  const overlay = document.getElementById("mobile-overlay");
+  const sidebarClose = document.getElementById("sidebar-toggle");
 
-  function showInterstitialAd() {
-      // Yahan apna ad network code paste karein
-      alert("Interstitial Ad Shown"); // Example placeholder, replace with your ad
-  }
+  // Open sidebar
+  mobileToggle.addEventListener("click", () => {
+    sidebar.classList.add("active");
+    overlay.classList.remove("hidden");
+  });
+
+  // Close sidebar
+  sidebarClose.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.add("hidden");
+  });
+
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.add("hidden");
+  });
+});
 </script>
 
 </body>
