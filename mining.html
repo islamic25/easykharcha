@@ -1667,6 +1667,245 @@ window.addEventListener('beforeunload', () => {
     stopAutoAdLoop();
 });
 
+
     </script>
+    <!-- Add this to your existing CSS -->
+<style>
+    .ad-error-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 59, 48, 0.9);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 80%;
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    .ad-error-icon {
+        font-size: 2rem;
+    }
+    
+    .ad-error-content {
+        flex: 1;
+    }
+    
+    .ad-error-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+    }
+    
+    .ad-error-message {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, -40%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+    
+    .ad-error-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+</style>
+
+<!-- Add this to your JavaScript -->
+<script>
+    // Ad system variables
+    let isAdLoading = false;
+    let isAdShowing = false;
+    let adRetryCount = 0;
+    const MAX_AD_RETRIES = 2;
+
+    // Manual Ad button
+    function showManualAd() {
+        if (isAdLoading || isAdShowing) {
+            showNotification("⏳ Please wait, ad is processing...");
+            return;
+        }
+
+        if (!isAdSystemAvailable()) {
+            showAdSystemNotAvailableModal();
+            return;
+        }
+
+        isAdLoading = true;
+        adRetryCount = 0;
+        showNotification("⏳ Loading ad...");
+        Android.checkAdReady();
+    }
+
+    function isAdSystemAvailable() {
+        return typeof Android !== 'undefined' && 
+               typeof Android.checkAdReady === 'function' &&
+               typeof Android.showRewardAd === 'function';
+    }
+
+    function showAdSystemNotAvailableModal() {
+        // Remove any existing error modal first
+        const existingModal = document.getElementById('adErrorModal');
+        if (existingModal) existingModal.remove();
+        
+        // Create modal elements
+        const backdrop = document.createElement('div');
+        backdrop.className = 'ad-error-backdrop';
+        
+        const modal = document.createElement('div');
+        modal.id = 'adErrorModal';
+        modal.className = 'ad-error-container';
+        modal.innerHTML = `
+            <div class="ad-error-icon">⚠️</div>
+            <div class="ad-error-content">
+                <div class="ad-error-title">Ad System Not Available</div>
+                <div class="ad-error-message">
+                    The ad service is currently unavailable. Please try again later.
+                </div>
+            </div>
+        `;
+        
+        // Clicking anywhere closes the modal
+        backdrop.onclick = function() {
+            document.body.removeChild(backdrop);
+            document.body.removeChild(modal);
+        };
+        
+        document.body.appendChild(backdrop);
+        document.body.appendChild(modal);
+        
+        // Also show in console for debugging
+        console.warn("Ad system not available - Android interface not detected");
+    }
+
+    // Callback from Android → check ready
+    function onAdReady(ready) {
+        isAdLoading = false;
+        
+        if (ready) {
+            isAdShowing = true;
+            adRetryCount = 0;
+            Android.showRewardAd();
+        } else {
+            handleAdNotReady();
+        }
+    }
+
+    function handleAdNotReady() {
+        adRetryCount++;
+        
+        if (adRetryCount < MAX_AD_RETRIES) {
+            showNotification(`🔄 Trying to load ad (${adRetryCount}/${MAX_AD_RETRIES})...`);
+            setTimeout(() => {
+                if (isAdSystemAvailable()) {
+                    Android.checkAdReady();
+                } else {
+                    showAdSystemNotAvailableModal();
+                }
+            }, 2000);
+        } else {
+            showAdSystemNotAvailableModal();
+        }
+    }
+
+    // Reward earned → update Firestore
+    function onRewardEarned() {
+        isAdShowing = false;
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const rewardAmount = 100;
+        const userRef = db.collection('users').doc(user.uid);
+        
+        userRef.update({
+            adViews: firebase.firestore.FieldValue.increment(1),
+            totalCoins: firebase.firestore.FieldValue.increment(rewardAmount),
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            gameState.adViews = (gameState.adViews || 0) + 1;
+            gameState.totalCoins = (gameState.totalCoins || 0) + rewardAmount;
+            updateUI();
+            showNotification(`🎉 +${rewardAmount} coins earned!`);
+        }).catch(error => {
+            console.error("Error updating reward:", error);
+            showNotification("❌ Error claiming reward - contact support");
+        });
+    }
+
+    function onAdFinished() {
+        isAdShowing = false;
+    }
+
+    function onRewardAdNotReady() {
+        isAdLoading = false;
+        handleAdNotReady();
+    }
+
+    // Initialize the game when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initGame);
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+        isAdLoading = false;
+        isAdShowing = false;
+        clearInterval(tapBatchInterval);
+        clearInterval(userDataRefreshInterval);
+        clearInterval(leaderboardRefreshInterval);
+        stopAutoAdLoop();
+        
+        // Clean up any error modals
+        const existingModal = document.getElementById('adErrorModal');
+        if (existingModal) existingModal.remove();
+        const backdrops = document.querySelectorAll('.ad-error-backdrop');
+        backdrops.forEach(el => el.remove());
+    });
+</script>
+<script>
+(function () {
+  let lastAdTime = 0;
+  let adCount = 0;
+  const maxAds = 2;                 // max 2 ads per session
+  const adInterval = 5 * 60 * 1000; // 5 minutes in ms
+
+  window.requestAd = function () {
+    const now = Date.now();
+
+    if (adCount >= maxAds) {
+      console.log("❌ AdMob blocked: max ads reached");
+      return;
+    }
+
+    if ((now - lastAdTime) < adInterval) {
+      console.log("⏳ AdMob blocked: wait 5 minutes");
+      return;
+    }
+
+    // Call Android side for AdMob
+    if (window.Android && Android.showAd) {
+      Android.showAd();
+      console.log("✅ AdMob ad requested");
+    } else {
+      console.log("⚠️ Android.showAd() not available");
+    }
+
+    adCount++;
+    lastAdTime = now;
+  };
+})();
+</script>
+
 </body>
 </html>
