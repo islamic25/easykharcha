@@ -2128,17 +2128,39 @@ main {
       });
     }
   </script>
-  <script>
-  // Check if interstitial ad already shown
-  if (!localStorage.getItem('interstitialShown')) {
-      showInterstitialAd(); // Show ad
-      localStorage.setItem('interstitialShown', 'true'); // Set flag
-  }
+  
+<script>
+(function () {
+  let lastAdTime = 0;
+  let adCount = 0;
+  const maxAds = 2;                 // max 2 ads per session
+  const adInterval = 5 * 60 * 1000; // 5 minutes in ms
 
-  function showInterstitialAd() {
-      // Yahan apna ad network code paste karein
-      alert("Interstitial Ad Shown"); // Example placeholder, replace with your ad
-  }
+  window.requestAd = function () {
+    const now = Date.now();
+
+    if (adCount >= maxAds) {
+      console.log("❌ AdMob blocked: max ads reached");
+      return;
+    }
+
+    if ((now - lastAdTime) < adInterval) {
+      console.log("⏳ AdMob blocked: wait 5 minutes");
+      return;
+    }
+
+    // Call Android side for AdMob
+    if (window.Android && Android.showAd) {
+      Android.showAd();
+      console.log("✅ AdMob ad requested");
+    } else {
+      console.log("⚠️ Android.showAd() not available");
+    }
+
+    adCount++;
+    lastAdTime = now;
+  };
+})();
 </script>
 
 </body>
