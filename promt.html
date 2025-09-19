@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending AI Prompts for Images</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #004225 0%, #003219 100%);
+            color: #f4f1ea;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 25px 0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #d4af37;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .prompts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        @media (min-width: 768px) {
+            .prompts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .prompts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .prompt-card {
+            background: rgba(244, 241, 234, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            color: #004225;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .prompt-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-right: 10px;
+            color: #004225;
+        }
+        
+        .copy-btn {
+            background: #d4af37;
+            color: #004225;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .copy-btn:hover {
+            background: #004225;
+            color: #d4af37;
+            transform: scale(1.1);
+        }
+        
+        .prompt-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+        
+        .tag {
+            background: rgba(212, 175, 55, 0.2);
+            color: #004225;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d4af37;
+            color: #004225;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 Trending Prompts for AI Images</h1>
+            <p class="subtitle">Discover the most popular prompts to generate stunning AI artwork and images</p>
+        </header>
+        
+        <div class="prompts-grid">
+             <!-- Prompt 1 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">AI Avatar from Your Selfie</h2>
+                    <button class="copy-btn" onclick="copyPrompt(0)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Turn my selfie into a Pixar-style cartoon character with vibrant colors, soft lighting, and a friendly expression, maintaining my facial features but adding an animated twist.</p>
+                <div class="tags">
+                    <span class="tag">Avatar</span>
+                    <span class="tag">Cartoon</span>
+                    <span class="tag">Pixar</span>
+                </div>
+            </div>
+            
+            <!-- Prompt 1 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">AI Avatar from Your Selfie</h2>
+                    <button class="copy-btn" onclick="copyPrompt(0)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Turn my selfie into a Pixar-style cartoon character with vibrant colors, soft lighting, and a friendly expression, maintaining my facial features but adding an animated twist.</p>
+                <div class="tags">
+                    <span class="tag">Avatar</span>
+                    <span class="tag">Cartoon</span>
+                    <span class="tag">Pixar</span>
+                </div>
+            </div>
+            
+            <!-- Prompt 2 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">Royal Portrait Transformation</h2>
+                    <button class="copy-btn" onclick="copyPrompt(1)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Make my photo look like a royal king/queen portrait from the Renaissance era, with luxurious clothing, a majestic crown, ornate background, and dramatic lighting.</p>
+                <div class="tags">
+                    <span class="tag">Royal</span>
+                    <span class="tag">Portrait</span>
+                    <span class="tag">Historical</span>
+                </div>
+            </div>
+            
+            <!-- Prompt 3 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">Cyberpunk Transformation</h2>
+                    <button class="copy-btn" onclick="copyPrompt(2)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Transform my image into a cyberpunk futuristic version with neon lights, holographic elements, mechanical enhancements, and a dystopian city background.</p>
+                <div class="tags">
+                    <span class="tag">Cyberpunk</span>
+                    <span class="tag">Futuristic</span>
+                    <span class="tag">Neon</span>
+                </div>
+            </div>
+            
+            <!-- Prompt 4 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">Professional Headshot</h2>
+                    <button class="copy-btn" onclick="copyPrompt(3)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Convert my photo into a professional LinkedIn headshot with perfect lighting, business attire, clean background, and a confident, approachable expression.</p>
+                <div class="tags">
+                    <span class="tag">Professional</span>
+                    <span class="tag">Headshot</span>
+                    <span class="tag">Business</span>
+                </div>
+            </div>
+            
+            <!-- Prompt 5 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">Oil Painting Artwork</h2>
+                    <button class="copy-btn" onclick="copyPrompt(4)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Make my image look like an oil painting artwork with visible brush strokes, rich texture, classical composition, and the style of old master painters.</p>
+                <div class="tags">
+                    <span class="tag">Oil Painting</span>
+                    <span class="tag">Artistic</span>
+                    <span class="tag">Classical</span>
+                </div>
+            </div>
+            
+            <!-- Prompt 6 -->
+            <div class="prompt-card">
+                <div class="card-header">
+                    <h2 class="prompt-title">Fantasy Elf Character</h2>
+                    <button class="copy-btn" onclick="copyPrompt(5)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p class="prompt-desc">Transform my photo into a mystical fantasy elf with pointed ears, ethereal glow, magical forest background, and elegant fantasy clothing and accessories.</p>
+                <div class="tags">
+                    <span class="tag">Fantasy</span>
+                    <span class="tag">Elf</span>
+                    <span class="tag">Magical</span>
+                </div>
+            </div>
+            <!-- Prompt 7 -->
+<div class="prompt-card">
+    <div class="card-header">
+        <h2 class="prompt-title">Anime Style Transformation</h2>
+        <button class="copy-btn" onclick="copyPrompt(6)"><i class="fas fa-copy"></i></button>
+    </div>
+    <p class="prompt-desc">Turn my selfie into a Japanese anime character with detailed shading, colorful background, and expressive manga-style features.</p>
+    <div class="tags">
+        <span class="tag">Anime</span>
+        <span class="tag">Manga</span>
+        <span class="tag">Stylized</span>
+    </div>
+</div>
+
+<!-- Prompt 8 -->
+<div class="prompt-card">
+    <div class="card-header">
+        <h2 class="prompt-title">Astronaut in Space</h2>
+        <button class="copy-btn" onclick="copyPrompt(7)"><i class="fas fa-copy"></i></button>
+    </div>
+    <p class="prompt-desc">Transform my photo into an astronaut in a realistic space suit, standing on the moon with Earth in the background.</p>
+    <div class="tags">
+        <span class="tag">Space</span>
+        <span class="tag">Astronaut</span>
+        <span class="tag">Sci-Fi</span>
+    </div>
+</div>
+
+<!-- Prompt 9 -->
+<div class="prompt-card">
+    <div class="card-header">
+        <h2 class="prompt-title">Fashion Model Photoshoot</h2>
+        <button class="copy-btn" onclick="copyPrompt(8)"><i class="fas fa-copy"></i></button>
+    </div>
+    <p class="prompt-desc">Convert my selfie into a high-fashion model photoshoot with stylish outfit, studio lighting, and magazine cover aesthetic.</p>
+    <div class="tags">
+        <span class="tag">Fashion</span>
+        <span class="tag">Model</span>
+        <span class="tag">Photoshoot</span>
+    </div>
+</div>
+
+<!-- Prompt 10 -->
+<div class="prompt-card">
+    <div class="card-header">
+        <h2 class="prompt-title">Vintage Film Effect</h2>
+        <button class="copy-btn" onclick="copyPrompt(9)"><i class="fas fa-copy"></i></button>
+    </div>
+    <p class="prompt-desc">Make my image look like a vintage 1960s film photo with sepia tones, light leaks, and grainy texture.</p>
+    <div class="tags">
+        <span class="tag">Vintage</span>
+        <span class="tag">Retro</span>
+        <span class="tag">Film</span>
+    </div>
+</div>
+
+<!-- Prompt 11 -->
+<div class="prompt-card">
+    <div class="card-header">
+        <h2 class="prompt-title">Superhero Transformation</h2>
+        <button class="copy-btn" onclick="copyPrompt(10)"><i class="fas fa-copy"></i></button>
+    </div>
+    <p class="prompt-desc">Transform my photo into a superhero character with dynamic costume, glowing powers, and cinematic action background.</p>
+    <div class="tags">
+        <span class="tag">Superhero</span>
+        <span class="tag">Comics</span>
+        <span class="tag">Action</span>
+    </div>
+</div>
+
+<!-- Prompt 12 -->
+<div class="prompt-card">
+    <div class="card-header">
+        <h2 class="prompt-title">Wedding Portrait Style</h2>
+        <button class="copy-btn" onclick="copyPrompt(11)"><i class="fas fa-copy"></i></button>
+    </div>
+    <p class="prompt-desc">Make my photo look like a dreamy wedding portrait with elegant dress, floral background, and soft romantic lighting.</p>
+    <div class="tags">
+        <span class="tag">Wedding</span>
+        <span class="tag">Romantic</span>
+        <span class="tag">Elegant</span>
+    </div>
+</div>
+
+        </div>
+        
+        <div id="toast" class="toast">Prompt copied to clipboard!</div>
+        
+        <footer>
+            <p>© 2023 AI Prompts Gallery | Explore endless creative possibilities</p>
+        </footer>
+    </div>
+
+    <script>
+        const prompts = [
+    "Turn my selfie into a Pixar-style cartoon character with vibrant colors, soft lighting, and a friendly expression, maintaining my facial features but adding an animated twist.",
+    "Make my photo look like a royal king/queen portrait from the Renaissance era, with luxurious clothing, a majestic crown, ornate background, and dramatic lighting.",
+    "Transform my image into a cyberpunk futuristic version with neon lights, holographic elements, mechanical enhancements, and a dystopian city background.",
+    "Convert my photo into a professional LinkedIn headshot with perfect lighting, business attire, clean background, and a confident, approachable expression.",
+    "Make my image look like an oil painting artwork with visible brush strokes, rich texture, classical composition, and the style of old master painters.",
+    "Transform my photo into a mystical fantasy elf with pointed ears, ethereal glow, magical forest background, and elegant fantasy clothing and accessories.",
+    "Turn my selfie into a Japanese anime character with detailed shading, colorful background, and expressive manga-style features.",
+    "Transform my photo into an astronaut in a realistic space suit, standing on the moon with Earth in the background.",
+    "Convert my selfie into a high-fashion model photoshoot with stylish outfit, studio lighting, and magazine cover aesthetic.",
+    "Make my image look like a vintage 1960s film photo with sepia tones, light leaks, and grainy texture.",
+    "Transform my photo into a superhero character with dynamic costume, glowing powers, and cinematic action background.",
+    "Make my photo look like a dreamy wedding portrait with elegant dress, floral background, and soft romantic lighting."
+];
+
+        
+        function copyPrompt(index) {
+            navigator.clipboard.writeText(prompts[index]).then(() => {
+                showToast();
+            });
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
