@@ -895,8 +895,14 @@
                 </button>
             </div>
         </div>
-        
+       
+
         <div class="dashboard-actions">
+            <div class="action-card" id="openPromptsBtn">
+    <i class="fas fa-lightbulb"></i>
+    <span>AI Prompts</span>
+</div>
+
             <div class="action-card" id="openSalesPageBtn">
                 <i class="fas fa-chart-line"></i>
                 <span>Sales Management</span>
@@ -1389,6 +1395,10 @@
                 return null;
             }
         }
+const openPromptsBtn = document.getElementById('openPromptsBtn');
+openPromptsBtn.addEventListener('click', () => {
+    window.location.href = 'promt.html';
+});
 
         auth.onAuthStateChanged(async (user) => {
             const loadingOverlay = document.getElementById('loadingOverlay');
